@@ -7,6 +7,72 @@
 //
 
 import Foundation
+import Dispatch
 
-print("Hello, World!")
+class Main {
+    fileprivate let processParameters: [CommandParameter]
+    
+    fileprivate var menu: ActionMenu!
+    fileprivate var archiveExecutor: ArchiveExecutor!
+    
+    fileprivate lazy var checker = CommandParametersChecker.init(parameters: self.processParameters)
+    
+    init() {
+        self.processParameters = Array<CommandParameter>.fromArgs()
+        self.menu = self.createMenu()
+    }
+    
+    deinit {
+        if FileManager.default.fileExists(atPath: baseTempDir) {
+            try! FileManager.default.removeItem(atPath: baseTempDir)
+        }
+    }
+    
+    func start() {
+        if !self.checker.checkParameters() {
+            self.menu.draw()
+        } else {
+            self.executeArchive()
+        }
+        
+        dispatchMain()
+    }
+   
+    func interrupt() {
+        print("interrupt")
+        self.archiveExecutor?.cancel()
+    }
+    
+    fileprivate func createMenu() -> ActionMenu {
+        let options = [
+            ActionMenuOption.init(command: "--\(Parameters.projectFile.name)", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.scheme.name)", detail: "Provide a scheme name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.teamId.name)", detail: "Provide a Team ID to publish on.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.bundleIdentifier.name)", detail: "Provide a bundle identifier to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.provisioningProfile.name)", detail: "Provide a provisioning profile name to build.", action: {})
+        ]
+        
+        return ActionMenu.init(description: "Usage: ", options: options)
+    }
+    
+    fileprivate func executeArchive() {
+        if !FileManager.default.fileExists(atPath: baseTempDir) {
+            try! FileManager.default.createDirectory(atPath: baseTempDir, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let project = self.processParameters.first(where: {$0.parameter == Parameters.projectFile.name}) as! DoubleDashComplexParameter
+        let scheme = self.processParameters.first(where: {$0.parameter == Parameters.scheme.name}) as! DoubleDashComplexParameter
+        
+        self.archiveExecutor = ArchiveExecutor.init(project: project, scheme: scheme)
+        self.archiveExecutor.execute()
+    }
+}
 
+let main = Main.init()
+DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
+
+signal(SIGQUIT, { _ in main.interrupt() })
+signal(SIGINT, { _ in main.interrupt() })
+signal(SIGSYS, { _ in main.interrupt() })
+signal(SIGABRT, { _ in main.interrupt() })
+main.start()
