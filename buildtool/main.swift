@@ -39,7 +39,6 @@ class Main {
     }
    
     func interrupt() {
-        print("interrupt")
         self.archiveExecutor?.cancel()
     }
     
@@ -69,10 +68,11 @@ class Main {
 }
 
 let main = Main.init()
-DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
-
-signal(SIGQUIT, { _ in main.interrupt() })
-signal(SIGINT, { _ in main.interrupt() })
-signal(SIGSYS, { _ in main.interrupt() })
-signal(SIGABRT, { _ in main.interrupt() })
+signal(SIGINT, SIG_IGN)
+let source = DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
+source.setEventHandler {
+    main.interrupt()
+    exit(0)
+}
+source.resume()
 main.start()
