@@ -19,6 +19,7 @@
 		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
 		71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
+		71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,6 +48,7 @@
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
 		71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDashParameter.swift; sourceTree = "<group>"; };
+		71C669C920D2BA8600F3BED9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		71351EBA20D188C800BE9B60 /* buildtool */ = {
 			isa = PBXGroup;
 			children = (
+				71C669C820D2BA7E00F3BED9 /* Logger */,
 				71A1F1A220D19A5200030D7F /* Extensions */,
 				71351ECC20D18C8700BE9B60 /* Consts */,
 				71351EC720D18B5300BE9B60 /* BuildFlow */,
@@ -133,6 +136,14 @@
 				71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		71C669C820D2BA7E00F3BED9 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				71C669C920D2BA8600F3BED9 /* Logger.swift */,
+			);
+			path = Logger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */,
 				71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */,
 				71351ECB20D18B9800BE9B60 /* CommandParametersChecker.swift in Sources */,
+				71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */,
 				71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */,

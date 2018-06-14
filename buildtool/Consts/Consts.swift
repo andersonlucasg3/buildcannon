@@ -49,6 +49,8 @@ struct Parameters {
     static let provisioningProfile: ParameterTouple = ("provisioning-profile", DoubleDashComplexParameter.self)
     static let teamId: ParameterTouple = ("team-id", DoubleDashComplexParameter.self)
     static let bundleIdentifier: ParameterTouple = ("bundle-identifier", DoubleDashComplexParameter.self)
+    static let verbose: ParameterTouple = ("verbose", DoubleDashParameter.self)
+    static let help: ParameterTouple = ("help", DoubleDashParameter.self)
     
     static let REQUIRED_PARAMETERS = [
         Parameters.projectFile,

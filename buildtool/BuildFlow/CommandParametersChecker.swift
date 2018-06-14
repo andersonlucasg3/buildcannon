@@ -24,4 +24,8 @@ struct CommandParametersChecker {
         })
         return containsAllRequired
     }
+    
+    func checkHelp() -> Bool {
+        return self.parameters.contains(where: {$0.parameter == Parameters.help.name})
+    }
 }

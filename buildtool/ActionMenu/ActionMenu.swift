@@ -18,11 +18,11 @@ struct ActionMenu {
     }
     
     func draw() {
-        print(self.description)
-        print()
+        Logger.log(message: self.description)
+        Logger.log(message: "\n")
         self.options.forEach { (option) in
-            print("\t", "\(option.command)\n\t\t* \(option.detail)\n")
+            Logger.log(message: "\t\(option.command)\n\t\t* \(option.detail)\n")
         }
-        print()
+        Logger.log(message: "\n")
     }
 }

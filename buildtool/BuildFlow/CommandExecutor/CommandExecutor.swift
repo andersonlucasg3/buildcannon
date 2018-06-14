@@ -27,12 +27,18 @@ class CommandExecutor {
         self.parameters.append(parameter)
     }
     
+    fileprivate func setupFileHandlers() {
+        let handler = FileHandle.init(forWritingAtPath: ArchiveTool.Values.archiveLogPath)
+        self.process.standardOutput = handler
+        self.process.standardError = handler
+    }
+    
     func execute(completion: @escaping CommandExecutorCompletion) {
         let thread = Thread.init { [unowned self] in
             self.process = Process.init()
             self.process.arguments = self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
             self.process.executableURL = URL.init(fileURLWithPath: "file://\(self.applicationPath)\(self.applicationName)")
-            self.process.standardOutput = FileHandle.init(forWritingAtPath: ArchiveTool.Values.archiveLogPath)
+            self.setupFileHandlers()
             self.process.launch()
             self.process.waitUntilExit()
 

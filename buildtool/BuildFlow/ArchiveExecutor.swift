@@ -12,7 +12,7 @@ struct ArchiveExecutor {
     fileprivate var commandExecutor: CommandExecutor!
     
     init(project: DoubleDashComplexParameter, scheme: DoubleDashComplexParameter) {
-        var archive = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName)
+        let archive = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName)
         archive.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: ArchiveTool.Values.sdkConfig))
