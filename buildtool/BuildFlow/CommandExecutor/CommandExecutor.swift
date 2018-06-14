@@ -16,6 +16,9 @@ class CommandExecutor {
     fileprivate var parameters: [CommandParameter]
 
     fileprivate var process: Process!
+    fileprivate var pipe: Pipe!
+    fileprivate var logFileHandle: FileHandle!
+    fileprivate var dataAvailableObserver: NSObjectProtocol!
     
     init(path: String, application: String) {
         self.applicationPath = path
@@ -28,20 +31,44 @@ class CommandExecutor {
     }
     
     fileprivate func setupFileHandlers() {
-        let handler = FileHandle.init(forWritingAtPath: ArchiveTool.Values.archiveLogPath)
-        self.process.standardOutput = handler
-        self.process.standardError = handler
+        FileManager.default.createFile(atPath: ArchiveTool.Values.archiveLogPath, contents: nil, attributes: nil)
+        self.logFileHandle = FileHandle.init(forWritingAtPath: ArchiveTool.Values.archiveLogPath)
+        self.pipe = Pipe.init()
+        self.process.standardOutput = self.pipe
+        self.process.standardError = self.pipe
+    }
+    
+    fileprivate func waitForData() {
+        self.dataAvailableObserver = NotificationCenter.default.addObserver(forName: .NSFileHandleDataAvailable, object: nil, queue: nil) { [weak self] (notification) in
+            guard let fileHandle = notification.object as? FileHandle else {
+                self?.removeObserver()
+                return
+            }
+            let data = fileHandle.availableData
+            if data.count > 0 {
+                self?.logFileHandle.write(data)
+                if let str = String.init(data: data, encoding: .utf8) {
+                    Logger.log(message: str, terminator: "")
+                } else {
+                    Logger.log(message: "Not valid data string.")
+                }
+            }
+            self?.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
+        }
+        self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
     }
     
     func execute(completion: @escaping CommandExecutorCompletion) {
         let thread = Thread.init { [unowned self] in
             self.process = Process.init()
-            self.process.arguments = self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
-            self.process.executableURL = URL.init(fileURLWithPath: "file://\(self.applicationPath)\(self.applicationName)")
+            self.process.arguments = ["-c", "\(self.buildCommandString()) | xcpretty"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
+            self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
             self.setupFileHandlers()
+            self.waitForData()
             self.process.launch()
             self.process.waitUntilExit()
 
+            self.logFileHandle.closeFile()
             DispatchQueue.main.async {
                 completion(Int.init(self.process.terminationStatus), (try? String.init(contentsOfFile: ArchiveTool.Values.archiveLogPath)) ?? "")
             }
@@ -49,8 +76,13 @@ class CommandExecutor {
         thread.start()
     }
     
+    fileprivate func removeObserver() {
+        NotificationCenter.default.removeObserver(self.dataAvailableObserver)
+    }
+    
     func stop() {
-        self.process.interrupt()
+        self.removeObserver()
+        self.process?.interrupt()
     }
     
     func buildCommandString() -> String {

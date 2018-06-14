@@ -8,8 +8,15 @@
 
 import Foundation
 
-struct ArchiveExecutor {
+protocol ArchiveExecutorProtocol: class {
+    func archiveDidFinishWithSuccess()
+    func archiveDidFailWithStatusCode(_ code: Int)
+}
+
+class ArchiveExecutor {
     fileprivate var commandExecutor: CommandExecutor!
+    
+    weak var delegate: ArchiveExecutorProtocol?
     
     init(project: DoubleDashComplexParameter, scheme: DoubleDashComplexParameter) {
         let archive = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName)
@@ -27,9 +34,14 @@ struct ArchiveExecutor {
             ArchiveTool.Parameters.workspaceParam : ArchiveTool.Parameters.projectParam
     }
     
-    mutating func execute() {
-        self.commandExecutor.execute { (returnCode, output) in
-            
+    func execute() {
+        Logger.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
+        self.commandExecutor.execute { [weak self] (returnCode, output) in
+            if returnCode != 0 {
+                self?.delegate?.archiveDidFailWithStatusCode(returnCode)
+            } else {
+                self?.delegate?.archiveDidFinishWithSuccess()
+            }
         }
     }
     

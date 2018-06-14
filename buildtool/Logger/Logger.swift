@@ -11,12 +11,12 @@ import Foundation
 class Logger {
     fileprivate static let fileOutputStream = OutputStream.init(toFileAtPath: baseTempDir + "/buildtool.log", append: false)
     
-    static func log(message: String) {
-        print(message)
+    class func log(message: String, terminator: String = "\n") {
+        print(message, terminator: terminator)
         self.fileOutputStream?.write(message, maxLength: message.count)
     }
     
-    static func closeLog() {
+    class func closeLog() {
         self.fileOutputStream?.close()
     }
     

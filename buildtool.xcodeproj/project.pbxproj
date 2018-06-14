@@ -20,6 +20,7 @@
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
 		71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
 		71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Logger.swift */; };
+		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +50,7 @@
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
 		71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDashParameter.swift; sourceTree = "<group>"; };
 		71C669C920D2BA8600F3BED9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		71C669CE20D2DA9200F3BED9 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		71351EBA20D188C800BE9B60 /* buildtool */ = {
 			isa = PBXGroup;
 			children = (
+				71C669CD20D2DA8900F3BED9 /* Application */,
 				71C669C820D2BA7E00F3BED9 /* Logger */,
 				71A1F1A220D19A5200030D7F /* Extensions */,
 				71351ECC20D18C8700BE9B60 /* Consts */,
@@ -146,6 +149,14 @@
 			path = Logger;
 			sourceTree = "<group>";
 		};
+		71C669CD20D2DA8900F3BED9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				71C669CE20D2DA9200F3BED9 /* Application.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -178,6 +189,7 @@
 				TargetAttributes = {
 					71351EB720D188C800BE9B60 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
 					};
 				};
 			};
@@ -215,6 +227,7 @@
 				71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */,
+				71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */,
 				71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,8 +351,15 @@
 		71351EC020D188C800BE9B60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -347,7 +367,13 @@
 		71351EC120D188C800BE9B60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
