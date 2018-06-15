@@ -27,18 +27,20 @@ class Application {
     }
     
     func start() {
-        if !self.checker.checkXcprettyInstalled() {
-            Logger.log(message: "Please install `xcpretty`. Tried to install but failed.")
-            return
+        DispatchQueue.main.async {
+            if !self.checker.checkXcprettyInstalled() {
+                Logger.log(message: "Please install `xcpretty`. Tried to install but failed.")
+                exit(0)
+            }
+            
+            guard !self.checker.checkHelp() && self.checker.checkParameters() else {
+                self.menu.draw()
+                exit(0)
+            }
+            Application.isVerbose = self.checker.checkVerbose()
+            self.createDirectories()
+            self.executeArchive()
         }
-        
-        guard !self.checker.checkHelp() && self.checker.checkParameters() else {
-            self.menu.draw()
-            return
-        }
-        Application.isVerbose = self.checker.checkVerbose()
-        self.createDirectories()
-        self.executeArchive()
         dispatchMain()
     }
     

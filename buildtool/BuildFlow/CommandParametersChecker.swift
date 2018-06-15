@@ -34,8 +34,8 @@ struct CommandParametersChecker {
     }
     
     func checkXcprettyInstalled() -> Bool {
-        let executer = CommandExecutor.init(path: "/usr/bin/", application: "", logFilePath: nil)
-        executer.add(parameter: NoDashParameter.init(parameter: "gem install xcpretty"))
+        let executer = CommandExecutor.init(path: "/usr/bin/", application: "which", logFilePath: nil)
+        executer.add(parameter: NoDashParameter.init(parameter: "xcpretty"))
         var returnCode = -235919
         executer.execute { (code) in
             returnCode = code

@@ -77,9 +77,7 @@ class CommandExecutor {
             self.process.waitUntilExit()
 
             self.logFileHandle?.closeFile()
-            DispatchQueue.main.async {
-                completion(Int.init(self.process.terminationStatus))
-            }
+            completion(Int.init(self.process.terminationStatus))
         }
         thread.start()
     }

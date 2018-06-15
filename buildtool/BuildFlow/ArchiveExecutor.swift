@@ -35,14 +35,20 @@ class ArchiveExecutor {
             ArchiveTool.Parameters.workspaceParam : ArchiveTool.Parameters.projectParam
     }
     
-    func execute() {
-        Logger.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
-        self.commandExecutor.execute { [weak self] (returnCode) in
+    fileprivate func dispatchFinish(_ returnCode: Int) {
+        DispatchQueue.main.async { [weak self] in
             if returnCode != 0 {
                 self?.delegate?.archiveDidFailWithStatusCode(returnCode)
             } else {
                 self?.delegate?.archiveDidFinishWithSuccess()
             }
+        }
+    }
+    
+    func execute() {
+        Logger.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
+        self.commandExecutor.execute { [weak self] (returnCode) in
+            self?.dispatchFinish(returnCode)
         }
     }
     
