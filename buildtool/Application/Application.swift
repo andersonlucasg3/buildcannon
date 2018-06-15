@@ -27,6 +27,11 @@ class Application {
     }
     
     func start() {
+        if !self.checker.checkXcprettyInstalled() {
+            Logger.log(message: "Please install `xcpretty`. Tried to install but failed.")
+            return
+        }
+        
         guard !self.checker.checkHelp() && self.checker.checkParameters() else {
             self.menu.draw()
             return

@@ -32,4 +32,15 @@ struct CommandParametersChecker {
     func checkVerbose() -> Bool {
         return self.parameters.contains(where: {$0.parameter == Parameters.verbose.name})
     }
+    
+    func checkXcprettyInstalled() -> Bool {
+        let executer = CommandExecutor.init(path: "/usr/bin/", application: "", logFilePath: nil)
+        executer.add(parameter: NoDashParameter.init(parameter: "gem install xcpretty"))
+        var returnCode = -235919
+        executer.execute { (code) in
+            returnCode = code
+        }
+        while returnCode == -235919 { }
+        return returnCode == 0
+    }
 }
