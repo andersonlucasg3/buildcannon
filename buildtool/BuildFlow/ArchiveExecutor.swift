@@ -19,13 +19,14 @@ class ArchiveExecutor {
     weak var delegate: ArchiveExecutorProtocol?
     
     init(project: DoubleDashComplexParameter, scheme: DoubleDashComplexParameter) {
-        let archive = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName)
+        let archive = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
         archive.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: ArchiveTool.Values.sdkConfig))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: ArchiveTool.Values.configurationConfig))
         archive.add(parameter: NoDashParameter.init(parameter: ArchiveTool.Parameters.archiveParam))
         archive.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath))
+        archive.add(parameter: NoDashParameter.init(parameter: "| xcpretty"))
         self.commandExecutor = archive
     }
     
@@ -36,7 +37,7 @@ class ArchiveExecutor {
     
     func execute() {
         Logger.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
-        self.commandExecutor.execute { [weak self] (returnCode, output) in
+        self.commandExecutor.execute { [weak self] (returnCode) in
             if returnCode != 0 {
                 self?.delegate?.archiveDidFailWithStatusCode(returnCode)
             } else {

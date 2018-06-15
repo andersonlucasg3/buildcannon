@@ -8,11 +8,12 @@
 
 import Foundation
 
-typealias CommandExecutorCompletion = ((_ returnCode: Int, _ output: String) -> Void)
+typealias CommandExecutorCompletion = (_ returnCode: Int) -> Void
 
 class CommandExecutor {
     fileprivate let applicationPath: String
     fileprivate let applicationName: String
+    fileprivate let logFilePath: String?
     fileprivate var parameters: [CommandParameter]
 
     fileprivate var process: Process!
@@ -20,9 +21,10 @@ class CommandExecutor {
     fileprivate var logFileHandle: FileHandle!
     fileprivate var dataAvailableObserver: NSObjectProtocol!
     
-    init(path: String, application: String) {
+    init(path: String, application: String, logFilePath: String?) {
         self.applicationPath = path
         self.applicationName = application
+        self.logFilePath = logFilePath
         self.parameters = Array()
     }
     
@@ -31,8 +33,10 @@ class CommandExecutor {
     }
     
     fileprivate func setupFileHandlers() {
-        FileManager.default.createFile(atPath: ArchiveTool.Values.archiveLogPath, contents: nil, attributes: nil)
-        self.logFileHandle = FileHandle.init(forWritingAtPath: ArchiveTool.Values.archiveLogPath)
+        if let logFilePath = self.logFilePath {
+            FileManager.default.createFile(atPath: logFilePath, contents: nil, attributes: nil)
+            self.logFileHandle = FileHandle.init(forWritingAtPath: logFilePath)
+        }
         self.pipe = Pipe.init()
         self.process.standardOutput = self.pipe
         self.process.standardError = self.pipe
@@ -46,7 +50,7 @@ class CommandExecutor {
             }
             let data = fileHandle.availableData
             if data.count > 0 {
-                self?.logFileHandle.write(data)
+                self?.logFileHandle?.write(data)
                 if let str = String.init(data: data, encoding: .utf8) {
                     Logger.log(message: str, terminator: "")
                 } else {
@@ -61,16 +65,20 @@ class CommandExecutor {
     func execute(completion: @escaping CommandExecutorCompletion) {
         let thread = Thread.init { [unowned self] in
             self.process = Process.init()
-            self.process.arguments = ["-c", "\(self.buildCommandString()) | xcpretty"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
-            self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
+            self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
+            if #available(OSX 10.13, *) {
+                self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
+            } else {
+                self.process.launchPath = "/bin/sh"
+            }
             self.setupFileHandlers()
             self.waitForData()
             self.process.launch()
             self.process.waitUntilExit()
 
-            self.logFileHandle.closeFile()
+            self.logFileHandle?.closeFile()
             DispatchQueue.main.async {
-                completion(Int.init(self.process.terminationStatus), (try? String.init(contentsOfFile: ArchiveTool.Values.archiveLogPath)) ?? "")
+                completion(Int.init(self.process.terminationStatus))
             }
         }
         thread.start()
