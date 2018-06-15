@@ -13,11 +13,12 @@ class Application {
     fileprivate(set) static var isXcprettyInstalled = false
     fileprivate(set) static var isExportOnly = false
     
-    fileprivate let processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
+    fileprivate var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
     fileprivate var menu: ActionMenu!
     fileprivate var archiveExecutor: ArchiveExecutor!
     fileprivate var exportExecutor: ExportExecutor!
+    fileprivate var uploadExecutor: UploadExecutor!
     
     fileprivate lazy var checker = CommandParametersChecker.init(parameters: self.processParameters)
     
@@ -26,7 +27,7 @@ class Application {
     }
     
     deinit {
-        Logger.closeLog()
+        Console.closeLog()
     }
     
     func start() {
@@ -60,7 +61,7 @@ class Application {
     }
     
     fileprivate func logDebugThings() {
-        Logger.log(message: "Executing program with command: \(ProcessInfo.processInfo.arguments.joined(separator: " "))")
+        Console.log(message: "Executing program with command: \(ProcessInfo.processInfo.arguments.joined(separator: " "))")
     }
     
     fileprivate func createMenu() -> ActionMenu {
@@ -73,7 +74,9 @@ class Application {
             ActionMenuOption.init(command: "--\(Parameters.verbose.name)", detail: "Logs all content into the console.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.help.name)", detail: "Shows this menu with public parameters.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.exportOnly.name)", detail: "Tells the buildtool to execute only the export IPA part.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.archivePath.name)", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {})
+            ActionMenuOption.init(command: "--\(Parameters.archivePath.name)", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.userName.name)", detail: "Specifies the AppStore Connect account (email).", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.password.name)", detail: "Specifies the AppStore Connect account password.", action: {})
         ]
         return ActionMenu.init(description: "Usage: ", options: options)
     }
@@ -82,8 +85,29 @@ class Application {
         return self.processParameters.first(where: {$0.parameter == key}) as? T
     }
     
+    fileprivate func queryAccountIfNeeded() {
+        let userName: DoubleDashComplexParameter? = self.findValue(for: Parameters.userName.name)
+        if userName == nil {
+            Console.readInput(message: "Enter your AppStore Connect account: ") { [unowned self] (value) in
+                if let value = value {
+                    self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.userName.name, composition: value))
+                } else {
+                    Console.log(message: "AppStore Connect account not informed, exiting...")
+                    exit(0)
+                }
+            }
+            Console.readInput(message: "Enter your AppStore Connect account password: ") { (value) in
+                if let value = value {
+                    self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.password.name, composition: value))
+                } else {
+                    Console.log(message: "AppStore Connect account password not informed, exiting...")
+                }
+            }
+        }
+    }
+    
     fileprivate func executeArchive() {
-        Logger.log(message: "Starting archive at path: \(baseTempDir)")
+        Console.log(message: "Starting archive at path: \(baseTempDir)")
         
         self.archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameters.projectFile.name)!,
                                                     scheme: self.findValue(for: Parameters.scheme.name)!)
@@ -92,7 +116,7 @@ class Application {
     }
     
     fileprivate func executeExport() {
-        Logger.log(message: "Starting export at path: \(baseTempDir)")
+        Console.log(message: "Starting export at path: \(baseTempDir)")
         
         self.exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: Parameters.archivePath.name),
                                                   teamId: self.findValue(for: Parameters.teamId.name)!,
@@ -102,13 +126,24 @@ class Application {
         self.exportExecutor.execute()
     }
     
+    fileprivate func executeUpload() {
+        Console.log(message: "Starting upload of IPA at path: \(ExportTool.Values.exportPath)")
+        
+        self.queryAccountIfNeeded()
+        
+        self.uploadExecutor = UploadExecutor.init(userName: self.findValue(for: Parameters.userName.name)!,
+                                                  password: self.findValue(for: Parameters.password.name)!)
+        self.uploadExecutor.delegate = self
+        self.uploadExecutor.execute()
+    }
+    
     fileprivate func setupConfigurations() {
         Application.isXcprettyInstalled = self.checker.checkXcprettyInstalled()
         Application.isVerbose = self.checker.checkVerbose()
         Application.isExportOnly = self.checker.checkExportOnly()
         
         if !Application.isXcprettyInstalled {
-            Logger.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
+            Console.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
         }
     }
     
@@ -121,28 +156,41 @@ class Application {
 
 extension Application: ArchiveExecutorProtocol {
     func archiveDidFinishWithSuccess() {
-        Logger.log(message: "Archive finished with success")
+        Console.log(message: "Archive finished with success")
         self.archiveExecutor = nil
         self.executeExport()
     }
     
     func archiveDidFailWithStatusCode(_ code: Int) {
-        Logger.log(message: "Archive failed with status code: \(code)")
-        Logger.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
+        Console.log(message: "Archive failed with status code: \(code)")
+        Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
         exit(0)
     }
 }
 
 extension Application: ExportExecutorProtocol {
     func exportExecutorDidFinishWithSuccess() {
-        Logger.log(message: "Export finished with success")
-        // TODO: remove the exit(0) and start the upload
-        exit(0)
+        Console.log(message: "Export finished with success")
+        self.exportExecutor = nil
+        self.executeUpload()
     }
     
     func exportExecutorDidFinishWithFailCode(_ code: Int) {
-        Logger.log(message: "Export failed with status code: \(code)")
-        Logger.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        Console.log(message: "Export failed with status code: \(code)")
+        Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        exit(0)
+    }
+}
+
+extension Application: UploadExecutorProtocol {
+    func uploadExecutorDidFinishWithSuccess() {
+        Console.log(message: "Upload finished with success")
+        exit(0)
+    }
+    
+    func uploadExecutorDidFailWithErrorCode(_ code: Int) {
+        Console.log(message: "Upload failed with status code: \(code)")
+        Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
         exit(0)
     }
 }

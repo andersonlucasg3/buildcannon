@@ -24,7 +24,8 @@
 		71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EC20D4314F00552A3F /* ExportTool.swift */; };
 		71C3C2EF20D4315C00552A3F /* UploadTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EE20D4315C00552A3F /* UploadTool.swift */; };
 		71C3C2F120D4369600552A3F /* ExecutorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2F020D4369600552A3F /* ExecutorProtocol.swift */; };
-		71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Logger.swift */; };
+		71C3C2F320D44B0300552A3F /* UploadExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2F220D44B0300552A3F /* UploadExecutor.swift */; };
+		71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Console.swift */; };
 		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +60,8 @@
 		71C3C2EC20D4314F00552A3F /* ExportTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTool.swift; sourceTree = "<group>"; };
 		71C3C2EE20D4315C00552A3F /* UploadTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTool.swift; sourceTree = "<group>"; };
 		71C3C2F020D4369600552A3F /* ExecutorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutorProtocol.swift; sourceTree = "<group>"; };
-		71C669C920D2BA8600F3BED9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		71C3C2F220D44B0300552A3F /* UploadExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadExecutor.swift; sourceTree = "<group>"; };
+		71C669C920D2BA8600F3BED9 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		71C669CE20D2DA9200F3BED9 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,9 +159,10 @@
 		71C3C2E720D4300D00552A3F /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				71C3C2F020D4369600552A3F /* ExecutorProtocol.swift */,
 				71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */,
 				71C3C2E820D4305700552A3F /* ExportExecutor.swift */,
-				71C3C2F020D4369600552A3F /* ExecutorProtocol.swift */,
+				71C3C2F220D44B0300552A3F /* UploadExecutor.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -167,7 +170,7 @@
 		71C669C820D2BA7E00F3BED9 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				71C669C920D2BA8600F3BED9 /* Logger.swift */,
+				71C669C920D2BA8600F3BED9 /* Console.swift */,
 			);
 			path = Logger;
 			sourceTree = "<group>";
@@ -248,11 +251,12 @@
 				71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */,
 				71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */,
 				71351ECB20D18B9800BE9B60 /* CommandParametersChecker.swift in Sources */,
-				71C669CA20D2BA8600F3BED9 /* Logger.swift in Sources */,
+				71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */,
 				71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */,
 				71C3C2EF20D4315C00552A3F /* UploadTool.swift in Sources */,
+				71C3C2F320D44B0300552A3F /* UploadExecutor.swift in Sources */,
 				71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */,
 				71C3C2F120D4369600552A3F /* ExecutorProtocol.swift in Sources */,
 				71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */,

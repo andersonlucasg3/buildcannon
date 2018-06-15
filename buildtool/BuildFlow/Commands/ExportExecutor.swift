@@ -30,6 +30,7 @@ class ExportExecutor: ExecutorProtocol {
         self.includeBitcode = includeBitcode
         
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ExportTool.toolName, logFilePath: ExportTool.Values.exportLogPath)
+        self.commandExecutor.logExecution = Application.isVerbose
         self.commandExecutor.add(parameter: SingleDashParameter.init(parameter: ExportTool.Parameters.exportArchive))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.archivePath, composition: archivePath?.composition ?? ArchiveTool.Values.archivePath))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportOptionsPlistPath, composition: ExportTool.Values.exportPlistPath))
@@ -77,7 +78,7 @@ class ExportExecutor: ExecutorProtocol {
     }
     
     func execute() {
-        Logger.log(message: "Executing export IPA with command: \(self.commandExecutor.buildCommandString())")
+        Console.log(message: "Executing export IPA with command: \(self.commandExecutor.buildCommandString())")
         self.createExportOptionsFile()
         self.commandExecutor.execute { [weak self] (returnCode, _) in
             self?.dispatchFinish(returnCode)

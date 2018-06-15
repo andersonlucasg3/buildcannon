@@ -48,7 +48,7 @@ class ArchiveExecutor: ExecutorProtocol {
     }
     
     func execute() {
-        Logger.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
+        Console.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
         self.commandExecutor.execute { [weak self] (returnCode, _) in
             self?.dispatchFinish(returnCode)
         }

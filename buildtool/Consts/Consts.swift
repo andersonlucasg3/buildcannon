@@ -22,6 +22,8 @@ struct Parameters {
     static let help: ParameterTouple = ("help", DoubleDashParameter.self)
     static let exportOnly: ParameterTouple = ("exportOnly", DoubleDashParameter.self)
     static let archivePath: ParameterTouple = ("archivePath", DoubleDashComplexParameter.self)
+    static let userName: ParameterTouple = ("userName", DoubleDashComplexParameter.self)
+    static let password: ParameterTouple = ("password", DoubleDashComplexParameter.self)
     
     static let fullProcessRequiredParameters = [
         Parameters.projectFile,

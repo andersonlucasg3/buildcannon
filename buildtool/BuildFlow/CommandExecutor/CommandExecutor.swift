@@ -51,9 +51,9 @@ class CommandExecutor {
     fileprivate func logData(_ data: Data) {
         if self.logExecution {
             if let str = String.init(data: data, encoding: .utf8) {
-                Logger.log(message: str, terminator: "")
+                Console.log(message: str, terminator: "")
             } else {
-                Logger.log(message: "Not valid data string.")
+                Console.log(message: "Not valid data string.")
             }
         }
     }
