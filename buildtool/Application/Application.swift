@@ -3,18 +3,20 @@
 //  buildtool
 //
 //  Created by Anderson Lucas C. Ramos on 14/06/18.
-//  Copyright © 2018 Anderson Lucas C. Ramos. All rights reserved.
+//  Copyright © 2018 InsaniTech. All rights reserved.
 //
 
 import Foundation
 
 class Application {
     fileprivate(set) static var isVerbose = false
+    fileprivate(set) static var isXcprettyInstalled = false
     
     fileprivate let processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
     fileprivate var menu: ActionMenu!
     fileprivate var archiveExecutor: ArchiveExecutor!
+    fileprivate var exportExecutor: ExportExecutor!
     
     fileprivate lazy var checker = CommandParametersChecker.init(parameters: self.processParameters)
     
@@ -28,17 +30,17 @@ class Application {
     
     func start() {
         DispatchQueue.main.async {
-            if !self.checker.checkXcprettyInstalled() {
-                Logger.log(message: "Please install `xcpretty`. Tried to install but failed.")
-                exit(0)
-            }
+            #if DEBUG
+            self.logDebugThings()
+            #endif
+            self.createDirectories()
+            self.setupConfigurations()
             
             guard !self.checker.checkHelp() && self.checker.checkParameters() else {
                 self.menu.draw()
                 exit(0)
             }
-            Application.isVerbose = self.checker.checkVerbose()
-            self.createDirectories()
+            
             self.executeArchive()
         }
         dispatchMain()
@@ -46,6 +48,10 @@ class Application {
     
     func interrupt() {
         self.archiveExecutor?.cancel()
+    }
+    
+    fileprivate func logDebugThings() {
+        Logger.log(message: "Executing program with command: \(ProcessInfo.processInfo.arguments.joined(separator: " "))")
     }
     
     fileprivate func createMenu() -> ActionMenu {
@@ -61,33 +67,69 @@ class Application {
         return ActionMenu.init(description: "Usage: ", options: options)
     }
     
+    fileprivate func findValue<T : CommandParameter>(for key: String) -> T {
+        return self.processParameters.first(where: {$0.parameter == key}) as! T
+    }
+    
     fileprivate func executeArchive() {
-        let project = self.processParameters.first(where: {$0.parameter == Parameters.projectFile.name}) as! DoubleDashComplexParameter
-        let scheme = self.processParameters.first(where: {$0.parameter == Parameters.scheme.name}) as! DoubleDashComplexParameter
+        Logger.log(message: "Starting archive at path: \(baseTempDir)")
         
-        self.archiveExecutor = ArchiveExecutor.init(project: project, scheme: scheme)
+        self.archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameters.projectFile.name),
+                                                    scheme: self.findValue(for: Parameters.scheme.name))
         self.archiveExecutor.delegate = self
         self.archiveExecutor.execute()
+    }
+    
+    fileprivate func executeExport() {
+        Logger.log(message: "Starting export at path: \(baseTempDir)")
+        
+        self.exportExecutor = ExportExecutor.init(teamId: self.findValue(for: Parameters.teamId.name),
+                                                  bundleIdentifier: self.findValue(for: Parameters.bundleIdentifier.name),
+                                                  provisioningProfileName: self.findValue(for: Parameters.provisioningProfile.name))
+        self.exportExecutor.delegate = self
+        self.exportExecutor.execute()
+    }
+    
+    fileprivate func setupConfigurations() {
+        Application.isXcprettyInstalled = self.checker.checkXcprettyInstalled()
+        Application.isVerbose = self.checker.checkVerbose()
+        
+        if !Application.isXcprettyInstalled {
+            Logger.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
+        }
     }
     
     fileprivate func createDirectories() {
         if !FileManager.default.fileExists(atPath: baseTempDir) {
             try! FileManager.default.createDirectory(atPath: baseTempDir, withIntermediateDirectories: true, attributes: nil)
         }
-        Logger.log(message: "Building at temp path: \(baseTempDir)")
     }
 }
 
 extension Application: ArchiveExecutorProtocol {
     func archiveDidFinishWithSuccess() {
         Logger.log(message: "Archive finished with success")
-        // TODO: remove the exit(0) and start the export
-        exit(0)
+        self.archiveExecutor = nil
+        self.executeExport()
     }
     
     func archiveDidFailWithStatusCode(_ code: Int) {
         Logger.log(message: "Archive failed with status code: \(code)")
         Logger.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
+        exit(0)
+    }
+}
+
+extension Application: ExportExecutorProtocol {
+    func exportExecutorDidFinishWithSuccess() {
+        Logger.log(message: "Export finished with success")
+        // TODO: remove the exit(0) and start the upload
+        exit(0)
+    }
+    
+    func exportExecutorDidFinishWithFailCode(_ code: Int) {
+        Logger.log(message: "Export failed with status code: \(code)")
+        Logger.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
         exit(0)
     }
 }

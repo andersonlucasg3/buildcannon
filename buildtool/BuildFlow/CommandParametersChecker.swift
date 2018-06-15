@@ -3,7 +3,7 @@
 //  buildtool
 //
 //  Created by Anderson Lucas C. Ramos on 13/06/18.
-//  Copyright © 2018 Anderson Lucas C. Ramos. All rights reserved.
+//  Copyright © 2018 InsaniTech. All rights reserved.
 //
 
 import Foundation
@@ -34,11 +34,12 @@ struct CommandParametersChecker {
     }
     
     func checkXcprettyInstalled() -> Bool {
-        let executer = CommandExecutor.init(path: "/usr/bin/", application: "which", logFilePath: nil)
-        executer.add(parameter: NoDashParameter.init(parameter: "xcpretty"))
+        let executer = CommandExecutor.init(path: "/usr/bin/", application: "command", logFilePath: "\(baseTempDir)/checkXcprettyInstalled.log")
+        executer.logExecution = false
+        executer.add(parameter: SingleDashComplexParameter.init(parameter: "-v", composition: "xcpretty"))
         var returnCode = -235919
-        executer.execute { (code) in
-            returnCode = code
+        executer.execute { (code, output) in
+            returnCode = (output ?? "").isEmpty ? 1 : 0 // 0 is success
         }
         while returnCode == -235919 { }
         return returnCode == 0

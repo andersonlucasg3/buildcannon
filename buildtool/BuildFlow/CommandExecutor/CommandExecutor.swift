@@ -3,12 +3,12 @@
 //  buildtool
 //
 //  Created by Anderson Lucas C. Ramos on 13/06/18.
-//  Copyright © 2018 Anderson Lucas C. Ramos. All rights reserved.
+//  Copyright © 2018 InsaniTech. All rights reserved.
 //
 
 import Foundation
 
-typealias CommandExecutorCompletion = (_ returnCode: Int) -> Void
+typealias CommandExecutorCompletion = (_ returnCode: Int, _ output: String?) -> Void
 
 class CommandExecutor {
     fileprivate let applicationPath: String
@@ -21,11 +21,17 @@ class CommandExecutor {
     fileprivate var logFileHandle: FileHandle!
     fileprivate var dataAvailableObserver: NSObjectProtocol!
     
+    var logExecution: Bool = true
+    
     init(path: String, application: String, logFilePath: String?) {
         self.applicationPath = path
         self.applicationName = application
         self.logFilePath = logFilePath
         self.parameters = Array()
+    }
+    
+    deinit {
+        self.removeObserver()
     }
     
     func add(parameter: CommandParameter) {
@@ -42,6 +48,16 @@ class CommandExecutor {
         self.process.standardError = self.pipe
     }
     
+    fileprivate func logData(_ data: Data) {
+        if self.logExecution {
+            if let str = String.init(data: data, encoding: .utf8) {
+                Logger.log(message: str, terminator: "")
+            } else {
+                Logger.log(message: "Not valid data string.")
+            }
+        }
+    }
+    
     fileprivate func waitForData() {
         self.dataAvailableObserver = NotificationCenter.default.addObserver(forName: .NSFileHandleDataAvailable, object: nil, queue: nil) { [weak self] (notification) in
             guard let fileHandle = notification.object as? FileHandle else {
@@ -51,11 +67,7 @@ class CommandExecutor {
             let data = fileHandle.availableData
             if data.count > 0 {
                 self?.logFileHandle?.write(data)
-                if let str = String.init(data: data, encoding: .utf8) {
-                    Logger.log(message: str, terminator: "")
-                } else {
-                    Logger.log(message: "Not valid data string.")
-                }
+                self?.logData(data)
             }
             self?.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         }
@@ -77,7 +89,8 @@ class CommandExecutor {
             self.process.waitUntilExit()
 
             self.logFileHandle?.closeFile()
-            completion(Int.init(self.process.terminationStatus))
+            let output = try? String.init(contentsOfFile: self.logFilePath ?? "")
+            completion(Int.init(self.process.terminationStatus), output)
         }
         thread.start()
     }
