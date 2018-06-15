@@ -78,6 +78,7 @@ class ExportExecutor: ExecutorProtocol {
     
     func execute() {
         Logger.log(message: "Executing export IPA with command: \(self.commandExecutor.buildCommandString())")
+        self.createExportOptionsFile()
         self.commandExecutor.execute { [weak self] (returnCode, _) in
             self?.dispatchFinish(returnCode)
         }
