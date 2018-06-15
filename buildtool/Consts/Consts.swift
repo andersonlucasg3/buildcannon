@@ -22,6 +22,8 @@ struct Parameters {
     static let help: ParameterTouple = ("help", DoubleDashParameter.self)
     static let exportOnly: ParameterTouple = ("exportOnly", DoubleDashParameter.self)
     static let archivePath: ParameterTouple = ("archivePath", DoubleDashComplexParameter.self)
+    static let uploadOnly: ParameterTouple = ("uploadOnly", DoubleDashParameter.self)
+    static let ipaPath: ParameterTouple = ("ipaPath", DoubleDashComplexParameter.self)
     static let userName: ParameterTouple = ("userName", DoubleDashComplexParameter.self)
     static let password: ParameterTouple = ("password", DoubleDashComplexParameter.self)
     
@@ -39,5 +41,10 @@ struct Parameters {
         Parameters.provisioningProfile,
         Parameters.teamId,
         Parameters.bundleIdentifier
+    ]
+    
+    static let uploadOnlyRequiredParameters = [
+        Parameters.uploadOnly,
+        Parameters.ipaPath
     ]
 }

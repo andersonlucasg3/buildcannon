@@ -18,11 +18,11 @@ class UploadExecutor: ExecutorProtocol {
     
     weak var delegate: UploadExecutorProtocol?
     
-    init(userName: DoubleDashComplexParameter, password: DoubleDashComplexParameter) {
+    init(ipaPath: String, userName: DoubleDashComplexParameter, password: DoubleDashComplexParameter) {
         self.commandExecutor = CommandExecutor.init(path: UploadTool.toolPath, application: UploadTool.toolName, logFilePath: UploadTool.Values.uploadLogPath)
         self.commandExecutor.logExecution = Application.isVerbose
         self.commandExecutor.add(parameter: DoubleDashParameter.init(parameter: UploadTool.Parameters.uploadApp))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.file, composition: ExportTool.Values.exportPath))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.file, composition: ipaPath))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.username, composition: userName.composition))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.password, composition: password.composition))
     }

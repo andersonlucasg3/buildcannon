@@ -10,7 +10,7 @@ import Foundation
 
 
 struct UploadTool {
-    static let toolPath = "/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support/"
+    static let toolPath = "\"/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support/\""
     static let toolName = "altool"
     
     struct Parameters {

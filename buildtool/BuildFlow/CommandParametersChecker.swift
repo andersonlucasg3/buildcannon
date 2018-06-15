@@ -26,10 +26,12 @@ struct CommandParametersChecker {
             }
         }
         
-        if !Application.isExportOnly {
-            run(Parameters.fullProcessRequiredParameters)
-        } else {
+        if Application.isExportOnly {
             run(Parameters.exportOnlyRequiredParameters)
+        } else if Application.isUploadOnly {
+            run(Parameters.uploadOnlyRequiredParameters)
+        } else {
+            run(Parameters.fullProcessRequiredParameters)
         }
         return containsAllRequired
     }
@@ -44,6 +46,10 @@ struct CommandParametersChecker {
     
     func checkExportOnly() -> Bool {
         return self.parameters.contains(where: {$0.parameter == Parameters.exportOnly.name})
+    }
+    
+    func checkUploadOnly() -> Bool {
+        return self.parameters.contains(where: {$0.parameter == Parameters.uploadOnly.name})
     }
     
     func checkXcprettyInstalled() -> Bool {

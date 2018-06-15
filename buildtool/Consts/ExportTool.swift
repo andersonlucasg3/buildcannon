@@ -23,6 +23,6 @@ struct ExportTool {
     struct Values {
         static let exportLogPath = baseTempDir + "/exportIpa.log"
         static let exportPlistPath = baseTempDir + "/exportOptions.plist"
-        static let exportPath = baseTempDir + "/app.ipa"
+        static let exportPath = baseTempDir
     }
 }

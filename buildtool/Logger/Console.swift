@@ -24,6 +24,18 @@ class Console {
         readCallback(line)
     }
     
+    class func readInputSecure(message: String, readCallback: ((_ value: String?) -> Void)) {
+        let buf = [Int8].init(repeating: 0, count: 8192)
+        if let pass = readpassphrase(message, UnsafeMutablePointer<Int8>.init(mutating: buf), buf.count, 0) {
+            let passStr = String.init(validatingUTF8: pass)
+            let outputPassStr = passStr ?? "not informed"
+            self.fileOutputStream?.write(message + outputPassStr, maxLength: outputPassStr.count)
+            readCallback(passStr)
+        } else {
+            readCallback(nil)
+        }
+    }
+    
     class func closeLog() {
         self.fileOutputStream?.close()
     }

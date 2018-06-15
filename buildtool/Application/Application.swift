@@ -12,6 +12,7 @@ class Application {
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
     fileprivate(set) static var isExportOnly = false
+    fileprivate(set) static var isUploadOnly = false
     
     fileprivate var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
@@ -55,6 +56,8 @@ class Application {
     fileprivate func startInitialProcess() {
         if Application.isExportOnly {
             self.executeExport()
+        } else if Application.isUploadOnly {
+            self.executeUpload()
         } else {
             self.executeArchive()
         }
@@ -66,17 +69,19 @@ class Application {
     
     fileprivate func createMenu() -> ActionMenu {
         let options = [
-            ActionMenuOption.init(command: "--\(Parameters.projectFile.name)", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.scheme.name)", detail: "Provide a scheme name to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.teamId.name)", detail: "Provide a Team ID to publish on.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.bundleIdentifier.name)", detail: "Provide a bundle identifier to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.provisioningProfile.name)", detail: "Provide a provisioning profile name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.teamId.name) [12TEAM43ID]", detail: "Provide a Team ID to publish on.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.bundleIdentifier.name) [com.yourcompany.app]", detail: "Provide a bundle identifier to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.provisioningProfile.name) \"[your provisioning profile name]\"", detail: "Provide a provisioning profile name to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.verbose.name)", detail: "Logs all content into the console.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.help.name)", detail: "Shows this menu with public parameters.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.exportOnly.name)", detail: "Tells the buildtool to execute only the export IPA part.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.archivePath.name)", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.userName.name)", detail: "Specifies the AppStore Connect account (email).", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.password.name)", detail: "Specifies the AppStore Connect account password.", action: {})
+            ActionMenuOption.init(command: "--\(Parameters.exportOnly.name)", detail: "Tells the buildtool to execute only the IPA export.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.archivePath.name) \"[/path/to/archive.xcarchive]\"", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.uploadOnly.name)", detail: "Tells the buildtool to execute only the upload of an IPA.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.ipaPath.name) \"[/path/to/ipa.ipa]\"", detail: "If --uploadOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.userName.name) account_name@domain.com", detail: "Specifies the AppStore Connect account (email).", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {})
         ]
         return ActionMenu.init(description: "Usage: ", options: options)
     }
@@ -89,23 +94,24 @@ class Application {
         let userName: DoubleDashComplexParameter? = self.findValue(for: Parameters.userName.name)
         let password: DoubleDashComplexParameter? = self.findValue(for: Parameters.password.name)
         if userName == nil {
-            Console.readInput(message: "Enter your AppStore Connect account: ") { [unowned self] (value) in
+            Console.readInput(message: "Enter your AppStore Connect account: ", readCallback: { [unowned self] (value) in
                 if let value = value {
                     self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.userName.name, composition: value))
                 } else {
                     Console.log(message: "AppStore Connect account not informed, exiting...")
                     exit(0)
                 }
-            }
+            })
         }
         if password == nil {
-            Console.readInput(message: "Enter your AppStore Connect account password: ") { (value) in
+            Console.readInputSecure(message: "Enter your AppStore Connect account password: ", readCallback: { (value) in
                 if let value = value {
                     self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.password.name, composition: value))
                 } else {
                     Console.log(message: "AppStore Connect account password not informed, exiting...")
+                    exit(0)
                 }
-            }
+            })
         }
     }
     
@@ -134,7 +140,12 @@ class Application {
         
         self.queryAccountIfNeeded()
         
-        self.uploadExecutor = UploadExecutor.init(userName: self.findValue(for: Parameters.userName.name)!,
+        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: Parameters.ipaPath.name)
+        let scheme: DoubleDashComplexParameter = self.findValue(for: Parameters.scheme.name)!
+        let ipaPath: String = ipaPathParameter?.composition ?? baseTempDir + "/\(scheme.composition).ipa"
+        
+        self.uploadExecutor = UploadExecutor.init(ipaPath: ipaPath,
+                                                  userName: self.findValue(for: Parameters.userName.name)!,
                                                   password: self.findValue(for: Parameters.password.name)!)
         self.uploadExecutor.delegate = self
         self.uploadExecutor.execute()
@@ -144,6 +155,7 @@ class Application {
         Application.isXcprettyInstalled = self.checker.checkXcprettyInstalled()
         Application.isVerbose = self.checker.checkVerbose()
         Application.isExportOnly = self.checker.checkExportOnly()
+        Application.isUploadOnly = self.checker.checkUploadOnly()
         
         if !Application.isXcprettyInstalled {
             Console.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
