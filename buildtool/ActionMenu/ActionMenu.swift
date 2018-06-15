@@ -19,7 +19,6 @@ struct ActionMenu {
     
     func draw() {
         Logger.log(message: self.description)
-        Logger.log(message: "\n")
         self.options.forEach { (option) in
             Logger.log(message: "\t\(option.command)\n\t\t* \(option.detail)\n")
         }

@@ -11,6 +11,7 @@ import Foundation
 class Application {
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
+    fileprivate(set) static var isExportOnly = false
     
     fileprivate let processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
@@ -41,13 +42,21 @@ class Application {
                 exit(0)
             }
             
-            self.executeArchive()
+            self.startInitialProcess()
         }
         dispatchMain()
     }
     
     func interrupt() {
         self.archiveExecutor?.cancel()
+    }
+    
+    fileprivate func startInitialProcess() {
+        if Application.isExportOnly {
+            self.executeExport()
+        } else {
+            self.executeArchive()
+        }
     }
     
     fileprivate func logDebugThings() {
@@ -62,20 +71,22 @@ class Application {
             ActionMenuOption.init(command: "--\(Parameters.bundleIdentifier.name)", detail: "Provide a bundle identifier to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.provisioningProfile.name)", detail: "Provide a provisioning profile name to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameters.verbose.name)", detail: "Logs all content into the console.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameters.help.name)", detail: "Shows this menu with public parameters.", action: {})
+            ActionMenuOption.init(command: "--\(Parameters.help.name)", detail: "Shows this menu with public parameters.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.exportOnly.name)", detail: "Tells the buildtool to execute only the export IPA part.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameters.archivePath.name)", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {})
         ]
         return ActionMenu.init(description: "Usage: ", options: options)
     }
     
-    fileprivate func findValue<T : CommandParameter>(for key: String) -> T {
-        return self.processParameters.first(where: {$0.parameter == key}) as! T
+    fileprivate func findValue<T : CommandParameter>(for key: String) -> T? {
+        return self.processParameters.first(where: {$0.parameter == key}) as? T
     }
     
     fileprivate func executeArchive() {
         Logger.log(message: "Starting archive at path: \(baseTempDir)")
         
-        self.archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameters.projectFile.name),
-                                                    scheme: self.findValue(for: Parameters.scheme.name))
+        self.archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameters.projectFile.name)!,
+                                                    scheme: self.findValue(for: Parameters.scheme.name)!)
         self.archiveExecutor.delegate = self
         self.archiveExecutor.execute()
     }
@@ -83,9 +94,10 @@ class Application {
     fileprivate func executeExport() {
         Logger.log(message: "Starting export at path: \(baseTempDir)")
         
-        self.exportExecutor = ExportExecutor.init(teamId: self.findValue(for: Parameters.teamId.name),
-                                                  bundleIdentifier: self.findValue(for: Parameters.bundleIdentifier.name),
-                                                  provisioningProfileName: self.findValue(for: Parameters.provisioningProfile.name))
+        self.exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: Parameters.archivePath.name),
+                                                  teamId: self.findValue(for: Parameters.teamId.name)!,
+                                                  bundleIdentifier: self.findValue(for: Parameters.bundleIdentifier.name)!,
+                                                  provisioningProfileName: self.findValue(for: Parameters.provisioningProfile.name)!)
         self.exportExecutor.delegate = self
         self.exportExecutor.execute()
     }
@@ -93,6 +105,7 @@ class Application {
     fileprivate func setupConfigurations() {
         Application.isXcprettyInstalled = self.checker.checkXcprettyInstalled()
         Application.isVerbose = self.checker.checkVerbose()
+        Application.isExportOnly = self.checker.checkExportOnly()
         
         if !Application.isXcprettyInstalled {
             Logger.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")

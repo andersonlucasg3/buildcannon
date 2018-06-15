@@ -20,10 +20,20 @@ struct Parameters {
     static let bundleIdentifier: ParameterTouple = ("bundle-identifier", DoubleDashComplexParameter.self)
     static let verbose: ParameterTouple = ("verbose", DoubleDashParameter.self)
     static let help: ParameterTouple = ("help", DoubleDashParameter.self)
+    static let exportOnly: ParameterTouple = ("exportOnly", DoubleDashParameter.self)
+    static let archivePath: ParameterTouple = ("archivePath", DoubleDashComplexParameter.self)
     
-    static let REQUIRED_PARAMETERS = [
+    static let fullProcessRequiredParameters = [
         Parameters.projectFile,
         Parameters.scheme,
+        Parameters.provisioningProfile,
+        Parameters.teamId,
+        Parameters.bundleIdentifier
+    ]
+    
+    static let exportOnlyRequiredParameters = [
+        Parameters.exportOnly,
+        Parameters.archivePath,
         Parameters.provisioningProfile,
         Parameters.teamId,
         Parameters.bundleIdentifier

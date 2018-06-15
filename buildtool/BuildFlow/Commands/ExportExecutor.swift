@@ -22,7 +22,7 @@ class ExportExecutor: ExecutorProtocol {
     
     weak var delegate: ExportExecutorProtocol?
     
-    init(teamId: DoubleDashComplexParameter, bundleIdentifier: DoubleDashComplexParameter,
+    init(archivePath: DoubleDashComplexParameter? = nil, teamId: DoubleDashComplexParameter, bundleIdentifier: DoubleDashComplexParameter,
          provisioningProfileName: DoubleDashComplexParameter, includeBitcode: Bool = false) {
         self.teamId = teamId
         self.bundleIdentifier = bundleIdentifier
@@ -31,7 +31,7 @@ class ExportExecutor: ExecutorProtocol {
         
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ExportTool.toolName, logFilePath: ExportTool.Values.exportLogPath)
         self.commandExecutor.add(parameter: SingleDashParameter.init(parameter: ExportTool.Parameters.exportArchive))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.archivePath, composition: ArchiveTool.Values.archivePath))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.archivePath, composition: archivePath?.composition ?? ArchiveTool.Values.archivePath))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportOptionsPlistPath, composition: ExportTool.Values.exportPlistPath))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportPath, composition: ExportTool.Values.exportPath))
         self.commandExecutor.add(parameter: SingleDashParameter.init(parameter: ExportTool.Parameters.allowProvisioningUpdates))

@@ -17,11 +17,20 @@ struct CommandParametersChecker {
     
     func checkParameters() -> Bool {
         var containsAllRequired = true
-        Parameters.REQUIRED_PARAMETERS.forEach({ (item) in
-            containsAllRequired = containsAllRequired && self.parameters.contains(where: {
-                $0.parameter == item.name && type(of: $0) == item.type
-            })
-        })
+        
+        func run(_ parameters: [Parameters.ParameterTouple]) {
+            parameters.forEach { (item) in
+                containsAllRequired = containsAllRequired && self.parameters.contains(where: {
+                    $0.parameter == item.name && type(of: $0) == item.type
+                })
+            }
+        }
+        
+        if !Application.isExportOnly {
+            run(Parameters.fullProcessRequiredParameters)
+        } else {
+            run(Parameters.exportOnlyRequiredParameters)
+        }
         return containsAllRequired
     }
     
@@ -31,6 +40,10 @@ struct CommandParametersChecker {
     
     func checkVerbose() -> Bool {
         return self.parameters.contains(where: {$0.parameter == Parameters.verbose.name})
+    }
+    
+    func checkExportOnly() -> Bool {
+        return self.parameters.contains(where: {$0.parameter == Parameters.exportOnly.name})
     }
     
     func checkXcprettyInstalled() -> Bool {
