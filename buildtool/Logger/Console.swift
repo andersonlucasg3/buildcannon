@@ -19,7 +19,8 @@ class Console {
     class func readInput(message: String, readCallback: ((_ value: String?) -> Void)) {
         self.log(message: message, terminator: "")
         let line = readLine()
-        self.log(message: line ?? "not informed", terminator: "")
+        let outputMessage = line ?? "not informed"
+        self.fileOutputStream?.write(outputMessage, maxLength: outputMessage.count)
         readCallback(line)
     }
     

@@ -87,6 +87,7 @@ class Application {
     
     fileprivate func queryAccountIfNeeded() {
         let userName: DoubleDashComplexParameter? = self.findValue(for: Parameters.userName.name)
+        let password: DoubleDashComplexParameter? = self.findValue(for: Parameters.password.name)
         if userName == nil {
             Console.readInput(message: "Enter your AppStore Connect account: ") { [unowned self] (value) in
                 if let value = value {
@@ -96,6 +97,8 @@ class Application {
                     exit(0)
                 }
             }
+        }
+        if password == nil {
             Console.readInput(message: "Enter your AppStore Connect account password: ") { (value) in
                 if let value = value {
                     self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.password.name, composition: value))
