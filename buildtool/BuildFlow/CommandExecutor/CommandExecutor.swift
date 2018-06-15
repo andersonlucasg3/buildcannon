@@ -77,6 +77,7 @@ class CommandExecutor {
     func execute(completion: @escaping CommandExecutorCompletion) {
         let thread = Thread.init { [unowned self] in
             self.process = Process.init()
+            self.process.qualityOfService = QualityOfService.userInitiated
             self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
             if #available(OSX 10.13, *) {
                 self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
