@@ -28,7 +28,7 @@ class UploadExecutor: ExecutorProtocol {
     }
     
     fileprivate func dispatchFinished(_ returnCode: Int) {
-        DispatchQueue.main.async { [weak self] in
+        Application.execute { [weak self] in
             if returnCode == 0 {
                 self?.delegate?.uploadExecutorDidFinishWithSuccess()
             } else {
@@ -40,7 +40,7 @@ class UploadExecutor: ExecutorProtocol {
     func execute() {
         Console.log(message: "Executing IPA's upload...")
         
-        self.commandExecutor.execute { [weak self] (returnCode, _) in
+        self.commandExecutor.execute(tag: "UploadExecutor") { [weak self] (returnCode, _) in
             self?.dispatchFinished(returnCode)
         }
     }

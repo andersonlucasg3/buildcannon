@@ -38,7 +38,7 @@ class ArchiveExecutor: ExecutorProtocol {
     }
     
     fileprivate func dispatchFinish(_ returnCode: Int) {
-        DispatchQueue.main.async { [weak self] in
+        Application.execute { [weak self] in
             if returnCode != 0 {
                 self?.delegate?.archiveDidFailWithStatusCode(returnCode)
             } else {
@@ -49,7 +49,7 @@ class ArchiveExecutor: ExecutorProtocol {
     
     func execute() {
         Console.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
-        self.commandExecutor.execute { [weak self] (returnCode, _) in
+        self.commandExecutor.execute(tag: "ArchiveExecutor") { [weak self] (returnCode, _) in
             self?.dispatchFinish(returnCode)
         }
     }

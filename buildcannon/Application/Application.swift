@@ -9,10 +9,14 @@
 import Foundation
 
 class Application {
+    fileprivate static var executionQueue = Array<os_block_t>.init()
+    
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
     fileprivate(set) static var isExportOnly = false
     fileprivate(set) static var isUploadOnly = false
+    
+    fileprivate var isAlive = true
     
     fileprivate var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
@@ -31,25 +35,41 @@ class Application {
         Console.closeLog()
     }
     
+    static func execute(_ block: @escaping os_block_t) {
+        Synchronizator.synchronize({
+            self.executionQueue.append(block)
+        }, to: self)
+    }
+    
     func start() {
-        DispatchQueue.main.async {
+        Application.execute { [unowned self] in
             #if DEBUG
             self.logDebugThings()
             #endif
             self.createDirectories()
-            self.setupConfigurations()
-            
-            guard !self.checker.checkHelp() && self.checker.checkParameters() else {
-                self.menu.draw()
-                exit(0)
+            self.setupConfigurations {
+                guard !self.checker.checkHelp() && self.checker.checkParameters() else {
+                    self.menu.draw()
+                    application.interrupt()
+                    return
+                }
+                
+                self.startInitialProcess()
             }
-            
-            self.startInitialProcess()
         }
-        dispatchMain()
+        
+        repeat {
+            Synchronizator.synchronize({
+                if let block = Application.executionQueue.first {
+                    block()
+                    _ = Application.executionQueue.removeFirst()
+                }
+            }, to: self)
+        } while self.isAlive
     }
     
     func interrupt() {
+        self.isAlive = false
         self.archiveExecutor?.cancel()
     }
     
@@ -99,7 +119,7 @@ class Application {
                     self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.userName.name, composition: value))
                 } else {
                     Console.log(message: "AppStore Connect account not informed, exiting...")
-                    exit(0)
+                    application.interrupt()
                 }
             })
         }
@@ -109,7 +129,7 @@ class Application {
                     self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameters.password.name, composition: value))
                 } else {
                     Console.log(message: "AppStore Connect account password not informed, exiting...")
-                    exit(0)
+                    application.interrupt()
                 }
             })
         }
@@ -151,14 +171,18 @@ class Application {
         self.uploadExecutor.execute()
     }
     
-    fileprivate func setupConfigurations() {
-        Application.isXcprettyInstalled = self.checker.checkXcprettyInstalled()
-        Application.isVerbose = self.checker.checkVerbose()
-        Application.isExportOnly = self.checker.checkExportOnly()
-        Application.isUploadOnly = self.checker.checkUploadOnly()
-        
-        if !Application.isXcprettyInstalled {
-            Console.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
+    fileprivate func setupConfigurations(completion: @escaping os_block_t) {
+        self.checker.checkXcprettyInstalled { (exists) in
+            Application.isXcprettyInstalled = exists
+            Application.isVerbose = self.checker.checkVerbose()
+            Application.isExportOnly = self.checker.checkExportOnly()
+            Application.isUploadOnly = self.checker.checkUploadOnly()
+            
+            if !Application.isXcprettyInstalled {
+                Console.log(message: "Please install `xcpretty` with `gem install xcpretty`. Tried to install but failed.")
+            }
+            
+            Application.execute(completion)
         }
     }
     
@@ -179,7 +203,7 @@ extension Application: ArchiveExecutorProtocol {
     func archiveDidFailWithStatusCode(_ code: Int) {
         Console.log(message: "Archive failed with status code: \(code)")
         Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
-        exit(0)
+        application.interrupt()
     }
 }
 
@@ -193,19 +217,19 @@ extension Application: ExportExecutorProtocol {
     func exportExecutorDidFinishWithFailCode(_ code: Int) {
         Console.log(message: "Export failed with status code: \(code)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
-        exit(0)
+        application.interrupt()
     }
 }
 
 extension Application: UploadExecutorProtocol {
     func uploadExecutorDidFinishWithSuccess() {
         Console.log(message: "Upload finished with success")
-        exit(0)
+        application.interrupt()
     }
     
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Upload failed with status code: \(code)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
-        exit(0)
+        application.interrupt()
     }
 }

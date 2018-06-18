@@ -16,6 +16,7 @@ class CommandExecutor {
     fileprivate let logFilePath: String?
     fileprivate var parameters: [CommandParameter]
 
+    fileprivate var proccessThread: Thread!
     fileprivate var process: Process!
     fileprivate var pipe: Pipe!
     fileprivate var logFileHandle: FileHandle!
@@ -31,7 +32,7 @@ class CommandExecutor {
     }
     
     deinit {
-        self.removeObserver()
+        self.clear()
     }
     
     func add(parameter: CommandParameter) {
@@ -61,7 +62,7 @@ class CommandExecutor {
     fileprivate func waitForData() {
         self.dataAvailableObserver = NotificationCenter.default.addObserver(forName: .NSFileHandleDataAvailable, object: nil, queue: nil) { [weak self] (notification) in
             guard let fileHandle = notification.object as? FileHandle else {
-                self?.removeObserver()
+                self?.clear()
                 return
             }
             let data = fileHandle.availableData
@@ -74,8 +75,8 @@ class CommandExecutor {
         self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
     }
     
-    func execute(completion: @escaping CommandExecutorCompletion) {
-        let thread = Thread.init { [unowned self] in
+    func execute(tag: String, completion: @escaping CommandExecutorCompletion) {
+        self.proccessThread = Thread.init {
             self.process = Process.init()
             self.process.qualityOfService = QualityOfService.userInitiated
             self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
@@ -86,23 +87,30 @@ class CommandExecutor {
             }
             self.setupFileHandlers()
             self.waitForData()
+            
             self.process.launch()
             self.process.waitUntilExit()
 
             self.logFileHandle?.closeFile()
             let output = try? String.init(contentsOfFile: self.logFilePath ?? "")
             completion(Int.init(self.process.terminationStatus), output)
+            
+            self.clear()
         }
-        thread.start()
+        self.proccessThread.name = tag
+        self.proccessThread.start()
     }
     
-    fileprivate func removeObserver() {
+    fileprivate func clear() {
         NotificationCenter.default.removeObserver(self.dataAvailableObserver)
+        self.process = nil
+        self.proccessThread = nil
     }
     
     func stop() {
-        self.removeObserver()
+        self.proccessThread?.cancel()
         self.process?.interrupt()
+        self.clear()
     }
     
     func buildCommandString() -> String {

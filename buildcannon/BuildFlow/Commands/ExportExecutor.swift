@@ -68,7 +68,7 @@ class ExportExecutor: ExecutorProtocol {
     }
     
     fileprivate func dispatchFinish(_ returnCode: Int) {
-        DispatchQueue.main.async { [weak self] in
+        Application.execute { [weak self] in
             if returnCode == 0 {
                 self?.delegate?.exportExecutorDidFinishWithSuccess()
             } else {
@@ -80,7 +80,7 @@ class ExportExecutor: ExecutorProtocol {
     func execute() {
         Console.log(message: "Executing export IPA with command: \(self.commandExecutor.buildCommandString())")
         self.createExportOptionsFile()
-        self.commandExecutor.execute { [weak self] (returnCode, _) in
+        self.commandExecutor.execute(tag: "ExportExecutor") { [weak self] (returnCode, _) in
             self?.dispatchFinish(returnCode)
         }
     }
