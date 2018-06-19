@@ -22,7 +22,7 @@ class CannonDistribute: ExecutorProtocol {
         if let file = fileLoader.load() {
             fileLoader.assign(file: file)
             if let preBuild = file.pre_build_commands {
-                // TODO: do prebuild commands
+                self.startPreBuildCommandExecutor(preBuild)
             } else {
                 self.executeArchive()
             }
@@ -34,6 +34,15 @@ class CannonDistribute: ExecutorProtocol {
     
     func cancel() {
         self.currentExecutor.cancel()
+    }
+    
+    fileprivate func startPreBuildCommandExecutor(_ preBuild: [String]) {
+        Console.log(message: "Starting pre-build commands...")
+        
+        let executor = CannonPreBuild.init(preBuildCommands: preBuild)
+        executor.delegate = self
+        executor.execute()
+        self.currentExecutor = executor
     }
     
     fileprivate func executeArchive() {
@@ -113,6 +122,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         case is ArchiveExecutor: self.archiveDidFinishWithSuccess()
         case is ExportExecutor: self.exportExecutorDidFinishWithSuccess()
         case is UploadExecutor: self.uploadExecutorDidFinishWithSuccess()
+        case is CannonPreBuild: self.preBuildCommandExecutorDidFinishWithSuccess()
         default: break
         }
     }
@@ -122,6 +132,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         case is ArchiveExecutor: self.archiveDidFailWithStatusCode(code)
         case is ExportExecutor: self.exportExecutorDidFinishWithFailCode(code)
         case is UploadExecutor: self.uploadExecutorDidFailWithErrorCode(code)
+        case is CannonPreBuild: self.preBuildCommandExecutorDidFailWithErrorCode(code)
         default: break
         }
     }
@@ -156,6 +167,16 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Upload failed with status code: \(code)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        application.interrupt()
+    }
+    
+    func preBuildCommandExecutorDidFinishWithSuccess() {
+        Console.log(message: "Pre-build finished with success")
+        self.executeArchive()
+    }
+    
+    func preBuildCommandExecutorDidFailWithErrorCode(_ code: Int) {
+        Console.log(message: "Pre-build failed with status code: \(code)")
         application.interrupt()
     }
 }

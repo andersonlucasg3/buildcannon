@@ -77,6 +77,7 @@ class Application {
             let executor = config.executorType.init()
             executor.delegate = self
             executor.execute()
+            self.currentExecutor = executor
         } else {
             self.menu.draw()
             self.interrupt()
