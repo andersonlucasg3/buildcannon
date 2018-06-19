@@ -50,7 +50,7 @@ class CannonParameter: Parameter {
     static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
-    static let distribute = Parameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies)
+    static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
     static let export = Parameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies)
     static let upload = Parameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies)
 }

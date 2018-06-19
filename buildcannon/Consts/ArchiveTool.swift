@@ -15,6 +15,7 @@ struct ArchiveTool {
     struct Parameters {
         static let workspaceParam = "workspace"
         static let projectParam = "project"
+        static let targetParam = "target"
         static let schemeParam = "scheme"
         static let sdkParam = "sdk"
         static let configurationParam = "configuration"
@@ -24,7 +25,6 @@ struct ArchiveTool {
     
     struct Values {
         static let sdkConfig = "iphoneos"
-        static let configurationConfig = "AppStoreDistribution"
         static let archivePath = baseTempDir + "/app.xcarchive"
         static let archiveLogPath = baseTempDir + "/archive.log"
     }

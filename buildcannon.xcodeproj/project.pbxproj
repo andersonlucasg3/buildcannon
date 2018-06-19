@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA00A20D990540063FCFB /* CannonFileLoader.swift */; };
 		71351EBC20D188C800BE9B60 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EBB20D188C800BE9B60 /* main.swift */; };
 		71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC220D1890400BE9B60 /* ActionMenu.swift */; };
 		71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC520D1892500BE9B60 /* ActionMenuOption.swift */; };
@@ -30,7 +31,7 @@
 		71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Console.swift */; };
 		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
 		71D7563720D816000029DD48 /* Synchronizator.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D7563620D816000029DD48 /* Synchronizator.m */; };
-		71E2800320D95C82009DAA97 /* CannonArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonArchiver.swift */; };
+		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		711BA00A20D990540063FCFB /* CannonFileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileLoader.swift; sourceTree = "<group>"; };
 		71351EB820D188C800BE9B60 /* buildcannon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = buildcannon; sourceTree = BUILT_PRODUCTS_DIR; };
 		71351EBB20D188C800BE9B60 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71351EC220D1890400BE9B60 /* ActionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMenu.swift; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		71D7563420D816000029DD48 /* buildcannon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "buildcannon-Bridging-Header.h"; sourceTree = "<group>"; };
 		71D7563520D816000029DD48 /* Synchronizator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Synchronizator.h; sourceTree = "<group>"; };
 		71D7563620D816000029DD48 /* Synchronizator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Synchronizator.m; sourceTree = "<group>"; };
-		71E2800220D95C82009DAA97 /* CannonArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonArchiver.swift; sourceTree = "<group>"; };
+		71E2800220D95C82009DAA97 /* CannonDistribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonDistribute.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,7 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */,
-				71E2800220D95C82009DAA97 /* CannonArchiver.swift */,
+				711BA00A20D990540063FCFB /* CannonFileLoader.swift */,
+				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -293,10 +296,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
-				71E2800320D95C82009DAA97 /* CannonArchiver.swift in Sources */,
+				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
+				711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */,
 				71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */,
 				71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */,
 				71F0016220D5683200407CA1 /* Trap.swift in Sources */,

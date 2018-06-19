@@ -23,6 +23,8 @@ class Parameter {
     
     static let projectFile = Parameter.init(name: "project-file", type: DoubleDashComplexParameter.self)
     static let scheme = Parameter.init(name: "scheme", type: DoubleDashComplexParameter.self)
+    static let target = Parameter.init(name: "target", type: DoubleDashComplexParameter.self)
+    static let configuration = Parameter.init(name: "configuration", type: DoubleDashComplexParameter.self)
     static let provisioningProfile = Parameter.init(name: "provisioning-profile", type: DoubleDashComplexParameter.self)
     static let teamId = Parameter.init(name: "team-id", type: DoubleDashComplexParameter.self)
     static let bundleIdentifier = Parameter.init(name: "bundle-identifier", type: DoubleDashComplexParameter.self)

@@ -40,6 +40,8 @@ struct CannonFile: Codable {
     var build_configuration: String = "Release"
     var target: String?
     
+    var pre_build_commands: [String]? = nil
+    
     static func from(info: UserProjectInfo) -> CannonFile {
         let file = CannonFile.init(scheme: info.scheme,
                                    team_id: info.teamId,
@@ -48,7 +50,7 @@ struct CannonFile: Codable {
                                    project_file: nil,
                                    appstore_connect_account: info.account,
                                    build_configuration: info.buildConfig,
-                                   target: info.target)
+                                   target: info.target, pre_build_commands: nil)
         return file
     }
 }
@@ -114,15 +116,15 @@ class CannonFileCreator: ExecutorProtocol {
         var provisioningProfile = ""
         Console.log(message: "Creating `default.cannon` file for project \(info.projectName)")
         Console.log(message: "Schemes: \n\(info.schemes.joined(separator: "\n"))")
-        Console.readInput(message: "Which scheme would you like to use by default? [\(scheme)]") { (line) in
+        Console.readInput(message: "Which scheme would you like to use by default? [\(scheme)]: ") { (line) in
             scheme = line ?? info.schemes.first ?? ""
         }
         Console.log(message: "Targets: \n\(info.targets.joined(separator: "\n"))")
-        Console.readInput(message: "Which target would you like to use by default? [\(target ?? "")]") { (line) in
+        Console.readInput(message: "Which target would you like to use by default? [\(target ?? "")]: ") { (line) in
             target = line ?? info.targets.first
         }
         Console.log(message: "Build Configurations: \n\(info.buildConfigs.joined(separator: "\n"))")
-        Console.readInput(message: "Which build configurations would you like to use by default? [\(buildConfig)]") { (line) in
+        Console.readInput(message: "Which build configurations would you like to use by default? [\(buildConfig)]: ") { (line) in
             buildConfig = line ?? buildConfig
         }
         Console.readInput(message: "Please inform your AppStore Connect Team Id: ") { (line) in
@@ -215,7 +217,7 @@ struct XcodeListParser {
     }
     
     private func getGrouped(groupName: String, string: String) -> [String] {
-        let regex = try? NSRegularExpression.init(pattern: "\(groupName)(\\s+[A-Za-z-]+)+\\n\\n")
+        let regex = try? NSRegularExpression.init(pattern: "\(groupName)(\\s+[A-Za-z-_]+)+(\\n\\n|$)")
         if let match = regex?.firstMatch(in: string, options: .reportCompletion, range: NSRange.init(location: 0, length: string.count)) {
             let values = extract(from: string, match: match).split(separator: "\n").map({String.init($0)})
             if values.count > 1 {

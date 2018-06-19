@@ -46,7 +46,7 @@ class Application {
             self.setupConfigurations {
                 guard !self.checker.checkHelp() else {
                     self.menu.draw()
-                    application.interrupt()
+                    self.interrupt()
                     return
                 }
                 
@@ -78,6 +78,7 @@ class Application {
             executor.delegate = self
             executor.execute()
         } else {
+            self.menu.draw()
             self.interrupt()
         }
     }
@@ -89,8 +90,11 @@ class Application {
     fileprivate func createMenu() -> ActionMenu {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
+            ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameter.configuration.name) \"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameter.target.name) \"[target name]\"", detail: "Provide a target to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.teamId.name) [12TEAM43ID]", detail: "Provide a Team ID to publish on.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.bundleIdentifier.name) [com.yourcompany.app]", detail: "Provide a bundle identifier to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.provisioningProfile.name) \"[your provisioning profile name]\"", detail: "Provide a provisioning profile name to build.", action: {}),

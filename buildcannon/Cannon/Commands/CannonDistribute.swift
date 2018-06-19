@@ -1,5 +1,5 @@
 //
-//  CannonArchiver.swift
+//  CannonDistribute.swift
 //  buildcannon
 //
 //  Created by Anderson Lucas C. Ramos on 19/06/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CannonArchiver: ExecutorProtocol {
+class CannonDistribute: ExecutorProtocol {
     fileprivate var currentExecutor: ExecutorProtocol!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -18,7 +18,18 @@ class CannonArchiver: ExecutorProtocol {
     }
     
     func execute() {
-        self.executeArchive()
+        let fileLoader = CannonFileLoader.init()
+        if let file = fileLoader.load() {
+            fileLoader.assign(file: file)
+            if let preBuild = file.pre_build_commands {
+                // TODO: do prebuild commands
+            } else {
+                self.executeArchive()
+            }
+        } else {
+            Console.log(message: "Cannon project file not exists.")
+            self.delegate?.executor(self, didFailWithErrorCode: -1)
+        }
     }
     
     func cancel() {
@@ -28,8 +39,10 @@ class CannonArchiver: ExecutorProtocol {
     fileprivate func executeArchive() {
         Console.log(message: "Starting archive at path: \(baseTempDir)")
         
-        let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name)!,
-                                                   scheme: self.findValue(for: Parameter.scheme.name)!)
+        let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name),
+                                                   target: self.findValue(for: Parameter.target.name),
+                                                   scheme: self.findValue(for: Parameter.scheme.name)!,
+                                                   configuration: self.findValue(for: Parameter.configuration.name)!)
         archiveExecutor.delegate = self
         archiveExecutor.execute()
         self.currentExecutor = archiveExecutor
@@ -94,7 +107,7 @@ class CannonArchiver: ExecutorProtocol {
     }
 }
 
-extension CannonArchiver: ExecutorCompletionProtocol {
+extension CannonDistribute: ExecutorCompletionProtocol {
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         switch executor {
         case is ArchiveExecutor: self.archiveDidFinishWithSuccess()
