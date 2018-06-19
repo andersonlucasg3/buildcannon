@@ -83,7 +83,6 @@ class CannonFileCreator: ExecutorProtocol {
         self.currentExecutor.add(parameter: SingleDashParameter.init(parameter: "showBuildSettings"))
         self.currentExecutor.add(parameter: SingleDashComplexParameter.init(parameter: "target", composition: targetName))
         self.currentExecutor.add(parameter: NoDashParameter.init(parameter: "| grep PRODUCT_BUNDLE_IDENTIFIER"))
-        self.currentExecutor.add(parameter: NoDashParameter.init(parameter: "| awk -F ' = ' '{print $2}'"))
         #if DEBUG
         Console.log(message: "Executing command: \(self.currentExecutor.buildCommandString())")
         #endif
@@ -95,8 +94,13 @@ class CannonFileCreator: ExecutorProtocol {
                 return
             }
             
-            Application.execute {
-                completion(String.init(output?.split(separator: "\n").last ?? ""))
+            let value = output ?? ""
+            let regex = try? NSRegularExpression.init(pattern: "PRODUCT_BUNDLE_IDENTIFIER = ([a-zA-Z0-9.]+)")
+            if let match = regex?.firstMatch(in: value, options: .reportCompletion, range: NSRange.init(location: 0, length: value.count)) {
+                Application.execute {
+                    let bundle = extract(from: value, match: match).replacingOccurrences(of: "PRODUCT_BUNDLE_IDENTIFIER = ", with: "")
+                    completion(bundle)
+                }
             }
         }
     }
@@ -179,6 +183,12 @@ class CannonFileCreator: ExecutorProtocol {
     }
 }
 
+private func extract(from string: String, match: NSTextCheckingResult) -> String {
+    let start = String.UTF8Index.init(encodedOffset: match.range.location)
+    let end = String.UTF8Index.init(encodedOffset: match.range.location + match.range.length)
+    return String.init(string[start..<end])
+}
+
 struct XcodeListParser {
     private let content: String
     init(content: String) {
@@ -188,7 +198,7 @@ struct XcodeListParser {
     func parse() -> ProjectInfo {
         let lines = self.content.split(separator: "\n")
         guard lines.count > 0 else { return ("", [], [], []) }
-        let projectName = self.getProjectName(firstLine: String(lines.first ?? ""))
+        let projectName = self.getProjectName(firstLine: String(lines.first ?? "")).replacingOccurrences(of: "\"", with: "")
         let targets = self.getGrouped(groupName: "Targets:", string: self.content)
         let buildConfigurations = self.getGrouped(groupName: "Build Configurations:", string: self.content)
         let schemes = self.getGrouped(groupName: "Schemes:", string: self.content)
@@ -196,16 +206,10 @@ struct XcodeListParser {
         return (projectName, targets, buildConfigurations, schemes)
     }
     
-    private func extract(from string: String, match: NSTextCheckingResult) -> String {
-        let start = String.UTF8Index.init(encodedOffset: match.range.location + 1)
-        let end = String.UTF8Index.init(encodedOffset: match.range.location + match.range.length - 1)
-        return String.init(string[start..<end])
-    }
-    
     private func getProjectName(firstLine: String) -> String {
         let regex = try? NSRegularExpression.init(pattern: "\\\"([A-Za-z-\\s]+)\\\"")
         if let match = regex?.firstMatch(in: firstLine, options: .reportCompletion, range: NSRange.init(location: 0, length: firstLine.count)) {
-            return self.extract(from: firstLine, match: match)
+            return extract(from: firstLine, match: match)
         }
         return ""
     }
@@ -213,7 +217,7 @@ struct XcodeListParser {
     private func getGrouped(groupName: String, string: String) -> [String] {
         let regex = try? NSRegularExpression.init(pattern: "\(groupName)(\\s+[A-Za-z-]+)+\\n\\n")
         if let match = regex?.firstMatch(in: string, options: .reportCompletion, range: NSRange.init(location: 0, length: string.count)) {
-            let values = self.extract(from: string, match: match).split(separator: "\n").map({String.init($0)})
+            let values = extract(from: string, match: match).split(separator: "\n").map({String.init($0)})
             if values.count > 1 {
                 return Array.init(values.suffix(from: 1)).map({$0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)})
             }
