@@ -1,5 +1,5 @@
 //
-//  CannonParameters.swift
+//  CannonParameter.swift
 //  buildcannon
 //
 //  Created by Anderson Lucas de Castro Ramos on 19/06/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CannonParameters {
+class CannonParameter: Parameter {
     fileprivate static let buildDependencies = [
         Parameter.scheme
     ]
@@ -28,7 +28,26 @@ struct CannonParameters {
         Parameter.ipaPath
     ]
     
-    static let create = Parameter.init(name: "create", type: NoDashParameter.self)
+    fileprivate(set) var executorType: ExecutorProtocol.Type!
+    
+    init(name: String, type: CommandParameter.Type, dependency: [Parameter]?, executor: ExecutorProtocol.Type) {
+        super.init(name: name, type: type, dependency: dependency)
+        self.executorType = executor
+    }
+    
+    static func get(command: CommandParameter) -> Parameter? {
+        switch command.parameter {
+        case self.create.name: return self.create
+        case self.build.name: return self.build
+        case self.test.name: return self.test
+        case self.distribute.name: return self.distribute
+        case self.export.name: return self.export
+        case self.upload.name: return self.upload
+        default: return nil
+        }
+    }
+    
+    static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = Parameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies)

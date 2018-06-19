@@ -14,14 +14,14 @@ class Application {
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
     
-    fileprivate var isAlive = true
+    static var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
     
-    fileprivate var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
+    fileprivate var isAlive = true
     
     fileprivate var menu: ActionMenu!
     fileprivate var currentExecutor: ExecutorProtocol!
     
-    fileprivate lazy var checker = ParametersChecker.init(parameters: self.processParameters)
+    fileprivate lazy var checker = ParametersChecker.init(parameters: Application.processParameters)
     
     init() {
         self.menu = self.createMenu()
@@ -44,11 +44,11 @@ class Application {
             #endif
             self.createDirectories()
             self.setupConfigurations {
-//                guard !self.checker.checkHelp() && self.checker.checkParameters(for: <#T##Parameter#>) else {
-//                    self.menu.draw()
-//                    application.interrupt()
-//                    return
-//                }
+                guard !self.checker.checkHelp() else {
+                    self.menu.draw()
+                    application.interrupt()
+                    return
+                }
                 
                 self.startInitialProcess()
             }
@@ -70,7 +70,16 @@ class Application {
     }
     
     fileprivate func startInitialProcess() {
-        
+        #if DEBUG
+        Console.log(message: "\(Application.processParameters)")
+        #endif
+        if let parameter = Application.processParameters.first, let config = CannonParameter.get(command: parameter) as? CannonParameter {
+            let executor = config.executorType.init()
+            executor.delegate = self
+            executor.execute()
+        } else {
+            self.interrupt()
+        }
     }
     
     fileprivate func logDebugThings() {
@@ -95,74 +104,6 @@ class Application {
         return ActionMenu.init(description: "Usage: ", options: options)
     }
     
-    fileprivate func findValue<T : CommandParameter>(for key: String) -> T? {
-        return self.processParameters.first(where: {$0.parameter == key}) as? T
-    }
-    
-    fileprivate func queryAccountIfNeeded() {
-        let userName: DoubleDashComplexParameter? = self.findValue(for: Parameter.username.name)
-        let password: DoubleDashComplexParameter? = self.findValue(for: Parameter.password.name)
-        if userName == nil {
-            Console.readInput(message: "Enter your AppStore Connect account: ", readCallback: { [unowned self] (value) in
-                if let value = value {
-                    self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameter.username.name, composition: value))
-                } else {
-                    Console.log(message: "AppStore Connect account not informed, exiting...")
-                    application.interrupt()
-                }
-            })
-        }
-        if password == nil {
-            Console.readInputSecure(message: "Enter your AppStore Connect account password: ", readCallback: { (value) in
-                if let value = value {
-                    self.processParameters.append(DoubleDashComplexParameter.init(parameter: Parameter.password.name, composition: value))
-                } else {
-                    Console.log(message: "AppStore Connect account password not informed, exiting...")
-                    application.interrupt()
-                }
-            })
-        }
-    }
-    
-    fileprivate func executeArchive() {
-        Console.log(message: "Starting archive at path: \(baseTempDir)")
-        
-        let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name)!,
-                                                    scheme: self.findValue(for: Parameter.scheme.name)!)
-        archiveExecutor.delegate = self
-        archiveExecutor.execute()
-        self.currentExecutor = archiveExecutor
-    }
-    
-    fileprivate func executeExport() {
-        Console.log(message: "Starting export at path: \(baseTempDir)")
-        
-        let exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: Parameter.archivePath.name),
-                                                  teamId: self.findValue(for: Parameter.teamId.name)!,
-                                                  bundleIdentifier: self.findValue(for: Parameter.bundleIdentifier.name)!,
-                                                  provisioningProfileName: self.findValue(for: Parameter.provisioningProfile.name)!)
-        exportExecutor.delegate = self
-        exportExecutor.execute()
-        self.currentExecutor = exportExecutor
-    }
-    
-    fileprivate func executeUpload() {
-        Console.log(message: "Starting upload of IPA at path: \(ExportTool.Values.exportPath)")
-        
-        self.queryAccountIfNeeded()
-        
-        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: Parameter.ipaPath.name)
-        let scheme: DoubleDashComplexParameter = self.findValue(for: Parameter.scheme.name)!
-        let ipaPath: String = ipaPathParameter?.composition ?? baseTempDir + "/\(scheme.composition).ipa"
-        
-        let uploadExecutor = UploadExecutor.init(ipaPath: ipaPath,
-                                                  userName: self.findValue(for: Parameter.username.name)!,
-                                                  password: self.findValue(for: Parameter.password.name)!)
-        uploadExecutor.delegate = self
-        uploadExecutor.execute()
-        self.currentExecutor = uploadExecutor
-    }
-    
     fileprivate func setupConfigurations(completion: @escaping os_block_t) {
         self.checker.checkXcprettyInstalled { (exists) in
             Application.isXcprettyInstalled = exists
@@ -183,41 +124,15 @@ class Application {
     }
 }
 
-extension Application: ArchiveExecutorProtocol {
-    func archiveDidFinishWithSuccess() {
-        Console.log(message: "Archive finished with success")
-        self.executeExport()
-    }
-    
-    func archiveDidFailWithStatusCode(_ code: Int) {
-        Console.log(message: "Archive failed with status code: \(code)")
-        Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
-        application.interrupt()
-    }
-}
-
-extension Application: ExportExecutorProtocol {
-    func exportExecutorDidFinishWithSuccess() {
-        Console.log(message: "Export finished with success")
-        self.executeUpload()
-    }
-    
-    func exportExecutorDidFinishWithFailCode(_ code: Int) {
-        Console.log(message: "Export failed with status code: \(code)")
-        Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
-        application.interrupt()
-    }
-}
-
-extension Application: UploadExecutorProtocol {
-    func uploadExecutorDidFinishWithSuccess() {
-        Console.log(message: "Upload finished with success")
+extension Application: ExecutorCompletionProtocol {
+    func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
+        Console.log(message: "buildcannon finished with success")
         application.interrupt()
     }
     
-    func uploadExecutorDidFailWithErrorCode(_ code: Int) {
-        Console.log(message: "Upload failed with status code: \(code)")
-        Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+    func executor(_ executor: ExecutorProtocol, didFailWithErrorCode code: Int) {
+        Console.log(message: "buildcannon failed with status code: \(code)")
+        Console.log(message: "See logs at: \(baseTempDir)")
         application.interrupt()
     }
 }

@@ -8,18 +8,19 @@
 
 import Foundation
 
-protocol ArchiveExecutorProtocol: class {
-    func archiveDidFinishWithSuccess()
-    func archiveDidFailWithStatusCode(_ code: Int)
-}
-
 class ArchiveExecutor: ExecutorProtocol {
     fileprivate var commandExecutor: CommandExecutor!
     
-    weak var delegate: ArchiveExecutorProtocol?
+    weak var delegate: ExecutorCompletionProtocol?
     
-    init(project: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter) {
-        self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
+    required init() {
+        
+    }
+    
+    convenience init(project: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter) {
+        self.init()
+        
+        self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
         if let project = project {
             self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
         }
@@ -41,10 +42,10 @@ class ArchiveExecutor: ExecutorProtocol {
     
     fileprivate func dispatchFinish(_ returnCode: Int) {
         Application.execute { [weak self] in
-            if returnCode != 0 {
-                self?.delegate?.archiveDidFailWithStatusCode(returnCode)
+            if returnCode == 0 {
+                self?.delegate?.executorDidFinishWithSuccess(self!)
             } else {
-                self?.delegate?.archiveDidFinishWithSuccess()
+                self?.delegate?.executor(self!, didFailWithErrorCode: returnCode)
             }
         }
     }

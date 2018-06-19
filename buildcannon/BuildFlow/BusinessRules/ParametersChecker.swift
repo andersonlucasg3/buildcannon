@@ -15,24 +15,6 @@ class ParametersChecker {
         self.parameters = parameters
     }
     
-    func checkParameters(for command: Parameter) -> Bool {
-        var containsAllRequired = true
-        
-        func run(_ parameters: [Parameter]) {
-            parameters.forEach { (item) in
-                containsAllRequired = containsAllRequired && self.parameters.contains(where: {
-                    $0.parameter == item.name && type(of: $0) == item.type
-                })
-            }
-        }
-        
-        if let dependency = command.dependency {
-            run(dependency)
-        }
-        
-        return containsAllRequired
-    }
-    
     func checkHelp() -> Bool {
         return self.parameters.contains(where: {$0.parameter == Parameter.help.name})
     }

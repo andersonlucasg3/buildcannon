@@ -13,14 +13,18 @@ extension Array where Element == CommandParameter {
         let current = ProcessInfo.processInfo
         
         var parameters = Array<CommandParameter>()
+        var skip = false
         for arg in current.arguments.enumerated() {
+            if skip { skip = false; continue }
             if arg.offset + 1 == current.arguments.count { break }
             if self.checkDoubleDash(current.arguments, arg.offset + 1, &parameters) {
+                skip = parameters.last is DoubleDashComplexParameter
                 continue
             } else {
                 if self.checkSingleDash(current.arguments, arg.offset + 1, &parameters) {
+                    skip = parameters.last is SingleDashComplexParameter
                     continue
-                } else {
+                } else if self.checkNoDash(current.arguments, arg.offset + 1, &parameters) {
                     continue
                 }
             }
@@ -62,5 +66,13 @@ extension Array where Element == CommandParameter {
             output.append(DoubleDashParameter.init(parameter: arguments[index]))
         }
         return true
+    }
+    
+    fileprivate static func checkNoDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
+        if !arguments[index].hasPrefix("--") && !arguments[index].hasPrefix("-") {
+            output.append(NoDashParameter.init(parameter: arguments[index]))
+            return true
+        }
+        return false
     }
 }

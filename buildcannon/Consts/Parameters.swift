@@ -10,7 +10,7 @@ import Foundation
 
 let baseTempDir = NSTemporaryDirectory() + UUID.init().uuidString
 
-struct Parameter {
+class Parameter {
     let name: String
     let type: CommandParameter.Type
     let dependency: [Parameter]?

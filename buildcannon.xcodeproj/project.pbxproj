@@ -15,8 +15,8 @@
 		71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */; };
 		71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */; };
 		71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
-		713BB4DE20D8B3EA0047079F /* Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4DD20D8B3EA0047079F /* Create.swift */; };
-		713BB4E120D8B4370047079F /* CannonParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4E020D8B4370047079F /* CannonParameters.swift */; };
+		713BB4DE20D8B3EA0047079F /* CannonFileCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */; };
+		713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4E020D8B4370047079F /* CannonParameter.swift */; };
 		71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
 		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
@@ -30,6 +30,7 @@
 		71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Console.swift */; };
 		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
 		71D7563720D816000029DD48 /* Synchronizator.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D7563620D816000029DD48 /* Synchronizator.m */; };
+		71E2800320D95C82009DAA97 /* CannonArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonArchiver.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +56,8 @@
 		71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandExecutor.swift; sourceTree = "<group>"; };
 		71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleDashParameter.swift; sourceTree = "<group>"; };
 		71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDashParameter.swift; sourceTree = "<group>"; };
-		713BB4DD20D8B3EA0047079F /* Create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Create.swift; sourceTree = "<group>"; };
-		713BB4E020D8B4370047079F /* CannonParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonParameters.swift; sourceTree = "<group>"; };
+		713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileCreator.swift; sourceTree = "<group>"; };
+		713BB4E020D8B4370047079F /* CannonParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonParameter.swift; sourceTree = "<group>"; };
 		71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ParameterCollection.swift"; sourceTree = "<group>"; };
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
@@ -72,6 +73,7 @@
 		71D7563420D816000029DD48 /* buildcannon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "buildcannon-Bridging-Header.h"; sourceTree = "<group>"; };
 		71D7563520D816000029DD48 /* Synchronizator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Synchronizator.h; sourceTree = "<group>"; };
 		71D7563620D816000029DD48 /* Synchronizator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Synchronizator.m; sourceTree = "<group>"; };
+		71E2800220D95C82009DAA97 /* CannonArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonArchiver.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,7 +173,8 @@
 		713BB4DC20D8B3DD0047079F /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				713BB4DD20D8B3EA0047079F /* Create.swift */,
+				713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */,
+				71E2800220D95C82009DAA97 /* CannonArchiver.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -179,7 +182,7 @@
 		713BB4DF20D8B4210047079F /* Consts */ = {
 			isa = PBXGroup;
 			children = (
-				713BB4E020D8B4370047079F /* CannonParameters.swift */,
+				713BB4E020D8B4370047079F /* CannonParameter.swift */,
 			);
 			path = Consts;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
+				71E2800320D95C82009DAA97 /* CannonArchiver.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
@@ -299,11 +303,11 @@
 				71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */,
 				71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */,
 				71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */,
-				713BB4DE20D8B3EA0047079F /* Create.swift in Sources */,
+				713BB4DE20D8B3EA0047079F /* CannonFileCreator.swift in Sources */,
 				71351ECB20D18B9800BE9B60 /* ParametersChecker.swift in Sources */,
 				71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */,
 				71D7563720D816000029DD48 /* Synchronizator.m in Sources */,
-				713BB4E120D8B4370047079F /* CannonParameters.swift in Sources */,
+				713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */,
 				71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */,

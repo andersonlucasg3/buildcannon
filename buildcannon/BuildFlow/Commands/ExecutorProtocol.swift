@@ -8,7 +8,16 @@
 
 import Foundation
 
+protocol ExecutorCompletionProtocol: class {
+    func executorDidFinishWithSuccess(_ executor: ExecutorProtocol)
+    func executor(_ executor: ExecutorProtocol, didFailWithErrorCode code: Int)
+}
+
 protocol ExecutorProtocol: class {
+    var delegate: ExecutorCompletionProtocol? { get set }
+    
     func execute()
     func cancel()
+    
+    init()
 }

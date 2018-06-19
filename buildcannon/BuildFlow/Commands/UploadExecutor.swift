@@ -8,17 +8,17 @@
 
 import Foundation
 
-protocol UploadExecutorProtocol: class {
-    func uploadExecutorDidFinishWithSuccess()
-    func uploadExecutorDidFailWithErrorCode(_ code: Int)
-}
-
 class UploadExecutor: ExecutorProtocol {
     fileprivate var commandExecutor: CommandExecutor!
     
-    weak var delegate: UploadExecutorProtocol?
+    weak var delegate: ExecutorCompletionProtocol?
     
-    init(ipaPath: String, userName: DoubleDashComplexParameter, password: DoubleDashComplexParameter) {
+    required init() {
+        
+    }
+    
+    convenience init(ipaPath: String, userName: DoubleDashComplexParameter, password: DoubleDashComplexParameter) {
+        self.init()
         self.commandExecutor = CommandExecutor.init(path: UploadTool.toolPath, application: UploadTool.toolName, logFilePath: UploadTool.Values.uploadLogPath)
         self.commandExecutor.logExecution = Application.isVerbose
         self.commandExecutor.add(parameter: DoubleDashParameter.init(parameter: UploadTool.Parameters.uploadApp))
@@ -30,9 +30,9 @@ class UploadExecutor: ExecutorProtocol {
     fileprivate func dispatchFinished(_ returnCode: Int) {
         Application.execute { [weak self] in
             if returnCode == 0 {
-                self?.delegate?.uploadExecutorDidFinishWithSuccess()
+                self?.delegate?.executorDidFinishWithSuccess(self!)
             } else {
-                self?.delegate?.uploadExecutorDidFailWithErrorCode(returnCode)
+                self?.delegate?.executor(self!, didFailWithErrorCode: returnCode)
             }
         }
     }
