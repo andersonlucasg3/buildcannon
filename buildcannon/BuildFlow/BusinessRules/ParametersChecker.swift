@@ -8,17 +8,17 @@
 
 import Foundation
 
-class CommandParametersChecker {
+class ParametersChecker {
     fileprivate let parameters: [CommandParameter]
     
     init(parameters: [CommandParameter]) {
         self.parameters = parameters
     }
     
-    func checkParameters() -> Bool {
+    func checkParameters(for command: Parameter) -> Bool {
         var containsAllRequired = true
         
-        func run(_ parameters: [Parameters.ParameterTouple]) {
+        func run(_ parameters: [Parameter]) {
             parameters.forEach { (item) in
                 containsAllRequired = containsAllRequired && self.parameters.contains(where: {
                     $0.parameter == item.name && type(of: $0) == item.type
@@ -26,30 +26,19 @@ class CommandParametersChecker {
             }
         }
         
-        if Application.isExportOnly {
-            run(Parameters.exportOnlyRequiredParameters)
-        } else if Application.isUploadOnly {
-            run(Parameters.uploadOnlyRequiredParameters)
-        } else {
-            run(Parameters.fullProcessRequiredParameters)
+        if let dependency = command.dependency {
+            run(dependency)
         }
+        
         return containsAllRequired
     }
     
     func checkHelp() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameters.help.name})
+        return self.parameters.contains(where: {$0.parameter == Parameter.help.name})
     }
     
     func checkVerbose() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameters.verbose.name})
-    }
-    
-    func checkExportOnly() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameters.exportOnly.name})
-    }
-    
-    func checkUploadOnly() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameters.uploadOnly.name})
+        return self.parameters.contains(where: {$0.parameter == Parameter.verbose.name})
     }
     
     func checkXcprettyInstalled(completion: @escaping (Bool) -> Void) {

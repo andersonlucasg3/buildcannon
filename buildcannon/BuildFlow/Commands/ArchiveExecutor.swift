@@ -18,9 +18,11 @@ class ArchiveExecutor: ExecutorProtocol {
     
     weak var delegate: ArchiveExecutorProtocol?
     
-    init(project: DoubleDashComplexParameter, scheme: DoubleDashComplexParameter) {
+    init(project: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter) {
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
+        if let project = project {
+            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
+        }
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: ArchiveTool.Values.sdkConfig))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: ArchiveTool.Values.configurationConfig))
