@@ -76,29 +76,37 @@ class CommandExecutor {
     }
     
     func execute(tag: String, completion: @escaping CommandExecutorCompletion) {
-        self.proccessThread = Thread.init {
-            self.process = Process.init()
-            self.process.qualityOfService = QualityOfService.userInitiated
-            self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
-            if #available(OSX 10.13, *) {
-                self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
-            } else {
-                self.process.launchPath = "/bin/sh"
+        if #available(macOS 10.12, *) {
+            self.proccessThread = Thread.init {
+                self.threadRun(completion: completion)
             }
-            self.setupFileHandlers()
-            self.waitForData()
-            
-            self.process.launch()
-            self.process.waitUntilExit()
-
-            self.logFileHandle?.closeFile()
-            let output = try? String.init(contentsOfFile: self.logFilePath ?? "")
-            completion(Int.init(self.process.terminationStatus), output)
-            
-            self.clear()
+        } else {
+            self.proccessThread = Thread.init(target: self, selector: #selector(self.threadRun(completion:)), object: completion)
         }
         self.proccessThread.name = tag
         self.proccessThread.start()
+    }
+    
+    @objc fileprivate func threadRun(completion: CommandExecutorCompletion) {
+        self.process = Process.init()
+        self.process.qualityOfService = QualityOfService.userInitiated
+        self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
+        if #available(OSX 10.13, *) {
+            self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
+        } else {
+            self.process.launchPath = "/bin/sh"
+        }
+        self.setupFileHandlers()
+        self.waitForData()
+        
+        self.process.launch()
+        self.process.waitUntilExit()
+        
+        self.logFileHandle?.closeFile()
+        let output = try? String.init(contentsOfFile: self.logFilePath ?? "")
+        completion(Int.init(self.process.terminationStatus), output)
+        
+        self.clear()
     }
     
     fileprivate func clear() {
