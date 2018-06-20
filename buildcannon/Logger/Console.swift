@@ -19,9 +19,12 @@ class Console {
     class func readInput(message: String, readCallback: ((_ value: String?) -> Void)) {
         self.log(message: message, terminator: "")
         let line = readLine()
-        let outputMessage = line ?? "not informed"
-        self.fileOutputStream?.write(outputMessage, maxLength: outputMessage.count)
-        readCallback(line)
+        if let outputMessage = (line ?? "").isEmpty ? nil : line {
+            self.fileOutputStream?.write(outputMessage, maxLength: outputMessage.count)
+            readCallback(outputMessage)
+        } else {
+            readCallback(nil)
+        }
     }
     
     class func readInputSecure(message: String, readCallback: ((_ value: String?) -> Void)) {

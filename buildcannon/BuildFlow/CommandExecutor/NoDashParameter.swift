@@ -17,3 +17,16 @@ class NoDashParameter: SingleDashParameter {
         return self.parameter
     }
 }
+
+class NoDashComplexParameter: NoDashParameter {
+    fileprivate let composition: String
+    
+    init(parameter: String, composition: String) {
+        self.composition = composition
+        super.init(parameter: parameter)
+    }
+    
+    override func buildParameter() -> String {
+        return "\(self.parameter) \(self.composition)"
+    }
+}

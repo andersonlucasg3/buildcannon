@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA00A20D990540063FCFB /* CannonFileLoader.swift */; };
 		71351EBC20D188C800BE9B60 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EBB20D188C800BE9B60 /* main.swift */; };
 		71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC220D1890400BE9B60 /* ActionMenu.swift */; };
 		71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC520D1892500BE9B60 /* ActionMenuOption.swift */; };
-		71351ECB20D18B9800BE9B60 /* CommandParametersChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECA20D18B9800BE9B60 /* CommandParametersChecker.swift */; };
-		71351ECE20D18C9200BE9B60 /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECD20D18C9200BE9B60 /* Consts.swift */; };
+		71351ECB20D18B9800BE9B60 /* ParametersChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECA20D18B9800BE9B60 /* ParametersChecker.swift */; };
+		71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECD20D18C9200BE9B60 /* Parameters.swift */; };
 		71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */; };
 		71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */; };
 		71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
+		713BB4DE20D8B3EA0047079F /* CannonFileCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */; };
+		713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4E020D8B4370047079F /* CannonParameter.swift */; };
 		71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
 		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
@@ -27,7 +30,9 @@
 		71C3C2F320D44B0300552A3F /* UploadExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2F220D44B0300552A3F /* UploadExecutor.swift */; };
 		71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Console.swift */; };
 		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
+		71D0F51920D9AE9B001CBF8F /* CannonPreBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */; };
 		71D7563720D816000029DD48 /* Synchronizator.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D7563620D816000029DD48 /* Synchronizator.m */; };
+		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,15 +49,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		711BA00A20D990540063FCFB /* CannonFileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileLoader.swift; sourceTree = "<group>"; };
 		71351EB820D188C800BE9B60 /* buildcannon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = buildcannon; sourceTree = BUILT_PRODUCTS_DIR; };
 		71351EBB20D188C800BE9B60 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71351EC220D1890400BE9B60 /* ActionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMenu.swift; sourceTree = "<group>"; };
 		71351EC520D1892500BE9B60 /* ActionMenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMenuOption.swift; sourceTree = "<group>"; };
-		71351ECA20D18B9800BE9B60 /* CommandParametersChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParametersChecker.swift; sourceTree = "<group>"; };
-		71351ECD20D18C9200BE9B60 /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
+		71351ECA20D18B9800BE9B60 /* ParametersChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersChecker.swift; sourceTree = "<group>"; };
+		71351ECD20D18C9200BE9B60 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandExecutor.swift; sourceTree = "<group>"; };
 		71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleDashParameter.swift; sourceTree = "<group>"; };
 		71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDashParameter.swift; sourceTree = "<group>"; };
+		713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileCreator.swift; sourceTree = "<group>"; };
+		713BB4E020D8B4370047079F /* CannonParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonParameter.swift; sourceTree = "<group>"; };
 		71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ParameterCollection.swift"; sourceTree = "<group>"; };
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
@@ -65,9 +73,11 @@
 		71C3C2F220D44B0300552A3F /* UploadExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadExecutor.swift; sourceTree = "<group>"; };
 		71C669C920D2BA8600F3BED9 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		71C669CE20D2DA9200F3BED9 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonPreBuild.swift; sourceTree = "<group>"; };
 		71D7563420D816000029DD48 /* buildcannon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "buildcannon-Bridging-Header.h"; sourceTree = "<group>"; };
 		71D7563520D816000029DD48 /* Synchronizator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Synchronizator.h; sourceTree = "<group>"; };
 		71D7563620D816000029DD48 /* Synchronizator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Synchronizator.m; sourceTree = "<group>"; };
+		71E2800220D95C82009DAA97 /* CannonDistribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonDistribute.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +111,7 @@
 		71351EBA20D188C800BE9B60 /* buildcannon */ = {
 			isa = PBXGroup;
 			children = (
+				713BB4DB20D8B3D70047079F /* Cannon */,
 				71C669CD20D2DA8900F3BED9 /* Application */,
 				71C669C820D2BA7E00F3BED9 /* Logger */,
 				71A1F1A220D19A5200030D7F /* Extensions */,
@@ -124,9 +135,9 @@
 		71351EC720D18B5300BE9B60 /* BuildFlow */ = {
 			isa = PBXGroup;
 			children = (
+				713BB4E220D8BDAC0047079F /* BusinessRules */,
 				71C3C2E720D4300D00552A3F /* Commands */,
 				71351ED120D18D1500BE9B60 /* CommandExecutor */,
-				71351ECA20D18B9800BE9B60 /* CommandParametersChecker.swift */,
 			);
 			path = BuildFlow;
 			sourceTree = "<group>";
@@ -134,7 +145,7 @@
 		71351ECC20D18C8700BE9B60 /* Consts */ = {
 			isa = PBXGroup;
 			children = (
-				71351ECD20D18C9200BE9B60 /* Consts.swift */,
+				71351ECD20D18C9200BE9B60 /* Parameters.swift */,
 				71C3C2EA20D4314000552A3F /* ArchiveTool.swift */,
 				71C3C2EC20D4314F00552A3F /* ExportTool.swift */,
 				71C3C2EE20D4315C00552A3F /* UploadTool.swift */,
@@ -152,6 +163,42 @@
 				71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */,
 			);
 			path = CommandExecutor;
+			sourceTree = "<group>";
+		};
+		713BB4DB20D8B3D70047079F /* Cannon */ = {
+			isa = PBXGroup;
+			children = (
+				713BB4DF20D8B4210047079F /* Consts */,
+				713BB4DC20D8B3DD0047079F /* Commands */,
+			);
+			path = Cannon;
+			sourceTree = "<group>";
+		};
+		713BB4DC20D8B3DD0047079F /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */,
+				711BA00A20D990540063FCFB /* CannonFileLoader.swift */,
+				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
+				71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */,
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
+		713BB4DF20D8B4210047079F /* Consts */ = {
+			isa = PBXGroup;
+			children = (
+				713BB4E020D8B4370047079F /* CannonParameter.swift */,
+			);
+			path = Consts;
+			sourceTree = "<group>";
+		};
+		713BB4E220D8BDAC0047079F /* BusinessRules */ = {
+			isa = PBXGroup;
+			children = (
+				71351ECA20D18B9800BE9B60 /* ParametersChecker.swift */,
+			);
+			path = BusinessRules;
 			sourceTree = "<group>";
 		};
 		71A1F1A220D19A5200030D7F /* Extensions */ = {
@@ -252,18 +299,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
+				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
-				71351ECE20D18C9200BE9B60 /* Consts.swift in Sources */,
+				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
+				711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */,
 				71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */,
 				71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */,
 				71F0016220D5683200407CA1 /* Trap.swift in Sources */,
 				71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */,
 				71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */,
 				71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */,
-				71351ECB20D18B9800BE9B60 /* CommandParametersChecker.swift in Sources */,
+				713BB4DE20D8B3EA0047079F /* CannonFileCreator.swift in Sources */,
+				71351ECB20D18B9800BE9B60 /* ParametersChecker.swift in Sources */,
+				71D0F51920D9AE9B001CBF8F /* CannonPreBuild.swift in Sources */,
 				71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */,
 				71D7563720D816000029DD48 /* Synchronizator.m in Sources */,
+				713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */,
 				71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */,

@@ -8,22 +8,28 @@
 
 import Foundation
 
-protocol ArchiveExecutorProtocol: class {
-    func archiveDidFinishWithSuccess()
-    func archiveDidFailWithStatusCode(_ code: Int)
-}
-
 class ArchiveExecutor: ExecutorProtocol {
     fileprivate var commandExecutor: CommandExecutor!
     
-    weak var delegate: ArchiveExecutorProtocol?
+    weak var delegate: ExecutorCompletionProtocol?
     
-    init(project: DoubleDashComplexParameter, scheme: DoubleDashComplexParameter) {
-        self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
+    required init() {
+        
+    }
+    
+    convenience init(project: DoubleDashComplexParameter?, target: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter, configuration: DoubleDashComplexParameter) {
+        self.init()
+        
+        self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
+        if let project = project {
+            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
+        }
+        if let target = target {
+            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.targetParam, composition: target.composition))
+        }
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: ArchiveTool.Values.sdkConfig))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: ArchiveTool.Values.configurationConfig))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: configuration.composition))
         self.commandExecutor.add(parameter: NoDashParameter.init(parameter: ArchiveTool.Parameters.archiveParam))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath))
         let xcpretty = !Application.isVerbose && Application.isXcprettyInstalled
@@ -39,10 +45,10 @@ class ArchiveExecutor: ExecutorProtocol {
     
     fileprivate func dispatchFinish(_ returnCode: Int) {
         Application.execute { [weak self] in
-            if returnCode != 0 {
-                self?.delegate?.archiveDidFailWithStatusCode(returnCode)
+            if returnCode == 0 {
+                self?.delegate?.executorDidFinishWithSuccess(self!)
             } else {
-                self?.delegate?.archiveDidFinishWithSuccess()
+                self?.delegate?.executor(self!, didFailWithErrorCode: returnCode)
             }
         }
     }

@@ -8,22 +8,23 @@
 
 import Foundation
 
-protocol ExportExecutorProtocol: class {
-    func exportExecutorDidFinishWithSuccess()
-    func exportExecutorDidFinishWithFailCode(_ code: Int)
-}
-
 class ExportExecutor: ExecutorProtocol {
     fileprivate var commandExecutor: CommandExecutor!
-    fileprivate let teamId: DoubleDashComplexParameter
-    fileprivate let bundleIdentifier: DoubleDashComplexParameter
-    fileprivate let provisioningProfile: DoubleDashComplexParameter
-    fileprivate let includeBitcode: Bool
+    fileprivate var teamId: DoubleDashComplexParameter!
+    fileprivate var bundleIdentifier: DoubleDashComplexParameter!
+    fileprivate var provisioningProfile: DoubleDashComplexParameter!
+    fileprivate var includeBitcode: Bool = false
     
-    weak var delegate: ExportExecutorProtocol?
+    weak var delegate: ExecutorCompletionProtocol?
     
-    init(archivePath: DoubleDashComplexParameter? = nil, teamId: DoubleDashComplexParameter, bundleIdentifier: DoubleDashComplexParameter,
-         provisioningProfileName: DoubleDashComplexParameter, includeBitcode: Bool = false) {
+    required init() {
+    
+    }
+    
+    convenience init(archivePath: DoubleDashComplexParameter? = nil, teamId: DoubleDashComplexParameter, bundleIdentifier: DoubleDashComplexParameter,
+                     provisioningProfileName: DoubleDashComplexParameter, includeBitcode: Bool = false) {
+        self.init()
+        
         self.teamId = teamId
         self.bundleIdentifier = bundleIdentifier
         self.provisioningProfile = provisioningProfileName
@@ -70,9 +71,9 @@ class ExportExecutor: ExecutorProtocol {
     fileprivate func dispatchFinish(_ returnCode: Int) {
         Application.execute { [weak self] in
             if returnCode == 0 {
-                self?.delegate?.exportExecutorDidFinishWithSuccess()
+                self?.delegate?.executorDidFinishWithSuccess(self!)
             } else {
-                self?.delegate?.exportExecutorDidFinishWithFailCode(returnCode)
+                self?.delegate?.executor(self!, didFailWithErrorCode: returnCode)
             }
         }
     }
