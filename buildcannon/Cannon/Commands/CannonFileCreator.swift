@@ -38,7 +38,6 @@ struct CannonFile: Codable {
     var project_file: String?
     var appstore_connect_account: String?
     var build_configuration: String = "Release"
-    var target: String?
     
     var pre_build_commands: [String]? = nil
     
@@ -47,16 +46,16 @@ struct CannonFile: Codable {
                                    team_id: info.teamId,
                                    bundle_identifier: info.bundleIdentifier,
                                    provisioning_profile: info.provisioningProfile,
-                                   project_file: nil,
+                                   project_file: info.projectFile,
                                    appstore_connect_account: info.account,
                                    build_configuration: info.buildConfig,
-                                   target: info.target, pre_build_commands: nil)
+                                   pre_build_commands: nil)
         return file
     }
 }
 
 typealias ProjectInfo = (projectName: String, targets: [String], buildConfigs: [String], schemes: [String])
-typealias UserProjectInfo = (scheme: String, target: String?, buildConfig: String, teamId: String,
+typealias UserProjectInfo = (projectFile: String, scheme: String, buildConfig: String, teamId: String,
                              provisioningProfile: String, account: String?, bundleIdentifier: String)
 
 class CannonFileCreator: ExecutorProtocol {
@@ -108,13 +107,17 @@ class CannonFileCreator: ExecutorProtocol {
     }
     
     fileprivate func askUserQuestions(with info: ProjectInfo, completion: @escaping (UserProjectInfo) -> Void) {
+        var projectFile = info.projectName
         var scheme = info.schemes.first ?? ""
         var target = info.targets.first
         var buildConfig = info.buildConfigs.first(where: {$0 == "Release"}) ?? info.buildConfigs.first ?? ""
         var teamId = ""
         var account: String?
         var provisioningProfile = ""
-        Console.log(message: "Creating `default.cannon` file for project \(info.projectName)")
+        Console.log(message: "Creating `default.cannon` file for project \(projectFile)")
+        Console.readInput(message: "Enter the workspace or project name. [\(projectFile).(xcworkspace|xcodeproj)]: ") { (line) in
+            projectFile = line ?? projectFile
+        }
         Console.log(message: "Schemes: \n\(info.schemes.joined(separator: "\n"))")
         Console.readInput(message: "Which scheme would you like to use by default? [\(scheme)]: ") { (line) in
             scheme = line ?? info.schemes.first ?? ""
@@ -137,7 +140,7 @@ class CannonFileCreator: ExecutorProtocol {
             provisioningProfile = line ?? ""
         }
         self.getBundleIdentifier(with: target ?? "", completion: { bundle in
-            completion((scheme, target, buildConfig, teamId, provisioningProfile, account, bundle))
+            completion((projectFile, scheme, buildConfig, teamId, provisioningProfile, account, bundle))
         })
     }
     

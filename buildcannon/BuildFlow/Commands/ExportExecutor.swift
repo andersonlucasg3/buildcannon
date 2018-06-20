@@ -13,7 +13,7 @@ class ExportExecutor: ExecutorProtocol {
     fileprivate var teamId: DoubleDashComplexParameter!
     fileprivate var bundleIdentifier: DoubleDashComplexParameter!
     fileprivate var provisioningProfile: DoubleDashComplexParameter!
-    fileprivate var includeBitcode: Bool!
+    fileprivate var includeBitcode: Bool = false
     
     weak var delegate: ExecutorCompletionProtocol?
     
