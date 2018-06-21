@@ -3,10 +3,10 @@ import Foundation
 func copyBinary() {
     let path = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
     let binary = path.appendingPathComponent(".build/release/buildcannon")
-    if FileManager.default.fileExists(atPath: binary.path) {
-        try! FileManager.default.copyItem(atPath: binary.path, toPath: "/usr/local/bin/buildcannon")
+    if FileManager.default.fileExists(atPath: binary.absoluteString) {
+        try! FileManager.default.copyItem(atPath: binary.absoluteString, toPath: "/usr/local/bin/buildcannon")
     } else {
-        print("couldn't copy built binary from \(binary.path) to /usr/local/bin")
+        print("couldn't copy built binary from \(binary.absoluteString) to /usr/local/bin")
         print("re-run with --verbose to see details")
     }
 }
@@ -42,7 +42,6 @@ func execute() {
     print("build starting at path: \(cannonPath.path)")
     
     let terminationStatus = executeProcess("swift build -c release --product buildcannon", verbose, cannonPath.path)
-    executeProcess("rm -rf buildcannon", verbose)
     
     copyBinary()
     
