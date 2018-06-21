@@ -19,4 +19,8 @@ It currently supports the commands bellow:
 
 Just copy and paste the following command in the terminal:
 
-`command`
+`sh -c "$(curl -s https://raw.githubusercontent.com/andersonlucasg3/buildcannon/master/installer/install.sh)"`
+
+If the logs say that everything is ok, just start executing `buildcannon --help`, and be happy.
+
+:D
