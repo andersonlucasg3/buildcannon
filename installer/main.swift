@@ -11,16 +11,11 @@ func copyBinary() {
     }
 }
 
-func execute() {
-    print("install begining at path: ", FileManager.default.currentDirectoryPath)
-    
+@discardableResult
+func executeProcess(_ command: String, _ verbose: Bool) -> Int32 {
     let process = Process.init()
     process.qualityOfService = .userInitiated
-    if ProcessInfo.processInfo.arguments.contains(where: {$0 == "--verbose"}) {
-        process.arguments = ["-c", "swift build -c release --product buildcannon --verbose"]
-    } else {
-        process.arguments = ["-c", "swift build -c release --product buildcannon"]
-    }
+    process.arguments = ["-c", "\(command)\(verbose ? " --verbose" : "")"]
     if #available(OSX 10.13, *) {
         process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh")
     } else {
@@ -29,13 +24,30 @@ func execute() {
     process.launch()
     process.waitUntilExit()
     
+    return process.terminationStatus
+}
+
+func execute() {
+    print("install starting at path: \(FileManager.default.currentDirectoryPath)")
+    
+    let verbose = ProcessInfo.processInfo.arguments.contains(where: {$0 == "--verbose"})
+    
+    executeProcess("git clone https://github.com/andersonlucasg3/buildcannon", verbose)
+    executeProcess("cd buildcannon", verbose)
+    
+    print("build starting at path: \(FileManager.default.currentDirectoryPath)")
+    
+    let terminationStatus = executeProcess("swift build -c release --product buildcannon", verbose)
+    executeProcess("cd ..", verbose)
+    executeProcess("rm -rf buildcannon", verbose)
+    
     copyBinary()
     
-    if process.terminationStatus == 0 {
+    if terminationStatus == 0 {
         print("install complete")
         print("execute buildcannon --help")
     } else {
-        print("failed to install with exit code \(process.terminationStatus)")
+        print("failed to install with exit code \(terminationStatus)")
         print("re-run with --verbose to see details")
     }
 }
