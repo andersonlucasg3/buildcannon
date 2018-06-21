@@ -17,6 +17,11 @@ It currently supports the commands bellow:
 
 ## **Install**
 
+I'm assuming that you already have `swift toolchain 4.x` installed. You MUST have the swift.org or the Xcode built-in installed.
+I'm assuming that you already have Homebrew installed.
+
+Now that we are in the same page, let's begin.
+
 Just copy and paste the following command in the terminal:
 
 `sh -c "$(curl -s https://raw.githubusercontent.com/andersonlucasg3/buildcannon/master/installer/install.sh)"`
