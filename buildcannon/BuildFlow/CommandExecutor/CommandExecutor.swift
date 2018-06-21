@@ -16,7 +16,6 @@ class CommandExecutor {
     fileprivate let logFilePath: String?
     fileprivate var parameters: [CommandParameter]
 
-    fileprivate var proccessThread: Thread!
     fileprivate var process: Process!
     fileprivate var pipe: Pipe!
     fileprivate var logFileHandle: FileHandle!
@@ -76,21 +75,15 @@ class CommandExecutor {
     }
     
     func execute(tag: String, completion: @escaping CommandExecutorCompletion) {
-        if #available(macOS 10.12, *) {
-            self.proccessThread = Thread.init {
-                self.threadRun(completion: completion)
-            }
-        } else {
-            self.proccessThread = Thread.init(target: self, selector: #selector(self.threadRun(completion:)), object: completion)
+        DispatchQueue.init(label: tag, qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: DispatchQueue.global()).async {
+            self.threadRun(completion: completion)
         }
-        self.proccessThread.name = tag
-        self.proccessThread.start()
     }
     
     @objc fileprivate func threadRun(completion: CommandExecutorCompletion) {
         self.process = Process.init()
         self.process.qualityOfService = QualityOfService.userInitiated
-        self.process.arguments = ["-c", "\(self.buildCommandString())"] //self.parameters.map({ $0.buildParameter().components(separatedBy: " ") }).flatMap({$0})
+        self.process.arguments = ["-c", "\(self.buildCommandString())"]
         if #available(OSX 10.13, *) {
             self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
         } else {
@@ -112,11 +105,9 @@ class CommandExecutor {
     fileprivate func clear() {
         NotificationCenter.default.removeObserver(self.dataAvailableObserver)
         self.process = nil
-        self.proccessThread = nil
     }
     
     func stop() {
-        self.proccessThread?.cancel()
         self.process?.interrupt()
         self.clear()
     }
