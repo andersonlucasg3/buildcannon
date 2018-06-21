@@ -64,6 +64,7 @@
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
 		71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDashParameter.swift; sourceTree = "<group>"; };
+		71C02E7820DB65BE00AA1628 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71C3C2E820D4305700552A3F /* ExportExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportExecutor.swift; sourceTree = "<group>"; };
 		71C3C2EA20D4314000552A3F /* ArchiveTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTool.swift; sourceTree = "<group>"; };
 		71C3C2EC20D4314F00552A3F /* ExportTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTool.swift; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		71351EAF20D188C800BE9B60 = {
 			isa = PBXGroup;
 			children = (
+				71C02E7720DB65A200AA1628 /* installer */,
 				71351EBA20D188C800BE9B60 /* buildcannon */,
 				71351EB920D188C800BE9B60 /* Products */,
 			);
@@ -203,6 +205,14 @@
 				71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		71C02E7720DB65A200AA1628 /* installer */ = {
+			isa = PBXGroup;
+			children = (
+				71C02E7820DB65BE00AA1628 /* main.swift */,
+			);
+			path = installer;
 			sourceTree = "<group>";
 		};
 		71C3C2E720D4300D00552A3F /* Commands */ = {
