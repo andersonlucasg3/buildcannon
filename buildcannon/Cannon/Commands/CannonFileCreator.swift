@@ -106,6 +106,23 @@ class CannonFileCreator: ExecutorProtocol {
         }
     }
     
+    fileprivate func projectNameChecking(_ projectFile: String) -> String {
+        if !projectFile.hasSuffix(".xcworkspace") && !projectFile.hasSuffix(".xcodeproj") {
+            let path = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
+            let workspaceFileName = "\(projectFile).xcworkspace"
+            let projectFileName = "\(projectFile).xcodeproj"
+            let workspace = path.appendingPathComponent(workspaceFileName)
+            let project = path.appendingPathComponent(projectFileName)
+            var dir: ObjCBool = true
+            if FileManager.default.fileExists(atPath: workspace.path, isDirectory: &dir) {
+                return workspaceFileName
+            } else if FileManager.default.fileExists(atPath: project.path, isDirectory: &dir) {
+                return projectFileName
+            }
+        }
+        return projectFile
+    }
+    
     fileprivate func askUserQuestions(with info: ProjectInfo, completion: @escaping (UserProjectInfo) -> Void) {
         var projectFile = info.projectName
         var scheme = info.schemes.first ?? ""
@@ -116,7 +133,7 @@ class CannonFileCreator: ExecutorProtocol {
         var provisioningProfile = ""
         Console.log(message: "Creating `default.cannon` file for project \(projectFile)")
         Console.readInput(message: "Enter the workspace or project name. [\(projectFile).(xcworkspace|xcodeproj)]: ") { (line) in
-            projectFile = line ?? projectFile
+            projectFile = self.projectNameChecking(line ?? projectFile)
         }
         Console.log(message: "Schemes: \n\(info.schemes.joined(separator: "\n"))")
         Console.readInput(message: "Which scheme would you like to use by default? [\(scheme)]: ") { (line) in
