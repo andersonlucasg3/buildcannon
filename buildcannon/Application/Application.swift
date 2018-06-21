@@ -9,14 +9,10 @@
 import Foundation
 
 class Application {
-    fileprivate static var executionQueue = Array<os_block_t>.init()
-    
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
     
     static var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
-    
-    fileprivate var isAlive = true
     
     fileprivate var menu: ActionMenu!
     fileprivate var currentExecutor: ExecutorProtocol!
@@ -32,9 +28,7 @@ class Application {
     }
     
     static func execute(_ block: @escaping os_block_t) {
-        Synchronizator.synchronize({
-            self.executionQueue.append(block)
-        }, to: self)
+        DispatchQueue.main.async(execute: block)
     }
     
     func start() {
@@ -54,19 +48,12 @@ class Application {
             }
         }
         
-        repeat {
-            Synchronizator.synchronize({
-                if let block = Application.executionQueue.first {
-                    block()
-                    _ = Application.executionQueue.removeFirst()
-                }
-            }, to: self)
-        } while self.isAlive
+        dispatchMain()
     }
     
     func interrupt() {
-        self.isAlive = false
         self.currentExecutor?.cancel()
+        exit(0)
     }
     
     fileprivate func startInitialProcess() {
