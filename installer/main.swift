@@ -42,7 +42,7 @@ func execute() {
     print("build starting at path: \(cannonPath.path)")
     
     let terminationStatus = executeProcess("swift build -c release --product buildcannon", verbose, cannonPath.path)
-    executeProcess("rm -rf buildcannon", verbose)
+//    executeProcess("rm -rf buildcannon", verbose)
     
     copyBinary()
     
