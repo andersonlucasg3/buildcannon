@@ -26,7 +26,7 @@ func execute() {
     
     let verbose = ProcessInfo.processInfo.arguments.contains(where: {$0 == "--verbose"})
     
-    executeProcess("git clone -b release/0.2.2 https://github.com/andersonlucasg3/buildcannon", verbose)
+    executeProcess("git clone -b master https://github.com/andersonlucasg3/buildcannon", verbose)
     
     print("build starting at path: \(cannonPath.path)")
     

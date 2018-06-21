@@ -60,6 +60,7 @@
 		71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDashParameter.swift; sourceTree = "<group>"; };
 		713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileCreator.swift; sourceTree = "<group>"; };
 		713BB4E020D8B4370047079F /* CannonParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonParameter.swift; sourceTree = "<group>"; };
+		715D7E1220DB764700A4FB3F /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ParameterCollection.swift"; sourceTree = "<group>"; };
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				71C02E7820DB65BE00AA1628 /* main.swift */,
+				715D7E1220DB764700A4FB3F /* install.sh */,
 			);
 			path = installer;
 			sourceTree = "<group>";
