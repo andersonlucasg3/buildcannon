@@ -12,7 +12,7 @@ func copyBinary() {
 }
 
 @discardableResult
-func executeProcess(_ command: String, _ verbose: Bool) -> Int32 {
+func executeProcess(_ command: String, _ verbose: Bool, _ currentPath: String? = nil) -> Int32 {
     let process = Process.init()
     process.qualityOfService = .userInitiated
     process.arguments = ["-c", "\(command)\(verbose ? " --verbose" : "")"]
@@ -21,6 +21,9 @@ func executeProcess(_ command: String, _ verbose: Bool) -> Int32 {
     } else {
         process.launchPath = "/bin/sh"
     }
+    if let currentPath = currentPath {
+        process.currentDirectoryPath = currentPath
+    }
     process.launch()
     process.waitUntilExit()
     
@@ -28,17 +31,17 @@ func executeProcess(_ command: String, _ verbose: Bool) -> Int32 {
 }
 
 func execute() {
-    print("install starting at path: \(FileManager.default.currentDirectoryPath)")
+    let path = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    let cannonPath = path.appendingPathComponent("buildcannon")
+    print("install starting at path: \(path.path)")
     
     let verbose = ProcessInfo.processInfo.arguments.contains(where: {$0 == "--verbose"})
     
     executeProcess("git clone https://github.com/andersonlucasg3/buildcannon", verbose)
-    executeProcess("cd buildcannon", verbose)
     
-    print("build starting at path: \(FileManager.default.currentDirectoryPath)")
+    print("build starting at path: \(cannonPath.path)")
     
-    let terminationStatus = executeProcess("swift build -c release --product buildcannon", verbose)
-    executeProcess("cd ..", verbose)
+    let terminationStatus = executeProcess("swift build -c release --product buildcannon", verbose, cannonPath.path)
     executeProcess("rm -rf buildcannon", verbose)
     
     copyBinary()
