@@ -25,6 +25,7 @@ class ParametersChecker {
     
     func checkXcprettyInstalled(completion: @escaping (Bool) -> Void) {
         let executor = CommandExecutor.init(path: "/usr/bin/", application: "command", logFilePath: "\(baseTempDir)/checkXcprettyInstalled.log")
+        executor.logExecution = Application.isVerbose
         executor.add(parameter: SingleDashComplexParameter.init(parameter: "-v", composition: "xcpretty"))
         executor.execute(tag: "CommandParametersChecker") { (code, output) in
             Application.execute {
