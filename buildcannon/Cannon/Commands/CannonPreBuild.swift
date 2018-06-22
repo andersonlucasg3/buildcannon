@@ -42,6 +42,7 @@ class CannonPreBuild: ExecutorProtocol {
     
     fileprivate func executePreBuildCommand(_ command: String) {
         let executor = CommandExecutor.init(path: "", application: command, logFilePath: "\(baseTempDir)/preBuildCommand.log")
+        executor.executeOnDirectoryPath = sourceCodeTempDir.path
         executor.execute(tag: "command") { (result, output) in
             guard result == 0 else {
                 Application.execute {
