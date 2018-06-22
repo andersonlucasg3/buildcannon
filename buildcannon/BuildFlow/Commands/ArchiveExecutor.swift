@@ -58,8 +58,26 @@ class ArchiveExecutor: ExecutorProtocol {
         try? FileManager.default.removeItem(at: sourceCodeTempDir)
     }
     
+    fileprivate func copySource() {
+        do {
+            try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
+            let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
+                .filter({!$0.hasPrefix(".")})
+                .map({URL(fileURLWithPath: $0)})
+            try contents.forEach({try FileManager.default.copyItem(at: $0, to: sourceCodeTempDir)})
+        } catch let error {
+            Console.log(message: "Coudn't copy source contents, interrupting...")
+            Console.log(message: "Error: \(error)")
+            self.deleteSourceCodePath()
+            application.interrupt()
+        }
+    }
+    
     func execute() {
+        self.copySource()
+        
         Console.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
+        
         self.commandExecutor.execute(tag: "ArchiveExecutor") { [weak self] (returnCode, _) in
             self?.deleteSourceCodePath()
             self?.dispatchFinish(returnCode)
