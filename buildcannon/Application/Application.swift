@@ -114,11 +114,21 @@ class Application {
             try! FileManager.default.createDirectory(atPath: baseTempDir, withIntermediateDirectories: true, attributes: nil)
         }
     }
+
+    fileprivate func removeCacheDir() {
+        do {
+            try FileManager.default.removeItem(atPath: baseTempDir)
+        } catch let error {
+            Console.log(message: "Tried to delete build path but failed: \(baseTempDir)")
+            Console.log(message: "Error: \(error)")
+        }
+    }
 }
 
 extension Application: ExecutorCompletionProtocol {
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         Console.log(message: "buildcannon finished with success")
+        self.removeCacheDir()
         application.interrupt()
     }
     
