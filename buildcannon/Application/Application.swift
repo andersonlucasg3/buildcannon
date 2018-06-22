@@ -123,6 +123,25 @@ class Application {
             Console.log(message: "Error: \(error)")
         }
     }
+    
+    func copySourceCode() {
+        do {
+            try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
+            let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
+                .filter({!$0.hasPrefix(".")})
+                .map({URL(fileURLWithPath: $0)})
+            try contents.forEach({try FileManager.default.copyItem(at: $0, to: sourceCodeTempDir)})
+        } catch let error {
+            Console.log(message: "Coudn't copy source contents, interrupting...")
+            Console.log(message: "Error: \(error)")
+            self.deleteSourceCode()
+            application.interrupt()
+        }
+    }
+    
+    func deleteSourceCode() {
+        try? FileManager.default.removeItem(at: sourceCodeTempDir)
+    }
 }
 
 extension Application: ExecutorCompletionProtocol {
