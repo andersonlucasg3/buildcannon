@@ -46,7 +46,7 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     fileprivate func executeArchive() {
-        Console.log(message: "Starting archive at path: \(baseTempDir)")
+        Console.log(message: "Starting archive at path: \(sourceCodeTempDir.path)")
         
         let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name),
                                                    target: self.findValue(for: Parameter.target.name),
