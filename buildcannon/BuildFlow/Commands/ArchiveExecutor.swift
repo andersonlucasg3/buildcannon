@@ -21,6 +21,7 @@ class ArchiveExecutor: ExecutorProtocol {
         self.init()
         
         self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
+        self.commandExecutor.executeOnDirectoryPath = sourceCodeTempDir.path
         if let project = project {
             self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
         }
@@ -53,9 +54,14 @@ class ArchiveExecutor: ExecutorProtocol {
         }
     }
     
+    fileprivate func deleteSourceCodePath() {
+        try? FileManager.default.removeItem(at: sourceCodeTempDir)
+    }
+    
     func execute() {
         Console.log(message: "Executing archive with command: \(self.commandExecutor.buildCommandString())")
         self.commandExecutor.execute(tag: "ArchiveExecutor") { [weak self] (returnCode, _) in
+            self?.deleteSourceCodePath()
             self?.dispatchFinish(returnCode)
         }
     }
