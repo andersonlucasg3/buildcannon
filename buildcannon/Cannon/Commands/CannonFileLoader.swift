@@ -10,8 +10,7 @@ import Foundation
 
 class CannonFileLoader {
     func load() -> CannonFile? {
-        let path = FileManager.default.currentDirectoryPath
-        let url = URL(fileURLWithPath: path).appendingPathComponent("buildcannon")
+        let url = sourceCodeTempDir.appendingPathComponent("buildcannon")
         let finalPath = url.appendingPathComponent("default.cannon")
         if let jsonData = try? Data.init(contentsOf: finalPath) {
             let decoder = JSONDecoder.init()

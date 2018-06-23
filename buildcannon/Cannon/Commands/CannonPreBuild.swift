@@ -10,7 +10,7 @@ import Foundation
 
 class CannonPreBuild: ExecutorProtocol {
     fileprivate var preBuildCommands: [String]!
-    
+    fileprivate var preBuildCommandIndex: Int = 0
     fileprivate var currentExecutor: CommandExecutor!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -41,7 +41,12 @@ class CannonPreBuild: ExecutorProtocol {
     }
     
     fileprivate func executePreBuildCommand(_ command: String) {
-        let executor = CommandExecutor.init(path: "", application: command, logFilePath: "\(baseTempDir)/preBuildCommand.log")
+        Console.log(message: "Executing preBuild command: \(command)")
+        self.preBuildCommandIndex += 1
+        let executor = CommandExecutor.init(path: "", application: command,
+                                            logFilePath: "\(baseTempDir)/preBuildCommand\(self.preBuildCommandIndex).log")
+        executor.executeOnDirectoryPath = sourceCodeTempDir.path
+        executor.logExecution = Application.isVerbose
         executor.execute(tag: "command") { (result, output) in
             guard result == 0 else {
                 Application.execute {

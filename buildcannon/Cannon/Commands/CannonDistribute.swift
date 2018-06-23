@@ -18,6 +18,8 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     func execute() {
+        application.copySourceCode()
+        
         let fileLoader = CannonFileLoader.init()
         if let file = fileLoader.load() {
             fileLoader.assign(file: file)
@@ -46,7 +48,7 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     fileprivate func executeArchive() {
-        Console.log(message: "Starting archive at path: \(baseTempDir)")
+        Console.log(message: "Starting archive at path: \(sourceCodeTempDir.path)")
         
         let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name),
                                                    target: self.findValue(for: Parameter.target.name),
@@ -138,45 +140,57 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     }
     
     func archiveDidFinishWithSuccess() {
+        application.deleteSourceCode()
+        
         Console.log(message: "Archive finished with success")
+        
         self.executeExport()
     }
     
     func archiveDidFailWithStatusCode(_ code: Int) {
+        application.deleteSourceCode()
+        
         Console.log(message: "Archive failed with status code: \(code)")
         Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
+        
         application.interrupt()
     }
 
     func exportExecutorDidFinishWithSuccess() {
         Console.log(message: "Export finished with success")
+        
         self.executeUpload()
     }
     
     func exportExecutorDidFinishWithFailCode(_ code: Int) {
         Console.log(message: "Export failed with status code: \(code)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        
         application.interrupt()
     }
 
     func uploadExecutorDidFinishWithSuccess() {
         Console.log(message: "Upload finished with success")
+        
         application.interrupt()
     }
     
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Upload failed with status code: \(code)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        
         application.interrupt()
     }
     
     func preBuildCommandExecutorDidFinishWithSuccess() {
         Console.log(message: "Pre-build finished with success")
+        
         self.executeArchive()
     }
     
     func preBuildCommandExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Pre-build failed with status code: \(code)")
+        
         application.interrupt()
     }
 }

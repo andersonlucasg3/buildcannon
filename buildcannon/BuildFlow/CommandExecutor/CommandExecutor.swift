@@ -22,6 +22,7 @@ class CommandExecutor {
     fileprivate var dataAvailableObserver: NSObjectProtocol!
     
     var logExecution: Bool = true
+    var executeOnDirectoryPath: String?
     
     init(path: String, application: String, logFilePath: String?) {
         self.applicationPath = path
@@ -74,6 +75,14 @@ class CommandExecutor {
         self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
     }
     
+    fileprivate func setShExecutable(_ process: Process) {
+        if #available(OSX 10.13, *) {
+            process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh")
+        } else {
+            process.launchPath = "/bin/sh"
+        }
+    }
+    
     func execute(tag: String, completion: @escaping CommandExecutorCompletion) {
         DispatchQueue.init(label: tag, qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: DispatchQueue.global()).async {
             self.threadRun(completion: completion)
@@ -82,13 +91,15 @@ class CommandExecutor {
     
     @objc fileprivate func threadRun(completion: CommandExecutorCompletion) {
         self.process = Process.init()
+        
+        if let executeDirPath = self.executeOnDirectoryPath {
+            self.process.currentDirectoryPath = executeDirPath
+        }
+        
         self.process.qualityOfService = QualityOfService.userInitiated
         self.process.arguments = ["-c", "\(self.buildCommandString())"]
-        if #available(OSX 10.13, *) {
-            self.process.executableURL = URL.init(fileURLWithPath: "file:///bin/sh") // \(self.applicationPath)\(self.applicationName)
-        } else {
-            self.process.launchPath = "/bin/sh"
-        }
+        
+        self.setShExecutable(self.process)
         self.setupFileHandlers()
         self.waitForData()
         

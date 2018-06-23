@@ -9,6 +9,7 @@
 import Foundation
 
 let baseTempDir = NSTemporaryDirectory() + UUID.init().uuidString
+let sourceCodeTempDir = URL(fileURLWithPath: baseTempDir).appendingPathComponent("sourcecode")
 
 class Parameter {
     let name: String
