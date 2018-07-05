@@ -85,6 +85,7 @@ class Application {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
+            ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.configuration.name) \"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),

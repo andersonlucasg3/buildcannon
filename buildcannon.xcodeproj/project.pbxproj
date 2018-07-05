@@ -34,6 +34,8 @@
 		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 		71F4C61D20EE997F00799F3B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C61C20EE997F00799F3B /* Version.swift */; };
+		71F4C61F20EE99C800799F3B /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C61E20EE99C800799F3B /* Updater.swift */; };
+		71F4C62120EE9C4B00799F3B /* CannonSelfUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -79,6 +81,8 @@
 		71E2800220D95C82009DAA97 /* CannonDistribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonDistribute.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
 		71F4C61C20EE997F00799F3B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		71F4C61E20EE99C800799F3B /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
+		71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonSelfUpdate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +186,7 @@
 				711BA00A20D990540063FCFB /* CannonFileLoader.swift */,
 				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
 				71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */,
+				71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				71C669CE20D2DA9200F3BED9 /* Application.swift */,
 				71F0016120D5683200407CA1 /* Trap.swift */,
 				71F4C61C20EE997F00799F3B /* Version.swift */,
+				71F4C61E20EE99C800799F3B /* Updater.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -323,9 +329,11 @@
 				71351ECB20D18B9800BE9B60 /* ParametersChecker.swift in Sources */,
 				71D0F51920D9AE9B001CBF8F /* CannonPreBuild.swift in Sources */,
 				71C669CA20D2BA8600F3BED9 /* Console.swift in Sources */,
+				71F4C61F20EE99C800799F3B /* Updater.swift in Sources */,
 				713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */,
 				71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
+				71F4C62120EE9C4B00799F3B /* CannonSelfUpdate.swift in Sources */,
 				71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */,
 				71C3C2EF20D4315C00552A3F /* UploadTool.swift in Sources */,
 				71C3C2F320D44B0300552A3F /* UploadExecutor.swift in Sources */,
