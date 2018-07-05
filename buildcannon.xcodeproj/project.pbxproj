@@ -33,6 +33,7 @@
 		71D0F51920D9AE9B001CBF8F /* CannonPreBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */; };
 		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
+		71F4C61D20EE997F00799F3B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C61C20EE997F00799F3B /* Version.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,7 @@
 		71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonPreBuild.swift; sourceTree = "<group>"; };
 		71E2800220D95C82009DAA97 /* CannonDistribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonDistribute.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
+		71F4C61C20EE997F00799F3B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 			children = (
 				71C669CE20D2DA9200F3BED9 /* Application.swift */,
 				71F0016120D5683200407CA1 /* Trap.swift */,
+				71F4C61C20EE997F00799F3B /* Version.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
+				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
