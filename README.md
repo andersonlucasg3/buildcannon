@@ -8,6 +8,9 @@ It currently supports the commands bellow:
 
 - [x] `buildcannon distribute`
     - Uses the information in the default.cannon file to distribute your app to TestFlight
+    
+- [x] `buildcannon self-update`
+    - Starts a self updating process that will update the buildcannon binary
 
 - [ ] `buildcannon archive --output "/path/to/save/archive"`
 
