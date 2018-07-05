@@ -43,6 +43,11 @@ class Application {
                     self.interrupt()
                     return
                 }
+                guard !self.checker.checkVersion() else {
+                    Version.printVersion()
+                    self.interrupt()
+                    return
+                }
                 
                 self.startInitialProcess()
             }
@@ -60,6 +65,7 @@ class Application {
         #if DEBUG
         Console.log(message: "\(Application.processParameters)")
         #endif
+        Version.printVersion()
         if let parameter = Application.processParameters.first, let config = CannonParameter.get(command: parameter) as? CannonParameter {
             let executor = config.executorType.init()
             executor.delegate = self
@@ -79,6 +85,7 @@ class Application {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
+            ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.configuration.name) \"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
@@ -91,7 +98,8 @@ class Application {
             ActionMenuOption.init(command: "--\(Parameter.archivePath.name) \"[/path/to/archive.xcarchive]\"", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.ipaPath.name) \"[/path/to/ipa.ipa]\"", detail: "If --uploadOnly is specified this parameter MUST be informed.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.username.name) account_name@domain.com", detail: "Specifies the AppStore Connect account (email).", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {})
+            ActionMenuOption.init(command: "--\(Parameter.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameter.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {})
         ]
         return ActionMenu.init(description: "Usage: ", options: options)
     }

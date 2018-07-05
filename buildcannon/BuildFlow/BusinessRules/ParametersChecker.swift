@@ -23,6 +23,10 @@ class ParametersChecker {
         return self.parameters.contains(where: {$0.parameter == Parameter.verbose.name})
     }
     
+    func checkVersion() -> Bool {
+        return self.parameters.contains(where: {$0.parameter == Parameter.version.name})
+    }
+    
     func checkXcprettyInstalled(completion: @escaping (Bool) -> Void) {
         let executor = CommandExecutor.init(path: "/usr/bin/", application: "command", logFilePath: "\(baseTempDir)/checkXcprettyInstalled.log")
         executor.logExecution = Application.isVerbose
