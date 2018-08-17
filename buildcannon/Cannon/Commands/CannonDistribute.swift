@@ -75,7 +75,8 @@ class CannonDistribute: ExecutorProtocol {
         let exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: Parameter.archivePath.name),
                                                  teamId: self.findValue(for: Parameter.teamId.name)!,
                                                  bundleIdentifier: self.findValue(for: Parameter.bundleIdentifier.name)!,
-                                                 provisioningProfileName: self.findValue(for: Parameter.provisioningProfile.name)!)
+                                                 provisioningProfileName: self.findValue(for: Parameter.provisioningProfile.name)!,
+                                                 exportMethod: self.findValue(for: Parameter.exportMethod.name))
         exportExecutor.delegate = self
         exportExecutor.execute()
         self.currentExecutor = exportExecutor

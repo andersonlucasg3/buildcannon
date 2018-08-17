@@ -13,6 +13,7 @@ class ExportExecutor: ExecutorProtocol {
     fileprivate var teamId: DoubleDashComplexParameter!
     fileprivate var bundleIdentifier: DoubleDashComplexParameter!
     fileprivate var provisioningProfile: DoubleDashComplexParameter!
+    fileprivate var exportMethod: DoubleDashComplexParameter?
     fileprivate var includeBitcode: Bool = false
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -21,13 +22,18 @@ class ExportExecutor: ExecutorProtocol {
     
     }
     
-    convenience init(archivePath: DoubleDashComplexParameter? = nil, teamId: DoubleDashComplexParameter, bundleIdentifier: DoubleDashComplexParameter,
-                     provisioningProfileName: DoubleDashComplexParameter, includeBitcode: Bool = false) {
+    convenience init(archivePath: DoubleDashComplexParameter? = nil,
+                     teamId: DoubleDashComplexParameter,
+                     bundleIdentifier: DoubleDashComplexParameter,
+                     provisioningProfileName: DoubleDashComplexParameter,
+                     exportMethod: DoubleDashComplexParameter?,
+                     includeBitcode: Bool = false) {
         self.init()
         
         self.teamId = teamId
         self.bundleIdentifier = bundleIdentifier
         self.provisioningProfile = provisioningProfileName
+        self.exportMethod = exportMethod
         self.includeBitcode = includeBitcode
         
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ExportTool.toolName, logFilePath: ExportTool.Values.exportLogPath)
@@ -46,7 +52,7 @@ class ExportExecutor: ExecutorProtocol {
         <plist version=\"1.0\">
         <dict>
         <key>method</key>
-        <string>app-store</string>
+        <string>\(self.exportMethod?.composition ?? "app-store")</string>
         <key>teamID</key>
         <string>\(self.teamId.composition)</string>
         <key>signingCertificate</key>
@@ -56,6 +62,8 @@ class ExportExecutor: ExecutorProtocol {
         <key>uploadSymbols</key>
         <true/>
         <key>uploadBitcode</key>
+        <\(self.includeBitcode)/>
+        <key>compileBitcode</key>
         <\(self.includeBitcode)/>
         <key>provisioningProfiles</key>
         <dict>
