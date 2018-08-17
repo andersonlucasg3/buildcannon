@@ -19,10 +19,11 @@ class CannonParameter: Parameter {
         Parameter.bundleIdentifier
     ]
     fileprivate static let exportDependencies = [
-        Parameter.archivePath,
+        Parameter.scheme,
         Parameter.provisioningProfile,
         Parameter.teamId,
-        Parameter.bundleIdentifier
+        Parameter.bundleIdentifier,
+        Parameter.outputPath
     ]
     fileprivate static let uploadDependencies = [
         Parameter.ipaPath
@@ -52,7 +53,7 @@ class CannonParameter: Parameter {
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
-    static let export = Parameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies)
+    static let export = CannonParameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies, executor: CannonExport.self)
     static let upload = Parameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies)
     static let selfUpdate = CannonParameter.init(name: "self-update", type: NoDashParameter.self, dependency: nil, executor: CannonSelfUpdate.self)
 }
