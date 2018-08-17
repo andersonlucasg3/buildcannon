@@ -63,6 +63,8 @@ class ExportExecutor: ExecutorProtocol {
         <true/>
         <key>uploadBitcode</key>
         <\(self.includeBitcode)/>
+        <key>compileBitcode</key>
+        <\(self.includeBitcode)/>
         <key>provisioningProfiles</key>
         <dict>
         <key>\(self.bundleIdentifier.composition)</key>
