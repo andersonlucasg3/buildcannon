@@ -33,6 +33,7 @@ class Parameter {
     static let help = Parameter.init(name: "help", type: DoubleDashParameter.self)
     static let archivePath = Parameter.init(name: "archive-path", type: DoubleDashComplexParameter.self)
     static let ipaPath = Parameter.init(name: "ipa-path", type: DoubleDashComplexParameter.self)
+    static let outputPath = Parameter.init(name: "output-path", type: DoubleDashComplexParameter.self)
     static let username = Parameter.init(name: "username", type: DoubleDashComplexParameter.self)
     static let password = Parameter.init(name: "password", type: DoubleDashComplexParameter.self)
     static let version = Parameter.init(name: "version", type: DoubleDashComplexParameter.self)

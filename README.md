@@ -8,13 +8,14 @@ It currently supports the commands bellow:
 
 - [x] `buildcannon distribute`
     - Uses the information in the default.cannon file to distribute your app to TestFlight
-    
+
 - [x] `buildcannon self-update`
     - Starts a self updating process that will update the buildcannon binary
 
 - [ ] `buildcannon archive --output "/path/to/save/archive"`
 
-- [ ] `buildcannon export --input "/path/to/archive" --output "/path/to/save/ipa"`
+- [x] `buildcannon export --output-path "/path/to/save/output.ipa"`
+    - Uses the information in the default.cannon file to export your app to a IPA file and saves it to `output-path`
 
 - [ ] `buildcannon upload --input "/path/to/ipa"`
 

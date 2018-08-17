@@ -23,19 +23,29 @@ class CannonDistribute: ExecutorProtocol {
         let fileLoader = CannonFileLoader.init()
         if let file = fileLoader.load() {
             fileLoader.assign(file: file)
-            if let preBuild = file.pre_build_commands {
-                self.startPreBuildCommandExecutor(preBuild)
-            } else {
-                self.executeArchive()
-            }
+            self.executePreBuild(file: file)
         } else {
             Console.log(message: "Cannon project file not exists.")
             self.delegate?.executor(self, didFailWithErrorCode: -1)
         }
     }
     
+    func executePreBuild(file: CannonFile) {
+        if let preBuild = file.pre_build_commands {
+            self.startPreBuildCommandExecutor(preBuild)
+        } else {
+            self.executeArchive()
+        }
+    }
+    
     func cancel() {
         self.currentExecutor.cancel()
+    }
+    
+    func getIpaPath() -> String {
+        let scheme: DoubleDashComplexParameter = self.findValue(for: Parameter.scheme.name)!
+        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: Parameter.ipaPath.name)
+        return ipaPathParameter?.composition ?? baseTempDir + "/\(scheme.composition).ipa"
     }
     
     fileprivate func startPreBuildCommandExecutor(_ preBuild: [String]) {
@@ -76,11 +86,7 @@ class CannonDistribute: ExecutorProtocol {
         
         self.queryAccountIfNeeded()
         
-        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: Parameter.ipaPath.name)
-        let scheme: DoubleDashComplexParameter = self.findValue(for: Parameter.scheme.name)!
-        let ipaPath: String = ipaPathParameter?.composition ?? baseTempDir + "/\(scheme.composition).ipa"
-        
-        let uploadExecutor = UploadExecutor.init(ipaPath: ipaPath,
+        let uploadExecutor = UploadExecutor.init(ipaPath: self.getIpaPath(),
                                                  userName: self.findValue(for: Parameter.username.name)!,
                                                  password: self.findValue(for: Parameter.password.name)!)
         uploadExecutor.delegate = self
@@ -88,7 +94,7 @@ class CannonDistribute: ExecutorProtocol {
         self.currentExecutor = uploadExecutor
     }
     
-    fileprivate func findValue<T : CommandParameter>(for key: String) -> T? {
+    func findValue<T : CommandParameter>(for key: String) -> T? {
         return Application.processParameters.first(where: {$0.parameter == key}) as? T
     }
     
@@ -156,7 +162,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         application.interrupt()
     }
 
-    func exportExecutorDidFinishWithSuccess() {
+    @objc func exportExecutorDidFinishWithSuccess() {
         Console.log(message: "Export finished with success")
         
         self.executeUpload()
