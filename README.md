@@ -14,7 +14,7 @@ It currently supports the commands bellow:
 
 - [ ] `buildcannon archive --output "/path/to/save/archive"`
 
-- [x] `buildcannon export --output-path "/path/to/save/output.ipa"`
+- [x] `buildcannon export --output-path "/path/to/save/output.ipa" --export-method [app-store | ad-hoc | development | enterprise]`
     - Uses the information in the default.cannon file to export your app to a IPA file and saves it to `output-path`
 
 - [ ] `buildcannon upload --input "/path/to/ipa"`
