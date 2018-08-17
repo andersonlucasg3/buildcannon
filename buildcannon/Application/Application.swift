@@ -85,6 +85,7 @@ class Application {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
+            ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
@@ -97,6 +98,7 @@ class Application {
             ActionMenuOption.init(command: "--\(Parameter.help.name)", detail: "Shows this menu with public parameters.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.archivePath.name) \"[/path/to/archive.xcarchive]\"", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.ipaPath.name) \"[/path/to/ipa.ipa]\"", detail: "If --uploadOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(Parameter.outputPath.name) \"[/path/to/output.ipa]\"", detail: "If running 'buildcannon export' this parameter MUST be informed.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.username.name) account_name@domain.com", detail: "Specifies the AppStore Connect account (email).", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {})
