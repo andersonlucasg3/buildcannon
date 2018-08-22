@@ -73,11 +73,17 @@ class CannonDistribute: ExecutorProtocol {
     fileprivate func executeExport() {
         Console.log(message: "Starting export at path: \(baseTempDir)")
         
+        let sdk: DoubleDashComplexParameter? = self.findValue(for: Parameter.sdk.name)
+        let tvosExport = (sdk?.composition ?? "").contains("appletvos")
         let exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: Parameter.archivePath.name),
                                                  teamId: self.findValue(for: Parameter.teamId.name)!,
                                                  bundleIdentifier: self.findValue(for: Parameter.bundleIdentifier.name)!,
+                                                 topShelfBundleIdentifier: self.findValue(for: Parameter.topShelfBundleIdentifier.name),
                                                  provisioningProfileName: self.findValue(for: Parameter.provisioningProfile.name)!,
-                                                 exportMethod: self.findValue(for: Parameter.exportMethod.name))
+                                                 topShelfProvisioningProfile: self.findValue(for: Parameter.topShelfProvisioningProfile.name),
+                                                 exportMethod: self.findValue(for: Parameter.exportMethod.name),
+                                                 tvosExport: tvosExport,
+                                                 includeBitcode: tvosExport)
         exportExecutor.delegate = self
         exportExecutor.execute()
         self.currentExecutor = exportExecutor
