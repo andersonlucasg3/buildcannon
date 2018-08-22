@@ -88,7 +88,7 @@ class ExportExecutor: ExecutorProtocol {
         <key>uploadBitcode</key>
         <\(self.includeBitcode)/>
         <key>compileBitcode</key>
-        <\(self.includeBitcode)/>
+        <false/>
         <key>provisioningProfiles</key>
         <dict>
         \(provisioningProfiles)
