@@ -62,6 +62,7 @@ class CannonDistribute: ExecutorProtocol {
         
         let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: Parameter.projectFile.name),
                                                    target: self.findValue(for: Parameter.target.name),
+                                                   sdk: self.findValue(for: Parameter.sdk.name),
                                                    scheme: self.findValue(for: Parameter.scheme.name)!,
                                                    configuration: self.findValue(for: Parameter.configuration.name)!)
         archiveExecutor.delegate = self
