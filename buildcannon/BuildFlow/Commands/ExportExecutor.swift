@@ -12,8 +12,11 @@ class ExportExecutor: ExecutorProtocol {
     fileprivate var commandExecutor: CommandExecutor!
     fileprivate var teamId: DoubleDashComplexParameter!
     fileprivate var bundleIdentifier: DoubleDashComplexParameter!
+    fileprivate var topShelfBundleIdentifier: DoubleDashComplexParameter!
     fileprivate var provisioningProfile: DoubleDashComplexParameter!
+    fileprivate var topShelfProvisioningProfile: DoubleDashComplexParameter!
     fileprivate var exportMethod: DoubleDashComplexParameter?
+    fileprivate var tvosExport: Bool = false
     fileprivate var includeBitcode: Bool = false
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -25,15 +28,21 @@ class ExportExecutor: ExecutorProtocol {
     convenience init(archivePath: DoubleDashComplexParameter? = nil,
                      teamId: DoubleDashComplexParameter,
                      bundleIdentifier: DoubleDashComplexParameter,
+                     topShelfBundleIdentifier: DoubleDashComplexParameter?,
                      provisioningProfileName: DoubleDashComplexParameter,
+                     topShelfProvisioningProfile: DoubleDashComplexParameter?,
                      exportMethod: DoubleDashComplexParameter?,
+                     tvosExport: Bool = false,
                      includeBitcode: Bool = false) {
         self.init()
         
         self.teamId = teamId
         self.bundleIdentifier = bundleIdentifier
+        self.topShelfBundleIdentifier = topShelfBundleIdentifier
         self.provisioningProfile = provisioningProfileName
+        self.topShelfProvisioningProfile = topShelfProvisioningProfile
         self.exportMethod = exportMethod
+        self.tvosExport = tvosExport
         self.includeBitcode = includeBitcode
         
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ExportTool.toolName, logFilePath: ExportTool.Values.exportLogPath)
@@ -46,6 +55,21 @@ class ExportExecutor: ExecutorProtocol {
     }
     
     fileprivate func createExportOptionsFile() {
+        var provisioningProfiles = """
+        <key>\(self.bundleIdentifier.composition)</key>
+        <string>\(self.provisioningProfile.composition)</string>
+        """
+        if let topShelfBundle = self.topShelfBundleIdentifier,
+            let topShelfProv = self.topShelfProvisioningProfile,
+            self.tvosExport {
+            provisioningProfiles = """
+            <key>\(self.bundleIdentifier.composition)</key>
+            <string>\(self.provisioningProfile.composition)</string>
+            <key>\(topShelfBundle.composition)</key>
+            <string>\(topShelfProv.composition)</string>
+            """
+        }
+        
         let fileString = """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
@@ -64,11 +88,10 @@ class ExportExecutor: ExecutorProtocol {
         <key>uploadBitcode</key>
         <\(self.includeBitcode)/>
         <key>compileBitcode</key>
-        <\(self.includeBitcode)/>
+        <false/>
         <key>provisioningProfiles</key>
         <dict>
-        <key>\(self.bundleIdentifier.composition)</key>
-        <string>\(self.provisioningProfile.composition)</string>
+        \(provisioningProfiles)
         </dict>
         </dict>
         </plist>

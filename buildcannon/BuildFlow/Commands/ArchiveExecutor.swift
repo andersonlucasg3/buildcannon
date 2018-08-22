@@ -17,7 +17,7 @@ class ArchiveExecutor: ExecutorProtocol {
         
     }
     
-    convenience init(project: DoubleDashComplexParameter?, target: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter, configuration: DoubleDashComplexParameter) {
+    convenience init(project: DoubleDashComplexParameter?, target: DoubleDashComplexParameter?, sdk: DoubleDashComplexParameter?, scheme: DoubleDashComplexParameter, configuration: DoubleDashComplexParameter) {
         self.init()
         
         self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
@@ -29,7 +29,7 @@ class ArchiveExecutor: ExecutorProtocol {
             self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.targetParam, composition: target.composition))
         }
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: ArchiveTool.Values.sdkConfig))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: sdk?.composition ?? ArchiveTool.Values.sdkConfig))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: configuration.composition))
         self.commandExecutor.add(parameter: NoDashParameter.init(parameter: ArchiveTool.Parameters.archiveParam))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath))
