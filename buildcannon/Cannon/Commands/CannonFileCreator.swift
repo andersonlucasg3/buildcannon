@@ -186,6 +186,7 @@ class CannonFileCreator: ExecutorProtocol {
     fileprivate func createFile(userConfig: UserProjectInfo) {
         let cannonFile = CannonFile.from(info: userConfig)
         let encoder = JSONEncoder.init()
+        encoder.outputFormatting = .prettyPrinted
         let string = try? encoder.encode(cannonFile)
         let path = FileManager.default.currentDirectoryPath
         let url = URL(fileURLWithPath: path).appendingPathComponent("buildcannon")
