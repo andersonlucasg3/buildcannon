@@ -20,8 +20,15 @@ class CannonDistribute: ExecutorProtocol {
     func execute() {
         application.copySourceCode()
         
+        var command: NoDashComplexParameter? = nil
+        let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
+        if let value = value {
+            command = NoDashComplexParameter.init(parameter: CannonParameter.distribute.name, composition: value.parameter)
+            Console.log(message: "Cannon project \(value.parameter).cannon will be used.")
+        }
+        
         let fileLoader = CannonFileLoader.init()
-        if let file = fileLoader.load() {
+        if let file = fileLoader.load(target: command?.composition) {
             fileLoader.assign(file: file)
             self.executePreBuild(file: file)
         } else {

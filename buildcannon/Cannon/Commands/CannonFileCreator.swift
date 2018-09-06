@@ -30,16 +30,20 @@ import Foundation
  */
 
 struct CannonFile: Codable {
-    var scheme: String
-    var team_id: String
-    var bundle_identifier: String
-    var provisioning_profile: String
+    var scheme: String?
+    var team_id: String?
+    var bundle_identifier: String?
+    var provisioning_profile: String?
     
     var project_file: String?
     var appstore_connect_account: String?
-    var build_configuration: String = "Release"
+    var build_configuration: String?
     
-    var pre_build_commands: [String]? = nil
+    var pre_build_commands: [String]?
+    
+    var top_shelf_provisioning_profile: String?
+    var top_shelf_bundle_identifier: String?
+    var sdk: String?
     
     static func from(info: UserProjectInfo) -> CannonFile {
         let file = CannonFile.init(scheme: info.scheme,
@@ -49,14 +53,17 @@ struct CannonFile: Codable {
                                    project_file: info.projectFile,
                                    appstore_connect_account: info.account,
                                    build_configuration: info.buildConfig,
-                                   pre_build_commands: nil)
+                                   pre_build_commands: nil,
+                                   top_shelf_provisioning_profile: nil,
+                                   top_shelf_bundle_identifier: nil,
+                                   sdk: nil)
         return file
     }
 }
 
 typealias ProjectInfo = (projectName: String, targets: [String], buildConfigs: [String], schemes: [String])
 typealias UserProjectInfo = (projectFile: String, scheme: String, buildConfig: String, teamId: String,
-                             provisioningProfile: String, account: String?, bundleIdentifier: String)
+                            provisioningProfile: String, account: String?, bundleIdentifier: String, target: String)
 
 class CannonFileCreator: ExecutorProtocol {
     fileprivate var currentExecutor: CommandExecutor!
@@ -131,7 +138,7 @@ class CannonFileCreator: ExecutorProtocol {
         var teamId = ""
         var account: String?
         var provisioningProfile = ""
-        Console.log(message: "Creating `default.cannon` file for project \(projectFile)")
+        Console.log(message: "Creating `*.cannon` file for project \(projectFile)")
         Console.readInput(message: "Enter the workspace or project name. [\(projectFile).(xcworkspace|xcodeproj)]: ") { (line) in
             projectFile = self.projectNameChecking(line ?? projectFile)
         }
@@ -157,7 +164,7 @@ class CannonFileCreator: ExecutorProtocol {
             provisioningProfile = line ?? ""
         }
         self.getBundleIdentifier(with: target ?? "", completion: { bundle in
-            completion((projectFile, scheme, buildConfig, teamId, provisioningProfile, account, bundle))
+            completion((projectFile, scheme, buildConfig, teamId, provisioningProfile, account, bundle, target ?? "default"))
         })
     }
     
@@ -179,13 +186,18 @@ class CannonFileCreator: ExecutorProtocol {
         }
     }
     
+    func cannonFileName(target: String) -> String {
+        return "default.cannon"
+    }
+    
     fileprivate func createFile(userConfig: UserProjectInfo) {
         let cannonFile = CannonFile.from(info: userConfig)
         let encoder = JSONEncoder.init()
+        encoder.outputFormatting = .prettyPrinted
         let string = try? encoder.encode(cannonFile)
         let path = FileManager.default.currentDirectoryPath
         let url = URL(fileURLWithPath: path).appendingPathComponent("buildcannon")
-        let finalPath = url.appendingPathComponent("default.cannon")
+        let finalPath = url.appendingPathComponent(self.cannonFileName(target: userConfig.target))
         try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         try! string!.write(to: finalPath, options: .atomic)
         

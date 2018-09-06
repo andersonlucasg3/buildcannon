@@ -10,6 +10,7 @@ import Foundation
 
 let application = Application.init()
 Trap.handle(signal: .interrupt) { _ in
+    application.deleteSourceCode()
     application.interrupt()
 }
 application.start()
