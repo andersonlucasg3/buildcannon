@@ -18,6 +18,7 @@
 		71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
 		713BB4DE20D8B3EA0047079F /* CannonFileCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */; };
 		713BB4E120D8B4370047079F /* CannonParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713BB4E020D8B4370047079F /* CannonParameter.swift */; };
+		714753972141AE0E00D72B7B /* CannonFileTargetCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714753962141AE0E00D72B7B /* CannonFileTargetCreator.swift */; };
 		7179C3EB212712EC00290ED2 /* CannonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7179C3EA212712EC00290ED2 /* CannonExport.swift */; };
 		71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
 		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
@@ -64,6 +65,7 @@
 		71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDashParameter.swift; sourceTree = "<group>"; };
 		713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileCreator.swift; sourceTree = "<group>"; };
 		713BB4E020D8B4370047079F /* CannonParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonParameter.swift; sourceTree = "<group>"; };
+		714753962141AE0E00D72B7B /* CannonFileTargetCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileTargetCreator.swift; sourceTree = "<group>"; };
 		715D7E1220DB764700A4FB3F /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		7179C3EA212712EC00290ED2 /* CannonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonExport.swift; sourceTree = "<group>"; };
 		71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ParameterCollection.swift"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */,
+				714753962141AE0E00D72B7B /* CannonFileTargetCreator.swift */,
 				711BA00A20D990540063FCFB /* CannonFileLoader.swift */,
 				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
 				7179C3EA212712EC00290ED2 /* CannonExport.swift */,
@@ -321,6 +324,7 @@
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
+				714753972141AE0E00D72B7B /* CannonFileTargetCreator.swift in Sources */,
 				711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */,
 				71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */,
 				71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */,

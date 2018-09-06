@@ -39,6 +39,7 @@ class CannonParameter: Parameter {
     static func get(command: CommandParameter) -> Parameter? {
         switch command.parameter {
         case self.create.name: return self.create
+        case self.createTarget.name: return self.createTarget
         case self.build.name: return self.build
         case self.test.name: return self.test
         case self.distribute.name: return self.distribute
@@ -50,6 +51,7 @@ class CannonParameter: Parameter {
     }
     
     static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
+    static let createTarget = CannonParameter.init(name: "create-target", type: NoDashParameter.self, dependency: nil, executor: CannonFileTargetCreator.self)
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
