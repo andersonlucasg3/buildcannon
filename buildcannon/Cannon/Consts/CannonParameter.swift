@@ -39,6 +39,7 @@ class CannonParameter: Parameter {
     static func get(command: CommandParameter) -> Parameter? {
         switch command.parameter {
         case self.create.name: return self.create
+        case self.createTarget.name: return self.createTarget
         case self.build.name: return self.build
         case self.test.name: return self.test
         case self.distribute.name: return self.distribute

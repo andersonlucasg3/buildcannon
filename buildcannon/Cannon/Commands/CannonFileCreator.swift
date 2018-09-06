@@ -131,7 +131,7 @@ class CannonFileCreator: ExecutorProtocol {
         var teamId = ""
         var account: String?
         var provisioningProfile = ""
-        Console.log(message: "Creating `default.cannon` file for project \(projectFile)")
+        Console.log(message: "Creating `*.cannon` file for project \(projectFile)")
         Console.readInput(message: "Enter the workspace or project name. [\(projectFile).(xcworkspace|xcodeproj)]: ") { (line) in
             projectFile = self.projectNameChecking(line ?? projectFile)
         }
