@@ -6,8 +6,8 @@ It currently supports the commands bellow:
 - [x] `buildcannon create`
     - Generates a project file at [project path]/buildcannon/default.cannon
 
-- [x] `buildcannon create-target "target name"`
-    - Generates a project file at [project path]/buildcannon/target name.cannon
+- [x] `buildcannon create-target`
+    - Generates a project file at [project path]/buildcannon/target name.cannon, "target name" is specified in the following questions process
 
 - [x] `buildcannon distribute`
     - Uses the information in the default.cannon file to distribute your app to TestFlight
