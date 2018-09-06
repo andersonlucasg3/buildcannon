@@ -48,7 +48,7 @@ class CannonFileLoader {
             set(current: &cannonFile.provisioning_profile, default: file.provisioning_profile)
             set(current: &cannonFile.scheme, default: file.scheme)
             set(current: &cannonFile.sdk, default: file.sdk)
-            set(current: &cannonFile.team_id, default: file.sdk)
+            set(current: &cannonFile.team_id, default: file.team_id)
             set(current: &cannonFile.top_shelf_bundle_identifier, default: file.top_shelf_bundle_identifier)
             set(current: &cannonFile.top_shelf_provisioning_profile, default: file.top_shelf_provisioning_profile)
             return cannonFile
