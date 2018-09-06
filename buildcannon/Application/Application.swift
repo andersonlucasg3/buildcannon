@@ -84,8 +84,9 @@ class Application {
     fileprivate func createMenu() -> ActionMenu {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
-            ActionMenuOption.init(command: "create-target \"[target name]\"", detail: "Creates a 'target name'.cannon file that can be used to build that specific configuration.", action: {}),
+            ActionMenuOption.init(command: "create-target", detail: "Creates a 'target name'.cannon file that can be used to build that specific configuration.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
+            ActionMenuOption.init(command: "distribute-target \"[target name]\"", detail: "Start the archive, export, upload flow to distribute an IPA using the configurations in the related *.cannon file.", action: {}),
             ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
             ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
@@ -143,7 +144,7 @@ class Application {
         do {
             try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
             let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
-                .filter({!$0.hasPrefix(".")})
+                .filter({!$0.hasPrefix(".") && $0 != "Pods"})
                 .map({
                     (from: URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent($0),
                        to: sourceCodeTempDir.appendingPathComponent($0))

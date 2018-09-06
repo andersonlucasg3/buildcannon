@@ -12,7 +12,7 @@ It currently supports the commands bellow:
 - [x] `buildcannon distribute`
     - Uses the information in the default.cannon file to distribute your app to TestFlight
 
-- [x] `buildcannon distribute "target name"`
+- [x] `buildcannon distribute-target "target name"`
     - Uses the information in the `"target name".cannon` file to distribute your app to TestFlight with the configurations from `default.cannon` overrided by the configurations in target file
 
 - [ ] `buildcannon batch-distribute "target 1" "target 2" ...`
