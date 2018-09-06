@@ -43,7 +43,6 @@ class CannonParameter: Parameter {
         case self.build.name: return self.build
         case self.test.name: return self.test
         case self.distribute.name: return self.distribute
-        case self.distributeTarget.name: return self.distributeTarget
         case self.export.name: return self.export
         case self.upload.name: return self.upload
         case self.selfUpdate.name: return self.selfUpdate
@@ -56,7 +55,6 @@ class CannonParameter: Parameter {
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
-    static let distributeTarget = CannonParameter.init(name: "distribute-target", type: NoDashComplexParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
     static let export = CannonParameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies, executor: CannonExport.self)
     static let upload = Parameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies)
     static let selfUpdate = CannonParameter.init(name: "self-update", type: NoDashParameter.self, dependency: nil, executor: CannonSelfUpdate.self)

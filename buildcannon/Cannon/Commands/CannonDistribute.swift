@@ -21,15 +21,10 @@ class CannonDistribute: ExecutorProtocol {
         application.copySourceCode()
         
         var command: NoDashComplexParameter? = nil
-        if Application.processParameters.first?.parameter == CannonParameter.distributeTarget.name {
-            let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
-            if let value = value {
-                command = NoDashComplexParameter.init(parameter: CannonParameter.distributeTarget.name, composition: value.parameter)
-                Console.log(message: "Cannon project \(value.parameter).cannon will be used.")
-            } else {
-                Console.log(message: "Please provide the target name.")
-                application.interrupt()
-            }
+        let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
+        if let value = value {
+            command = NoDashComplexParameter.init(parameter: CannonParameter.distribute.name, composition: value.parameter)
+            Console.log(message: "Cannon project \(value.parameter).cannon will be used.")
         }
         
         let fileLoader = CannonFileLoader.init()
