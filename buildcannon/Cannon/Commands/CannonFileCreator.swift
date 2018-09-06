@@ -30,16 +30,20 @@ import Foundation
  */
 
 struct CannonFile: Codable {
-    var scheme: String
-    var team_id: String
-    var bundle_identifier: String
-    var provisioning_profile: String
+    var scheme: String?
+    var team_id: String?
+    var bundle_identifier: String?
+    var provisioning_profile: String?
     
     var project_file: String?
     var appstore_connect_account: String?
-    var build_configuration: String = "Release"
+    var build_configuration: String?
     
-    var pre_build_commands: [String]? = nil
+    var pre_build_commands: [String]?
+    
+    var top_shelf_provisioning_profile: String?
+    var top_shelf_bundle_identifier: String?
+    var sdk: String?
     
     static func from(info: UserProjectInfo) -> CannonFile {
         let file = CannonFile.init(scheme: info.scheme,
@@ -49,7 +53,10 @@ struct CannonFile: Codable {
                                    project_file: info.projectFile,
                                    appstore_connect_account: info.account,
                                    build_configuration: info.buildConfig,
-                                   pre_build_commands: nil)
+                                   pre_build_commands: nil,
+                                   top_shelf_provisioning_profile: nil,
+                                   top_shelf_bundle_identifier: nil,
+                                   sdk: nil)
         return file
     }
 }

@@ -19,7 +19,7 @@ class NoDashParameter: SingleDashParameter {
 }
 
 class NoDashComplexParameter: NoDashParameter {
-    fileprivate let composition: String
+    let composition: String
     
     init(parameter: String, composition: String) {
         self.composition = composition
