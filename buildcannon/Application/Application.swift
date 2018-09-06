@@ -84,6 +84,7 @@ class Application {
     fileprivate func createMenu() -> ActionMenu {
         let options = [
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
+            ActionMenuOption.init(command: "create-target \"[target name]\"", detail: "Creates a 'target name'.cannon file that can be used to build that specific configuration.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA.", action: {}),
             ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),

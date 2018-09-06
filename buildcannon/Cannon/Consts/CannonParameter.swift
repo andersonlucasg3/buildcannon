@@ -50,6 +50,7 @@ class CannonParameter: Parameter {
     }
     
     static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
+    static let createTarget = CannonParameter.init(name: "create-target", type: NoDashParameter.self, dependency: nil, executor: CannonFileTargetCreator.self)
     static let build = Parameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = Parameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
