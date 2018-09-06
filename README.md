@@ -6,8 +6,14 @@ It currently supports the commands bellow:
 - [x] `buildcannon create`
     - Generates a project file at [project path]/buildcannon/default.cannon
 
+- [x] `buildcannon create-target "target name"`
+    - Generates a project file at [project path]/buildcannon/target name.cannon
+
 - [x] `buildcannon distribute`
     - Uses the information in the default.cannon file to distribute your app to TestFlight
+
+- [x] `buildcannon batch-distribute "target 1" "target 2" ...`
+    - Uses the information in the `target 1.cannon`, `target 2.cannon` to batch-build all the informed targets
 
 - [x] `buildcannon self-update`
     - Starts a self updating process that will update the buildcannon binary
