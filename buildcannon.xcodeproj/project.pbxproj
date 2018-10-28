@@ -120,8 +120,8 @@
 		71351EBA20D188C800BE9B60 /* buildcannon */ = {
 			isa = PBXGroup;
 			children = (
-				713BB4DB20D8B3D70047079F /* Cannon */,
 				71C669CD20D2DA8900F3BED9 /* Application */,
+				713BB4DB20D8B3D70047079F /* Cannon */,
 				71C669C820D2BA7E00F3BED9 /* Logger */,
 				71A1F1A220D19A5200030D7F /* Extensions */,
 				71351ECC20D18C8700BE9B60 /* Consts */,
@@ -165,11 +165,8 @@
 		71351ED120D18D1500BE9B60 /* CommandExecutor */ = {
 			isa = PBXGroup;
 			children = (
+				71A821B4218545A100FC5F91 /* Parameters */,
 				71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */,
-				71A1F1A520D19B5A00030D7F /* CommandParameter.swift */,
-				71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */,
-				71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */,
-				71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */,
 			);
 			path = CommandExecutor;
 			sourceTree = "<group>";
@@ -219,6 +216,17 @@
 				71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		71A821B4218545A100FC5F91 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				71A1F1A520D19B5A00030D7F /* CommandParameter.swift */,
+				71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */,
+				71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */,
+				71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */,
+			);
+			path = Parameters;
 			sourceTree = "<group>";
 		};
 		71C02E7720DB65A200AA1628 /* installer */ = {
