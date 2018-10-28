@@ -12,7 +12,7 @@
 		71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC220D1890400BE9B60 /* ActionMenu.swift */; };
 		71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC520D1892500BE9B60 /* ActionMenuOption.swift */; };
 		71351ECB20D18B9800BE9B60 /* ParametersChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECA20D18B9800BE9B60 /* ParametersChecker.swift */; };
-		71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECD20D18C9200BE9B60 /* Parameters.swift */; };
+		71351ECE20D18C9200BE9B60 /* InputParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECD20D18C9200BE9B60 /* InputParameter.swift */; };
 		71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */; };
 		71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */; };
 		71351ED520D18D7000BE9B60 /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
@@ -59,7 +59,7 @@
 		71351EC220D1890400BE9B60 /* ActionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMenu.swift; sourceTree = "<group>"; };
 		71351EC520D1892500BE9B60 /* ActionMenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMenuOption.swift; sourceTree = "<group>"; };
 		71351ECA20D18B9800BE9B60 /* ParametersChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersChecker.swift; sourceTree = "<group>"; };
-		71351ECD20D18C9200BE9B60 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		71351ECD20D18C9200BE9B60 /* InputParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParameter.swift; sourceTree = "<group>"; };
 		71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandExecutor.swift; sourceTree = "<group>"; };
 		71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleDashParameter.swift; sourceTree = "<group>"; };
 		71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDashParameter.swift; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		71351ECC20D18C8700BE9B60 /* Consts */ = {
 			isa = PBXGroup;
 			children = (
-				71351ECD20D18C9200BE9B60 /* Parameters.swift */,
+				71351ECD20D18C9200BE9B60 /* InputParameter.swift */,
 				71C3C2EA20D4314000552A3F /* ArchiveTool.swift */,
 				71C3C2EC20D4314F00552A3F /* ExportTool.swift */,
 				71C3C2EE20D4315C00552A3F /* UploadTool.swift */,
@@ -330,7 +330,7 @@
 				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
-				71351ECE20D18C9200BE9B60 /* Parameters.swift in Sources */,
+				71351ECE20D18C9200BE9B60 /* InputParameter.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
 				714753972141AE0E00D72B7B /* CannonFileTargetCreator.swift in Sources */,
 				711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */,
