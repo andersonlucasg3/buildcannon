@@ -9,7 +9,7 @@
 import Foundation
 
 class NoDashParameter: SingleDashParameter {
-    override init(parameter: String) {
+    required init(parameter: String) {
         super.init(parameter: parameter)
     }
     
@@ -18,10 +18,15 @@ class NoDashParameter: SingleDashParameter {
     }
 }
 
-class NoDashComplexParameter: NoDashParameter {
+class NoDashComplexParameter: NoDashParameter, CommandComplexParameter {
     let composition: String
     
-    init(parameter: String, composition: String) {
+    required init(parameter: String) {
+        self.composition = ""
+        super.init(parameter: parameter)
+    }
+    
+    required init(parameter: String, composition: String, separator: String = "=") {
         self.composition = composition
         super.init(parameter: parameter)
     }

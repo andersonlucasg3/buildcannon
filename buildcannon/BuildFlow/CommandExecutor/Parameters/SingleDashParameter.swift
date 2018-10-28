@@ -11,7 +11,7 @@ import Foundation
 class SingleDashParameter: CommandParameter {
     fileprivate(set) var parameter: String
     
-    init(parameter: String) {
+    required init(parameter: String) {
         self.parameter = parameter
         if self.parameter.hasPrefix("-") {
             self.parameter = String(self.parameter[self.parameter.index(self.parameter.startIndex, offsetBy: 1)..<self.parameter.endIndex])
@@ -23,11 +23,16 @@ class SingleDashParameter: CommandParameter {
     }
 }
 
-class SingleDashComplexParameter: SingleDashParameter {
-    fileprivate let composition: String
+class SingleDashComplexParameter: SingleDashParameter, CommandComplexParameter {
     fileprivate let separator: String
     
-    init(parameter: String, composition: String, separator: String = " ") {
+    let composition: String
+    
+    required convenience init(parameter: String) {
+        self.init(parameter: parameter, composition: "")
+    }
+    
+    required init(parameter: String, composition: String, separator: String = "=") {
         self.composition = composition
         self.separator = separator
         super.init(parameter: parameter)
