@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710267D121854EB200D798AE /* buildcannonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710267D021854EB200D798AE /* buildcannonTest.swift */; };
 		711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA00A20D990540063FCFB /* CannonFileLoader.swift */; };
 		71351EBC20D188C800BE9B60 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EBB20D188C800BE9B60 /* main.swift */; };
 		71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351EC220D1890400BE9B60 /* ActionMenu.swift */; };
@@ -21,7 +22,6 @@
 		714753972141AE0E00D72B7B /* CannonFileTargetCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714753962141AE0E00D72B7B /* CannonFileTargetCreator.swift */; };
 		7179C3EB212712EC00290ED2 /* CannonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7179C3EA212712EC00290ED2 /* CannonExport.swift */; };
 		71A1F1A420D19A6300030D7F /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
-		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
 		71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
 		71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A821B621854A2600FC5F91 /* SourceCodeManager.swift */; };
@@ -35,6 +35,12 @@
 		71C669CF20D2DA9200F3BED9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669CE20D2DA9200F3BED9 /* Application.swift */; };
 		71D0F51920D9AE9B001CBF8F /* CannonPreBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */; };
 		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
+		71E4EB57218561170045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
+		71E4EB58218561180045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
+		71E4EB592185611E0045D4FE /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
+		71E4EB5A218561220045D4FE /* DoubleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */; };
+		71E4EB5B218561250045D4FE /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
+		71E4EB5C2185612D0045D4FE /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 		71F4C61D20EE997F00799F3B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C61C20EE997F00799F3B /* Version.swift */; };
 		71F4C62120EE9C4B00799F3B /* CannonSelfUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */; };
@@ -53,6 +59,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		710267CE21854EB100D798AE /* buildcannonTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = buildcannonTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		710267D021854EB200D798AE /* buildcannonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildcannonTest.swift; sourceTree = "<group>"; };
+		710267D221854EB200D798AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		711BA00A20D990540063FCFB /* CannonFileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFileLoader.swift; sourceTree = "<group>"; };
 		71351EB820D188C800BE9B60 /* buildcannon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = buildcannon; sourceTree = BUILT_PRODUCTS_DIR; };
 		71351EBB20D188C800BE9B60 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -90,6 +99,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		710267CB21854EB100D798AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		71351EB520D188C800BE9B60 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,12 +116,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		710267CF21854EB100D798AE /* buildcannonTest */ = {
+			isa = PBXGroup;
+			children = (
+				710267D021854EB200D798AE /* buildcannonTest.swift */,
+				710267D221854EB200D798AE /* Info.plist */,
+			);
+			path = buildcannonTest;
+			sourceTree = "<group>";
+		};
 		71351EAF20D188C800BE9B60 = {
 			isa = PBXGroup;
 			children = (
 				71C02E7720DB65A200AA1628 /* installer */,
 				71351EBA20D188C800BE9B60 /* buildcannon */,
+				710267CF21854EB100D798AE /* buildcannonTest */,
 				71351EB920D188C800BE9B60 /* Products */,
+				71E4EB5321855EE60045D4FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				71351EB820D188C800BE9B60 /* buildcannon */,
+				710267CE21854EB100D798AE /* buildcannonTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,9 +304,33 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		71E4EB5321855EE60045D4FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		710267CD21854EB100D798AE /* buildcannonTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 710267D521854EB200D798AE /* Build configuration list for PBXNativeTarget "buildcannonTest" */;
+			buildPhases = (
+				710267CA21854EB100D798AE /* Sources */,
+				710267CB21854EB100D798AE /* Frameworks */,
+				710267CC21854EB100D798AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = buildcannonTest;
+			productName = "buildcannon-test";
+			productReference = 710267CE21854EB100D798AE /* buildcannonTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		71351EB720D188C800BE9B60 /* buildcannon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 71351EBF20D188C800BE9B60 /* Build configuration list for PBXNativeTarget "buildcannon" */;
@@ -302,10 +354,13 @@
 		71351EB020D188C800BE9B60 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = InsaniTech;
 				TargetAttributes = {
+					710267CD21854EB100D798AE = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					71351EB720D188C800BE9B60 = {
 						CreatedOnToolsVersion = 9.4;
 						LastSwiftMigration = 0940;
@@ -325,11 +380,35 @@
 			projectRoot = "";
 			targets = (
 				71351EB720D188C800BE9B60 /* buildcannon */,
+				710267CD21854EB100D798AE /* buildcannonTest */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		710267CC21854EB100D798AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		710267CA21854EB100D798AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71E4EB5B218561250045D4FE /* SingleDashParameter.swift in Sources */,
+				71E4EB5A218561220045D4FE /* DoubleDashParameter.swift in Sources */,
+				71E4EB592185611E0045D4FE /* NoDashParameter.swift in Sources */,
+				71E4EB5C2185612D0045D4FE /* Array+ParameterCollection.swift in Sources */,
+				710267D121854EB200D798AE /* buildcannonTest.swift in Sources */,
+				71E4EB57218561170045D4FE /* CommandParameter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		71351EB420D188C800BE9B60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,7 +416,6 @@
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
 				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
-				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* InputParameter.swift in Sources */,
 				71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
@@ -347,6 +425,7 @@
 				71351ED020D18CE300BE9B60 /* CommandExecutor.swift in Sources */,
 				71F0016220D5683200407CA1 /* Trap.swift in Sources */,
 				71351ED320D18D2300BE9B60 /* DoubleDashParameter.swift in Sources */,
+				71E4EB58218561180045D4FE /* CommandParameter.swift in Sources */,
 				7179C3EB212712EC00290ED2 /* CannonExport.swift in Sources */,
 				71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */,
 				71351EC320D1890400BE9B60 /* ActionMenu.swift in Sources */,
@@ -371,6 +450,45 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		710267D321854EB200D798AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = buildcannonTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.buildcannon-test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		710267D421854EB200D798AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = buildcannonTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.buildcannon-test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		71351EBD20D188C800BE9B60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -470,6 +588,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -489,12 +608,14 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.insanitech.buildcannon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -507,12 +628,14 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.insanitech.buildcannon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -522,6 +645,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		710267D521854EB200D798AE /* Build configuration list for PBXNativeTarget "buildcannonTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				710267D321854EB200D798AE /* Debug */,
+				710267D421854EB200D798AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		71351EB320D188C800BE9B60 /* Build configuration list for PBXProject "buildcannon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
