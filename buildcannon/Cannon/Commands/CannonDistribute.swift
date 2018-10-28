@@ -18,7 +18,7 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     func execute() {
-        application.copySourceCode()
+        application.sourceCodeManager.copySourceCode()
         
         var command: NoDashComplexParameter? = nil
         let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
@@ -161,7 +161,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     }
     
     func archiveDidFinishWithSuccess() {
-        application.deleteSourceCode()
+        application.sourceCodeManager.deleteSourceCode()
         
         Console.log(message: "Archive finished with success")
         
@@ -169,7 +169,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     }
     
     func archiveDidFailWithStatusCode(_ code: Int) {
-        application.deleteSourceCode()
+        application.sourceCodeManager.deleteSourceCode()
         
         Console.log(message: "Archive failed with status code: \(code)")
         Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")

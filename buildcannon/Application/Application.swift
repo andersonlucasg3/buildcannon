@@ -19,6 +19,8 @@ class Application {
     
     fileprivate lazy var checker = ParametersChecker.init(parameters: Application.processParameters)
     
+    let sourceCodeManager = SourceCodeManager.init()
+    
     init() {
         self.menu = self.createMenu()
     }
@@ -36,7 +38,7 @@ class Application {
             #if DEBUG
             self.logDebugThings()
             #endif
-            self.createDirectories()
+            self.sourceCodeManager.createDirectories()
             self.setupConfigurations {
                 guard !self.checker.checkHelp() else {
                     self.menu.draw()
@@ -123,54 +125,12 @@ class Application {
             Application.execute(completion)
         }
     }
-    
-    fileprivate func createDirectories() {
-        if !FileManager.default.fileExists(atPath: baseTempDir) {
-            try! FileManager.default.createDirectory(atPath: baseTempDir, withIntermediateDirectories: true, attributes: nil)
-        }
-    }
-
-    fileprivate func removeCacheDir() {
-        do {
-            try FileManager.default.removeItem(atPath: baseTempDir)
-        } catch let error {
-            Console.log(message: "Tried to delete build path but failed: \(baseTempDir)")
-            Console.log(message: "Error: \(error.localizedDescription)")
-        }
-    }
-    
-    func copySourceCode() {
-        do {
-            try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
-            let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
-                .filter({!$0.hasPrefix(".") && $0 != "Pods"})
-                .map({
-                    (from: URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent($0),
-                       to: sourceCodeTempDir.appendingPathComponent($0))
-                })
-            try contents.forEach({
-                #if DEBUG
-                Console.log(message: "Copying file from \"\($0.from.path)\" to \"\($0.to.path)\"")
-                #endif
-                try FileManager.default.copyItem(at: $0.from, to: $0.to)
-            })
-        } catch let error {
-            Console.log(message: "Coudn't copy source contents, interrupting...")
-            Console.log(message: "Error: \(error.localizedDescription)")
-            self.deleteSourceCode()
-            application.interrupt()
-        }
-    }
-    
-    func deleteSourceCode() {
-        try? FileManager.default.removeItem(at: sourceCodeTempDir)
-    }
 }
 
 extension Application: ExecutorCompletionProtocol {
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         Console.log(message: "buildcannon finished with success")
-        self.removeCacheDir()
+        self.sourceCodeManager.removeCacheDir()
         application.interrupt()
     }
     

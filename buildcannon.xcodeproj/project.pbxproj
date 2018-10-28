@@ -24,6 +24,7 @@
 		71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
 		71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
+		71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A821B621854A2600FC5F91 /* SourceCodeManager.swift */; };
 		71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2E820D4305700552A3F /* ExportExecutor.swift */; };
 		71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EA20D4314000552A3F /* ArchiveTool.swift */; };
 		71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EC20D4314F00552A3F /* ExportTool.swift */; };
@@ -71,6 +72,7 @@
 		71A1F1A520D19B5A00030D7F /* CommandParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandParameter.swift; sourceTree = "<group>"; };
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
 		71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDashParameter.swift; sourceTree = "<group>"; };
+		71A821B621854A2600FC5F91 /* SourceCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCodeManager.swift; sourceTree = "<group>"; };
 		71C02E7820DB65BE00AA1628 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71C3C2E820D4305700552A3F /* ExportExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportExecutor.swift; sourceTree = "<group>"; };
 		71C3C2EA20D4314000552A3F /* ArchiveTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTool.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		71351EBA20D188C800BE9B60 /* buildcannon */ = {
 			isa = PBXGroup;
 			children = (
+				71A821B521854A0600FC5F91 /* SourceCode */,
 				71C669CD20D2DA8900F3BED9 /* Application */,
 				713BB4DB20D8B3D70047079F /* Cannon */,
 				71C669C820D2BA7E00F3BED9 /* Logger */,
@@ -227,6 +230,14 @@
 			path = Parameters;
 			sourceTree = "<group>";
 		};
+		71A821B521854A0600FC5F91 /* SourceCode */ = {
+			isa = PBXGroup;
+			children = (
+				71A821B621854A2600FC5F91 /* SourceCodeManager.swift */,
+			);
+			path = SourceCode;
+			sourceTree = "<group>";
+		};
 		71C02E7720DB65A200AA1628 /* installer */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +339,7 @@
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71A1F1A620D19B5A00030D7F /* CommandParameter.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* InputParameter.swift in Sources */,
+				71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,
 				714753972141AE0E00D72B7B /* CannonFileTargetCreator.swift in Sources */,
 				711BA00B20D990540063FCFB /* CannonFileLoader.swift in Sources */,
