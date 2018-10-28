@@ -16,15 +16,15 @@ class ParametersChecker {
     }
     
     func checkHelp() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameter.help.name})
+        return self.parameters.contains(where: {$0.parameter == InputParameter.help.name})
     }
     
     func checkVerbose() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameter.verbose.name})
+        return self.parameters.contains(where: {$0.parameter == InputParameter.verbose.name})
     }
     
     func checkVersion() -> Bool {
-        return self.parameters.contains(where: {$0.parameter == Parameter.version.name})
+        return self.parameters.contains(where: {$0.parameter == InputParameter.version.name})
     }
     
     func checkXcprettyInstalled(completion: @escaping (Bool) -> Void) {

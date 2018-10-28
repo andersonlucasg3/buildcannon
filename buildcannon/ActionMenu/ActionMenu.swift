@@ -20,7 +20,7 @@ struct ActionMenu {
     func draw() {
         Console.log(message: self.description)
         self.options.forEach { (option) in
-            Console.log(message: "\t\(option.command)\n\t\t* \(option.detail)\n")
+            Console.log(message: "  \(option.command)\n      * \(option.detail)")
         }
         Console.log(message: "\n")
     }

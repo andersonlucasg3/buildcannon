@@ -19,6 +19,8 @@ class Application {
     
     fileprivate lazy var checker = ParametersChecker.init(parameters: Application.processParameters)
     
+    let sourceCodeManager = SourceCodeManager.init()
+    
     init() {
         self.menu = self.createMenu()
     }
@@ -36,7 +38,7 @@ class Application {
             #if DEBUG
             self.logDebugThings()
             #endif
-            self.createDirectories()
+            self.sourceCodeManager.createDirectories()
             self.setupConfigurations {
                 guard !self.checker.checkHelp() else {
                     self.menu.draw()
@@ -88,25 +90,25 @@ class Application {
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA. Optionally you can provide a specific cannon file name, like ProjectName to use its configuration.", action: {}),
             ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.configuration.name) \"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.target.name) \"[target name]\"", detail: "Provide a target to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.sdk.name) \"[iphoneos | iphonesimulator | appletvos | appletvsimulator]\"", detail: "Provides the SDK to be used on build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.teamId.name) [12TEAM43ID]", detail: "Provide a Team ID to publish on.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.bundleIdentifier.name) [com.yourcompany.app]", detail: "Provide a bundle identifier to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.topShelfBundleIdentifier.name) [com.yourcompany.app.topshelf]", detail: "Provide a bundle identifier to build the TopShelf target.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.provisioningProfile.name) \"[your provisioning profile name]\"", detail: "Provide a provisioning profile name to build.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.topShelfProvisioningProfile.name) \"[your provisioning profile name for TopShelf]\"", detail: "Provide a provisioning profile name to build the TopShelf target.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.verbose.name)", detail: "Logs all content into the console.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.help.name)", detail: "Shows this menu with public parameters.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.archivePath.name) \"[/path/to/archive.xcarchive]\"", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.ipaPath.name) \"[/path/to/ipa.ipa]\"", detail: "If --uploadOnly is specified this parameter MUST be informed.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.outputPath.name) \"[/path/to/output.ipa]\"", detail: "If running 'buildcannon export' this parameter MUST be informed.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.exportMethod.name) \"[app-store | ad-hoc | development | enterprise]\"", detail: "If running 'buildcannon `distribute`|`export`' export method can be specified.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.username.name) account_name@domain.com", detail: "Specifies the AppStore Connect account (email).", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {}),
-            ActionMenuOption.init(command: "--\(Parameter.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {})
+            ActionMenuOption.init(command: "--\(InputParameter.projectFile.name) \"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.scheme.name) \"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.configuration.name) \"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.target.name) \"[target name]\"", detail: "Provide a target to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.sdk.name) \"[iphoneos | iphonesimulator | appletvos | appletvsimulator]\"", detail: "Provides the SDK to be used on build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.teamId.name) [12TEAM43ID]", detail: "Provide a Team ID to publish on.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.bundleIdentifier.name) [com.yourcompany.app]", detail: "Provide a bundle identifier to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.topShelfBundleIdentifier.name) [com.yourcompany.app.topshelf]", detail: "Provide a bundle identifier to build the TopShelf target.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.provisioningProfile.name) \"[your provisioning profile name]\"", detail: "Provide a provisioning profile name to build.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.topShelfProvisioningProfile.name) \"[your provisioning profile name for TopShelf]\"", detail: "Provide a provisioning profile name to build the TopShelf target.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.verbose.name)", detail: "Logs all content into the console.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.help.name)", detail: "Shows this menu with public parameters.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.archivePath.name) \"[/path/to/archive.xcarchive]\"", detail: "If --exportOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.ipaPath.name) \"[/path/to/ipa.ipa]\"", detail: "If --uploadOnly is specified this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.outputPath.name) \"[/path/to/output.ipa]\"", detail: "If running 'buildcannon export' this parameter MUST be informed.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.exportMethod.name) \"[app-store | ad-hoc | development | enterprise]\"", detail: "If running 'buildcannon `distribute`|`export`' export method can be specified.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.username.name) account_name@domain.com", detail: "Specifies the AppStore Connect account (email).", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.password.name) **********", detail: "Specifies the AppStore Connect account password.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {})
         ]
         return ActionMenu.init(description: "Usage: ", options: options)
     }
@@ -123,54 +125,12 @@ class Application {
             Application.execute(completion)
         }
     }
-    
-    fileprivate func createDirectories() {
-        if !FileManager.default.fileExists(atPath: baseTempDir) {
-            try! FileManager.default.createDirectory(atPath: baseTempDir, withIntermediateDirectories: true, attributes: nil)
-        }
-    }
-
-    fileprivate func removeCacheDir() {
-        do {
-            try FileManager.default.removeItem(atPath: baseTempDir)
-        } catch let error {
-            Console.log(message: "Tried to delete build path but failed: \(baseTempDir)")
-            Console.log(message: "Error: \(error.localizedDescription)")
-        }
-    }
-    
-    func copySourceCode() {
-        do {
-            try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
-            let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
-                .filter({!$0.hasPrefix(".") && $0 != "Pods"})
-                .map({
-                    (from: URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent($0),
-                       to: sourceCodeTempDir.appendingPathComponent($0))
-                })
-            try contents.forEach({
-                #if DEBUG
-                Console.log(message: "Copying file from \"\($0.from.path)\" to \"\($0.to.path)\"")
-                #endif
-                try FileManager.default.copyItem(at: $0.from, to: $0.to)
-            })
-        } catch let error {
-            Console.log(message: "Coudn't copy source contents, interrupting...")
-            Console.log(message: "Error: \(error.localizedDescription)")
-            self.deleteSourceCode()
-            application.interrupt()
-        }
-    }
-    
-    func deleteSourceCode() {
-        try? FileManager.default.removeItem(at: sourceCodeTempDir)
-    }
 }
 
 extension Application: ExecutorCompletionProtocol {
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         Console.log(message: "buildcannon finished with success")
-        self.removeCacheDir()
+        self.sourceCodeManager.removeCacheDir()
         application.interrupt()
     }
     
