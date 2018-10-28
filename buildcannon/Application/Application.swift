@@ -12,7 +12,7 @@ class Application {
     fileprivate(set) static var isVerbose = false
     fileprivate(set) static var isXcprettyInstalled = false
     
-    static var processParameters: [CommandParameter] = Array<CommandParameter>.fromArgs()
+    static var processParameters: [CommandParameter] = Array<CommandParameter>.from(arguments: ProcessInfo.processInfo.arguments)
     
     fileprivate var menu: ActionMenu!
     fileprivate var currentExecutor: ExecutorProtocol!
