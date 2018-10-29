@@ -56,6 +56,6 @@ class CannonParameter: InputParameter {
     static let test = InputParameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
     static let export = CannonParameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies, executor: CannonExport.self)
-    static let upload = InputParameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies)
+    static let upload = CannonParameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies, executor: CannonUpload.self)
     static let selfUpdate = CannonParameter.init(name: "self-update", type: NoDashParameter.self, dependency: nil, executor: CannonSelfUpdate.self)
 }

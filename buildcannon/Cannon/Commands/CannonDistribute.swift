@@ -14,9 +14,7 @@ class CannonDistribute: ExecutorProtocol {
     
     weak var delegate: ExecutorCompletionProtocol?
     
-    required init() {
-        
-    }
+    required init() { }
     
     func execute() {
         application.sourceCodeManager.copySourceCode()
@@ -51,9 +49,9 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     func getIpaPath() -> String {
-        let scheme: DoubleDashComplexParameter = self.findValue(for: InputParameter.scheme.name)!
+        let scheme: DoubleDashComplexParameter? = self.findValue(for: InputParameter.scheme.name)
         let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: InputParameter.ipaPath.name)
-        return ipaPathParameter?.composition ?? baseTempDir + "/\(scheme.composition).ipa"
+        return ipaPathParameter?.composition ?? baseTempDir + "/\(scheme?.composition ?? "app").ipa"
     }
     
     fileprivate func startPreBuildCommandExecutor(_ preBuild: [String]) {
@@ -65,7 +63,7 @@ class CannonDistribute: ExecutorProtocol {
         self.currentExecutor = executor
     }
     
-    fileprivate func executeArchive() {
+    func executeArchive() {
         Console.log(message: "Starting archive at path: \(sourceCodeTempDir.path)")
         
         let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: InputParameter.projectFile.name),
@@ -78,7 +76,7 @@ class CannonDistribute: ExecutorProtocol {
         self.currentExecutor = archiveExecutor
     }
     
-    fileprivate func executeExport() {
+    func executeExport() {
         Console.log(message: "Starting export at path: \(baseTempDir)")
         
         let sdk: DoubleDashComplexParameter? = self.findValue(for: InputParameter.sdk.name)
@@ -97,7 +95,7 @@ class CannonDistribute: ExecutorProtocol {
         self.currentExecutor = exportExecutor
     }
     
-    fileprivate func executeUpload() {
+    func executeUpload() {
         Console.log(message: "Starting upload of IPA at path: \(ExportTool.Values.exportPath)")
         
         self.queryAccountIfNeeded()
@@ -191,7 +189,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         application.interrupt()
     }
 
-    func uploadExecutorDidFinishWithSuccess() {
+    @objc func uploadExecutorDidFinishWithSuccess() {
         Console.log(message: "Upload finished with success")
         
         application.interrupt()
@@ -199,7 +197,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Upload failed with status code: \(code)")
-        Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
+        Console.log(message: "See logs at: \(UploadTool.Values.uploadLogPath)")
         
         application.interrupt()
     }
