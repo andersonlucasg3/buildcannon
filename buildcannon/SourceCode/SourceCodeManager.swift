@@ -28,7 +28,13 @@ class SourceCodeManager {
         do {
             try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
             let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
-                .filter({!$0.hasPrefix(".") && $0 != "Pods"})
+                .filter({
+                    #if !DEBUG
+                    return !$0.hasPrefix(".") && $0 != "Pods"
+                    #else
+                    return $0 != "Pods"
+                    #endif
+                })
                 .map({
                     (from: URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent($0),
                      to: sourceCodeTempDir.appendingPathComponent($0))
@@ -48,6 +54,8 @@ class SourceCodeManager {
     }
     
     func deleteSourceCode() {
+        #if !DEBUG
         try? FileManager.default.removeItem(at: sourceCodeTempDir)
+        #endif
     }
 }
