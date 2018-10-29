@@ -21,11 +21,13 @@ struct ArchiveTool {
         static let configurationParam = "configuration"
         static let archiveParam = "archive"
         static let archivePathParam = "archivePath"
+        static let useModernBuildSystem = "UseModernBuildSystem"
     }
     
     struct Values {
         static let sdkConfig = "iphoneos"
         static let archivePath = baseTempDir + "/app.xcarchive"
         static let archiveLogPath = baseTempDir + "/archive.log"
+        static let useModernBuildSystemValue = "YES"
     }
 }

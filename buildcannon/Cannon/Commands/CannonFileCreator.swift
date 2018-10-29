@@ -66,6 +66,7 @@ typealias UserProjectInfo = (projectFile: String, scheme: String, buildConfig: S
                             provisioningProfile: String, account: String?, bundleIdentifier: String, target: String)
 
 class CannonFileCreator: ExecutorProtocol {
+    fileprivate let separator = "="
     fileprivate var currentExecutor: CommandExecutor!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -89,7 +90,7 @@ class CannonFileCreator: ExecutorProtocol {
     fileprivate func getBundleIdentifier(with targetName: String, completion: @escaping (String) -> Void) {
         self.currentExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: "\(baseTempDir)/bundleIdentifier.log")
         self.currentExecutor.add(parameter: SingleDashParameter.init(parameter: "showBuildSettings"))
-        self.currentExecutor.add(parameter: SingleDashComplexParameter.init(parameter: "target", composition: targetName))
+        self.currentExecutor.add(parameter: SingleDashComplexParameter.init(parameter: "target", composition: targetName, separator: self.separator))
         self.currentExecutor.add(parameter: NoDashParameter.init(parameter: "| grep PRODUCT_BUNDLE_IDENTIFIER"))
         #if DEBUG
         Console.log(message: "Executing command: \(self.currentExecutor.buildCommandString())")
