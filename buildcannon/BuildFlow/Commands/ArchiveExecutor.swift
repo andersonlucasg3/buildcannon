@@ -9,6 +9,7 @@
 import Foundation
 
 class ArchiveExecutor: ExecutorProtocol {
+    fileprivate let separator = " "
     fileprivate var commandExecutor: CommandExecutor!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -23,16 +24,17 @@ class ArchiveExecutor: ExecutorProtocol {
         self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
         self.commandExecutor.executeOnDirectoryPath = sourceCodeTempDir.path
         if let project = project {
-            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition))
+            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition, separator: self.separator))
         }
         if let target = target {
-            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.targetParam, composition: target.composition))
+            self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.targetParam, composition: target.composition, separator: self.separator))
         }
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: sdk?.composition ?? ArchiveTool.Values.sdkConfig))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: configuration.composition))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.schemeParam, composition: scheme.composition, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.sdkParam, composition: sdk?.composition ?? ArchiveTool.Values.sdkConfig, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: configuration.composition, separator: self.separator))
         self.commandExecutor.add(parameter: NoDashParameter.init(parameter: ArchiveTool.Parameters.archiveParam))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.useModernBuildSystem, composition: ArchiveTool.Values.useModernBuildSystemValue, separator: "=")) // separator must be `=`
         let xcpretty = !Application.isVerbose && Application.isXcprettyInstalled
         if xcpretty {
             self.commandExecutor.add(parameter: NoDashParameter.init(parameter: "| xcpretty && exit ${PIPESTATUS[0]}"))

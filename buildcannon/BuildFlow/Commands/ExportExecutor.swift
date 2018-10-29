@@ -9,6 +9,7 @@
 import Foundation
 
 class ExportExecutor: ExecutorProtocol {
+    fileprivate let separator = " "
     fileprivate var commandExecutor: CommandExecutor!
     fileprivate var teamId: DoubleDashComplexParameter!
     fileprivate var bundleIdentifier: DoubleDashComplexParameter!
@@ -48,9 +49,9 @@ class ExportExecutor: ExecutorProtocol {
         self.commandExecutor = CommandExecutor.init(path: "/usr/bin/", application: ExportTool.toolName, logFilePath: ExportTool.Values.exportLogPath)
         self.commandExecutor.logExecution = Application.isVerbose
         self.commandExecutor.add(parameter: SingleDashParameter.init(parameter: ExportTool.Parameters.exportArchive))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.archivePath, composition: archivePath?.composition ?? ArchiveTool.Values.archivePath))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportOptionsPlistPath, composition: ExportTool.Values.exportPlistPath))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportPath, composition: ExportTool.Values.exportPath))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.archivePath, composition: archivePath?.composition ?? ArchiveTool.Values.archivePath, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportOptionsPlistPath, composition: ExportTool.Values.exportPlistPath, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ExportTool.Parameters.exportPath, composition: ExportTool.Values.exportPath, separator: self.separator))
         self.commandExecutor.add(parameter: SingleDashParameter.init(parameter: ExportTool.Parameters.allowProvisioningUpdates))
     }
     

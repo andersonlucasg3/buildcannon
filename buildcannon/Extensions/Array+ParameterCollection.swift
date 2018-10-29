@@ -9,22 +9,18 @@
 import Foundation
 
 extension Array where Element == CommandParameter {
-    static func fromArgs() -> [CommandParameter] {
-        let current = ProcessInfo.processInfo
-        
+    fileprivate static let separator = "="
+    
+    static func from(arguments: [String]) -> [CommandParameter] {
         var parameters = Array<CommandParameter>()
-        var skip = false
-        for arg in current.arguments.enumerated() {
-            if skip { skip = false; continue }
-            if arg.offset + 1 == current.arguments.count { break }
-            if self.checkDoubleDash(current.arguments, arg.offset + 1, &parameters) {
-                skip = parameters.last is DoubleDashComplexParameter
+        for arg in arguments.enumerated() {
+            if arg.offset + 1 == arguments.count { break }
+            if self.checkDoubleDash(arguments, arg.offset + 1, &parameters) {
                 continue
             } else {
-                if self.checkSingleDash(current.arguments, arg.offset + 1, &parameters) {
-                    skip = parameters.last is SingleDashComplexParameter
+                if self.checkSingleDash(arguments, arg.offset + 1, &parameters) {
                     continue
-                } else if self.checkNoDash(current.arguments, arg.offset + 1, &parameters) {
+                } else if self.checkNoDash(arguments, arg.offset + 1, &parameters) {
                     continue
                 }
             }
@@ -32,22 +28,32 @@ extension Array where Element == CommandParameter {
         return parameters
     }
     
+    fileprivate static func build(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>, buildBlock: (String, String?) -> CommandParameter) -> Bool {
+        let previousCount = output.count
+        let parts = arguments[index].split(separator: "=")
+        if parts.count > 1 {
+            if let first = parts.first, let last = parts.last {
+                output.append(buildBlock(String.init(first), String.init(last)))
+            }
+        } else {
+            if let first = parts.first {
+                output.append(buildBlock(String.init(first), nil))
+            }
+        }
+        return previousCount != output.count
+    }
+    
     fileprivate static func checkSingleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
         return arguments[index].hasPrefix("-") && self.buildSingleDash(arguments, index, &output)
     }
     
     fileprivate static func buildSingleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
-        let nextIndex = index + 1
-        if nextIndex < arguments.count {
-            if !arguments[nextIndex].hasPrefix("--") && !arguments[nextIndex].hasPrefix("-") {
-                output.append(SingleDashComplexParameter.init(parameter: arguments[index], composition: arguments[nextIndex]))
-            } else {
-                output.append(SingleDashParameter.init(parameter: arguments[index]))
+        return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
+            if let last = last {
+                return SingleDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
             }
-        } else {
-            output.append(SingleDashParameter.init(parameter: arguments[index]))
+            return SingleDashParameter.init(parameter: first)
         }
-        return true
     }
     
     fileprivate static func checkDoubleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
@@ -55,24 +61,25 @@ extension Array where Element == CommandParameter {
     }
     
     fileprivate static func buildDoubleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
-        let nextIndex = index + 1
-        if nextIndex < arguments.count {
-            if !arguments[nextIndex].hasPrefix("--") && !arguments[nextIndex].hasPrefix("-") {
-                output.append(DoubleDashComplexParameter.init(parameter: arguments[index], composition: arguments[nextIndex]))
-            } else {
-                output.append(DoubleDashParameter.init(parameter: arguments[index]))
+        return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
+            if let last = last {
+                return DoubleDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
             }
-        } else {
-            output.append(DoubleDashParameter.init(parameter: arguments[index]))
+            return DoubleDashParameter.init(parameter: first)
         }
-        return true
     }
     
     fileprivate static func checkNoDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
-        if !arguments[index].hasPrefix("--") && !arguments[index].hasPrefix("-") {
-            output.append(NoDashParameter.init(parameter: arguments[index]))
-            return true
+        return !arguments[index].hasPrefix("--") && !arguments[index].hasPrefix("-") &&
+            self.buildNoDash(arguments, index, &output)
+    }
+    
+    fileprivate static func buildNoDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
+        return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
+            if let last = last {
+                return NoDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
+            }
+            return NoDashParameter.init(parameter: first)
         }
-        return false
     }
 }

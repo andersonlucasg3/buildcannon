@@ -12,4 +12,12 @@ protocol CommandParameter {
     var parameter: String { get }
     
     func buildParameter() -> String
+    
+    init(parameter: String)
+}
+
+protocol CommandComplexParameter: CommandParameter {
+    var composition: String { get }
+    
+    init(parameter: String, composition: String, separator: String)
 }

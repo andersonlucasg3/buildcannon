@@ -32,7 +32,7 @@ class CannonExport: CannonDistribute {
     
     fileprivate func moveIpaToOutputPath() {
         let ipaPath = self.getIpaPath()
-        if let outputPath: DoubleDashComplexParameter = self.findValue(for: Parameter.outputPath.name) {
+        if let outputPath: DoubleDashComplexParameter = self.findValue(for: InputParameter.outputPath.name) {
             do {
                 try FileManager.default.moveItem(atPath: ipaPath, toPath: outputPath.composition)
             } catch let error {
