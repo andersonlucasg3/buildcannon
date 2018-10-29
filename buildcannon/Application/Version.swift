@@ -9,7 +9,7 @@
 import Foundation
 
 struct Version {
-    private static let version = "0.8.0"
+    private static let version = "1.0.0"
     
     static func printVersion() {
         Console.log(message: "buildcannon version \(self.version)")
