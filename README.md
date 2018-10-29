@@ -13,18 +13,15 @@ It currently supports the commands bellow:
     - Uses the information in the default.cannon file to distribute your app to TestFlight
     - When provided a **target name** the information in the `target name.cannon` file to distribute your app to TestFlight with the configurations from `default.cannon` overrided by the configurations in the target file
 
-- [ ] `buildcannon batch-distribute "target 1" "target 2" ...`
-    - Uses the information in the `target 1.cannon`, `target 2.cannon` to batch-build all the informed targets
-
 - [x] `buildcannon self-update`
     - Starts a self updating process that will update the buildcannon binary
 
-- [ ] `buildcannon archive --output "/path/to/save/archive"`
+- [ ] `buildcannon archive --output="/path/to/save/archive"`
 
-- [x] `buildcannon export --output-path "/path/to/save/output.ipa" --export-method [app-store | ad-hoc | development | enterprise]`
+- [x] `buildcannon export --output-path="/path/to/save/output.ipa" --export-method=[app-store | ad-hoc | development | enterprise]`
     - Uses the information in the default.cannon file to export your app to a IPA file and saves it to `output-path`
 
-- [ ] `buildcannon upload --input "/path/to/ipa"`
+- [x] `buildcannon upload --ipa-path="/path/to/ipa"`
 
 ## **Install**
 
