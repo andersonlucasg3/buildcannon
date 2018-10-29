@@ -9,6 +9,7 @@
 import Foundation
 
 class ParametersChecker {
+    fileprivate let separator = " "
     fileprivate let parameters: [CommandParameter]
     
     init(parameters: [CommandParameter]) {
@@ -30,7 +31,7 @@ class ParametersChecker {
     func checkXcprettyInstalled(completion: @escaping (Bool) -> Void) {
         let executor = CommandExecutor.init(path: "/usr/bin/", application: "command", logFilePath: "\(baseTempDir)/checkXcprettyInstalled.log")
         executor.logExecution = Application.isVerbose
-        executor.add(parameter: SingleDashComplexParameter.init(parameter: "-v", composition: "xcpretty"))
+        executor.add(parameter: SingleDashComplexParameter.init(parameter: "-v", composition: "xcpretty", separator: self.separator))
         executor.execute(tag: "CommandParametersChecker") { (code, output) in
             Application.execute {
                 let success = !(output ?? "").isEmpty // !isEmpty means that the program exists

@@ -29,10 +29,10 @@ class DoubleDashComplexParameter: DoubleDashParameter, CommandComplexParameter {
     let composition: String
     
     required convenience init(parameter: String) {
-        self.init(parameter: parameter, composition: "")
+        self.init(parameter: parameter, composition: "", separator: "")
     }
     
-    required init(parameter: String, composition: String, separator: String = "=") {
+    required init(parameter: String, composition: String, separator: String) {
         self.composition = composition
         self.separator = separator
         super.init(parameter: parameter)

@@ -9,6 +9,8 @@
 import Foundation
 
 extension Array where Element == CommandParameter {
+    fileprivate static let separator = "="
+    
     static func from(arguments: [String]) -> [CommandParameter] {
         var parameters = Array<CommandParameter>()
         for arg in arguments.enumerated() {
@@ -48,7 +50,7 @@ extension Array where Element == CommandParameter {
     fileprivate static func buildSingleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
         return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
             if let last = last {
-                return SingleDashComplexParameter.init(parameter: first, composition: last)
+                return SingleDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
             }
             return SingleDashParameter.init(parameter: first)
         }
@@ -61,7 +63,7 @@ extension Array where Element == CommandParameter {
     fileprivate static func buildDoubleDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
         return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
             if let last = last {
-                return DoubleDashComplexParameter.init(parameter: first, composition: last)
+                return DoubleDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
             }
             return DoubleDashParameter.init(parameter: first)
         }
@@ -75,7 +77,7 @@ extension Array where Element == CommandParameter {
     fileprivate static func buildNoDash(_ arguments: [String], _ index: Int, _ output: inout Array<CommandParameter>) -> Bool {
         return self.build(arguments, index, &output) { (first, last) -> CommandParameter in
             if let last = last {
-                return NoDashComplexParameter.init(parameter: first, composition: last)
+                return NoDashComplexParameter.init(parameter: first, composition: last, separator: self.separator)
             }
             return NoDashParameter.init(parameter: first)
         }

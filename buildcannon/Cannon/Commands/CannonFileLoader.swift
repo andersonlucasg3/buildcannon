@@ -57,35 +57,36 @@ class CannonFileLoader {
     }
     
     func assign(file: CannonFile) {
+        let separator = "="
         if self.checkParameter(value: file.appstore_connect_account, commandName: InputParameter.username.name) {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: file.appstore_connect_account!))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: file.appstore_connect_account!, separator: separator))
         }
         if self.checkParameter(value: file.build_configuration, commandName: InputParameter.configuration.name), let build_configuration = file.build_configuration {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.configuration.name, composition: build_configuration))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.configuration.name, composition: build_configuration, separator: separator))
         }
         if self.checkParameter(value: file.bundle_identifier, commandName: InputParameter.bundleIdentifier.name), let bundle_identifier = file.bundle_identifier {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.bundleIdentifier.name, composition: bundle_identifier))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.bundleIdentifier.name, composition: bundle_identifier, separator: separator))
         }
         if self.checkParameter(value: file.project_file, commandName: InputParameter.projectFile.name), let project_file = file.project_file {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.projectFile.name, composition: project_file))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.projectFile.name, composition: project_file, separator: separator))
         }
         if self.checkParameter(value: file.provisioning_profile, commandName: InputParameter.provisioningProfile.name), let provisioning_profile = file.provisioning_profile {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.provisioningProfile.name, composition: provisioning_profile))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.provisioningProfile.name, composition: provisioning_profile, separator: separator))
         }
         if self.checkParameter(value: file.scheme, commandName: InputParameter.scheme.name), let scheme = file.scheme {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.scheme.name, composition: scheme))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.scheme.name, composition: scheme, separator: separator))
         }
         if self.checkParameter(value: file.team_id, commandName: InputParameter.teamId.name), let team_id = file.team_id {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.teamId.name, composition: team_id))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.teamId.name, composition: team_id, separator: separator))
         }
         if self.checkParameter(value: file.sdk, commandName: InputParameter.sdk.name), let sdk = file.sdk {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.sdk.name, composition: sdk))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.sdk.name, composition: sdk, separator: separator))
         }
         if self.checkParameter(value: file.top_shelf_bundle_identifier, commandName: InputParameter.topShelfBundleIdentifier.name), let top_shelf_bundle_identifier = file.top_shelf_bundle_identifier {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfBundleIdentifier.name, composition: top_shelf_bundle_identifier))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfBundleIdentifier.name, composition: top_shelf_bundle_identifier, separator: separator))
         }
         if self.checkParameter(value: file.top_shelf_provisioning_profile, commandName: InputParameter.topShelfProvisioningProfile.name), let top_shelf_provisioning_profile = file.top_shelf_provisioning_profile {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile))
+            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile, separator: separator))
         }
     }
     

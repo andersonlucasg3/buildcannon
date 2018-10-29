@@ -9,6 +9,7 @@
 import Foundation
 
 class UploadExecutor: ExecutorProtocol {
+    fileprivate let separator = " "
     fileprivate var commandExecutor: CommandExecutor!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -22,9 +23,9 @@ class UploadExecutor: ExecutorProtocol {
         self.commandExecutor = CommandExecutor.init(path: UploadTool.toolPath, application: UploadTool.toolName, logFilePath: UploadTool.Values.uploadLogPath)
         self.commandExecutor.logExecution = Application.isVerbose
         self.commandExecutor.add(parameter: DoubleDashParameter.init(parameter: UploadTool.Parameters.uploadApp))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.file, composition: ipaPath))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.username, composition: userName.composition))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.password, composition: password.composition))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.file, composition: ipaPath, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.username, composition: userName.composition, separator: self.separator))
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: UploadTool.Parameters.password, composition: password.composition, separator: self.separator))
     }
     
     fileprivate func dispatchFinished(_ returnCode: Int) {

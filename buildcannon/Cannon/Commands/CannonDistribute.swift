@@ -9,6 +9,7 @@
 import Foundation
 
 class CannonDistribute: ExecutorProtocol {
+    fileprivate let separator = "="
     fileprivate var currentExecutor: ExecutorProtocol!
     
     weak var delegate: ExecutorCompletionProtocol?
@@ -23,7 +24,7 @@ class CannonDistribute: ExecutorProtocol {
         var command: NoDashComplexParameter? = nil
         let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
         if let value = value {
-            command = NoDashComplexParameter.init(parameter: CannonParameter.distribute.name, composition: value.parameter)
+            command = NoDashComplexParameter.init(parameter: CannonParameter.distribute.name, composition: value.parameter, separator: self.separator)
             Console.log(message: "Cannon project \(value.parameter).cannon will be used.")
         }
         
@@ -119,7 +120,7 @@ class CannonDistribute: ExecutorProtocol {
         if userName == nil {
             Console.readInput(message: "Enter your AppStore Connect account: ", readCallback: { (value) in
                 if let value = value {
-                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: value))
+                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account not informed, exiting...")
                     application.interrupt()
@@ -129,7 +130,7 @@ class CannonDistribute: ExecutorProtocol {
         if password == nil {
             Console.readInputSecure(message: "Enter your AppStore Connect account password: ", readCallback: { (value) in
                 if let value = value {
-                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.password.name, composition: value))
+                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.password.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account password not informed, exiting...")
                     application.interrupt()

@@ -26,7 +26,7 @@ class NoDashComplexParameter: NoDashParameter, CommandComplexParameter {
         super.init(parameter: parameter)
     }
     
-    required init(parameter: String, composition: String, separator: String = "=") {
+    required init(parameter: String, composition: String, separator: String) {
         self.composition = composition
         super.init(parameter: parameter)
     }
