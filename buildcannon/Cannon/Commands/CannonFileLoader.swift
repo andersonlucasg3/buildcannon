@@ -9,6 +9,14 @@
 import Foundation
 
 class CannonFileLoader {
+    func listFilesNames() -> [String]? {
+        let buildcannonPath = sourceCodeTempDir.appendingPathComponent("buildcannon")
+        if let files = try? FileManager.default.contentsOfDirectory(atPath: buildcannonPath.path) {
+            return files.map({ $0.replacingOccurrences(of: ".cannon", with: "") })
+        }
+        return nil
+    }
+    
     func load(target: String?) -> CannonFile? {
         if let file = self.loadFile(for: "default") {
             if let target = target {
@@ -56,43 +64,43 @@ class CannonFileLoader {
         return nil
     }
     
-    func assign(file: CannonFile) {
+    func assign(file: CannonFile, processParameters: inout [CommandParameter]) {
         let separator = "="
-        if self.checkParameter(value: file.appstore_connect_account, commandName: InputParameter.username.name) {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: file.appstore_connect_account!, separator: separator))
+        if self.checkParameter(value: file.appstore_connect_account, commandName: InputParameter.Identity.username.name, processParameters: processParameters) {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Identity.username.name, composition: file.appstore_connect_account!, separator: separator))
         }
-        if self.checkParameter(value: file.build_configuration, commandName: InputParameter.configuration.name), let build_configuration = file.build_configuration {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.configuration.name, composition: build_configuration, separator: separator))
+        if self.checkParameter(value: file.build_configuration, commandName: InputParameter.Project.configuration.name, processParameters: processParameters), let build_configuration = file.build_configuration {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.configuration.name, composition: build_configuration, separator: separator))
         }
-        if self.checkParameter(value: file.bundle_identifier, commandName: InputParameter.bundleIdentifier.name), let bundle_identifier = file.bundle_identifier {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.bundleIdentifier.name, composition: bundle_identifier, separator: separator))
+        if self.checkParameter(value: file.bundle_identifier, commandName: InputParameter.Project.bundleIdentifier.name, processParameters: processParameters), let bundle_identifier = file.bundle_identifier {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.bundleIdentifier.name, composition: bundle_identifier, separator: separator))
         }
-        if self.checkParameter(value: file.project_file, commandName: InputParameter.projectFile.name), let project_file = file.project_file {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.projectFile.name, composition: project_file, separator: separator))
+        if self.checkParameter(value: file.project_file, commandName: InputParameter.Project.projectFile.name, processParameters: processParameters), let project_file = file.project_file {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.projectFile.name, composition: project_file, separator: separator))
         }
-        if self.checkParameter(value: file.provisioning_profile, commandName: InputParameter.provisioningProfile.name), let provisioning_profile = file.provisioning_profile {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.provisioningProfile.name, composition: provisioning_profile, separator: separator))
+        if self.checkParameter(value: file.provisioning_profile, commandName: InputParameter.Project.provisioningProfile.name, processParameters: processParameters), let provisioning_profile = file.provisioning_profile {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.provisioningProfile.name, composition: provisioning_profile, separator: separator))
         }
-        if self.checkParameter(value: file.scheme, commandName: InputParameter.scheme.name), let scheme = file.scheme {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.scheme.name, composition: scheme, separator: separator))
+        if self.checkParameter(value: file.scheme, commandName: InputParameter.Project.scheme.name, processParameters: processParameters), let scheme = file.scheme {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.scheme.name, composition: scheme, separator: separator))
         }
-        if self.checkParameter(value: file.team_id, commandName: InputParameter.teamId.name), let team_id = file.team_id {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.teamId.name, composition: team_id, separator: separator))
+        if self.checkParameter(value: file.team_id, commandName: InputParameter.Project.teamId.name, processParameters: processParameters), let team_id = file.team_id {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.teamId.name, composition: team_id, separator: separator))
         }
-        if self.checkParameter(value: file.sdk, commandName: InputParameter.sdk.name), let sdk = file.sdk {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.sdk.name, composition: sdk, separator: separator))
+        if self.checkParameter(value: file.sdk, commandName: InputParameter.Project.sdk.name, processParameters: processParameters), let sdk = file.sdk {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.sdk.name, composition: sdk, separator: separator))
         }
-        if self.checkParameter(value: file.top_shelf_bundle_identifier, commandName: InputParameter.topShelfBundleIdentifier.name), let top_shelf_bundle_identifier = file.top_shelf_bundle_identifier {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfBundleIdentifier.name, composition: top_shelf_bundle_identifier, separator: separator))
+        if self.checkParameter(value: file.top_shelf_bundle_identifier, commandName: InputParameter.Project.topShelfBundleIdentifier.name, processParameters: processParameters), let top_shelf_bundle_identifier = file.top_shelf_bundle_identifier {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.topShelfBundleIdentifier.name, composition: top_shelf_bundle_identifier, separator: separator))
         }
-        if self.checkParameter(value: file.top_shelf_provisioning_profile, commandName: InputParameter.topShelfProvisioningProfile.name), let top_shelf_provisioning_profile = file.top_shelf_provisioning_profile {
-            Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile, separator: separator))
+        if self.checkParameter(value: file.top_shelf_provisioning_profile, commandName: InputParameter.Project.topShelfProvisioningProfile.name, processParameters: processParameters), let top_shelf_provisioning_profile = file.top_shelf_provisioning_profile {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile, separator: separator))
         }
     }
     
-    fileprivate func checkParameter(value: String?, commandName: String) -> Bool {
+    fileprivate func checkParameter(value: String?, commandName: String, processParameters: [CommandParameter]) -> Bool {
         if let value = value, !value.isEmpty {
-            return !Application.processParameters.contains(where: { $0.parameter == commandName })
+            return !processParameters.contains(where: { $0.parameter == commandName })
         }
         return false
     }

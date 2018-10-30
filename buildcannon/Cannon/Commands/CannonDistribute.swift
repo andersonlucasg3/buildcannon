@@ -12,6 +12,9 @@ class CannonDistribute: ExecutorProtocol {
     fileprivate let separator = "="
     fileprivate var currentExecutor: ExecutorProtocol!
     
+    fileprivate(set) var targetList: [String]!
+    var currentTarget: String { return self.targetList?.first ?? "default" }
+    
     weak var delegate: ExecutorCompletionProtocol?
     
     required init() { }
@@ -19,16 +22,17 @@ class CannonDistribute: ExecutorProtocol {
     func execute() {
         application.sourceCodeManager.copySourceCode()
         
-        var command: NoDashComplexParameter? = nil
-        let value: NoDashParameter? = Application.processParameters.count > 1 ? Application.processParameters[1] as? NoDashParameter : nil
-        if let value = value {
-            command = NoDashComplexParameter.init(parameter: CannonParameter.distribute.name, composition: value.parameter, separator: self.separator)
-            Console.log(message: "Cannon project \(value.parameter).cannon will be used.")
-        }
+        self.targetList = DistributeTargetsProcessor.init(Application.processParameters).process()
+        
+        self.executeNextTarget()
+    }
+    
+    fileprivate func executeNextTarget() {
+        Console.log(message: "Cannon project \(self.currentTarget).cannon will be used.")
         
         let fileLoader = CannonFileLoader.init()
-        if let file = fileLoader.load(target: command?.composition) {
-            fileLoader.assign(file: file)
+        if let file = fileLoader.load(target: self.currentTarget) {
+            fileLoader.assign(file: file, processParameters: &Application.processParameters)
             self.executePreBuild(file: file)
         } else {
             Console.log(message: "Cannon project file not exists.")
@@ -36,6 +40,15 @@ class CannonDistribute: ExecutorProtocol {
         }
     }
     
+    func dequeueAndExecuteNextTargetIfNeeded() {
+        self.targetList?.removeFirst()
+        if self.targetList?.count ?? 0 > 0 {
+            self.executeNextTarget()
+        } else {
+            application.interrupt()
+        }
+    }
+       
     func executePreBuild(file: CannonFile) {
         if let preBuild = file.pre_build_commands {
             self.startPreBuildCommandExecutor(preBuild)
@@ -159,10 +172,26 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         }
     }
     
+    // MARK: Pre build callbacks
+
+    func preBuildCommandExecutorDidFinishWithSuccess() {
+        Console.log(message: "Pre-build finished with success for target \(self.currentTarget)")
+        
+        self.executeArchive()
+    }
+    
+    func preBuildCommandExecutorDidFailWithErrorCode(_ code: Int) {
+        Console.log(message: "Pre-build failed with status code \(code) for target \(self.currentTarget)")
+        
+        application.interrupt()
+    }
+    
+    // MARK: Archive callbacks
+    
     func archiveDidFinishWithSuccess() {
         application.sourceCodeManager.deleteSourceCode()
         
-        Console.log(message: "Archive finished with success")
+        Console.log(message: "Archive finished with success for target \(self.currentTarget)")
         
         self.executeExport()
     }
@@ -170,47 +199,39 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     func archiveDidFailWithStatusCode(_ code: Int) {
         application.sourceCodeManager.deleteSourceCode()
         
-        Console.log(message: "Archive failed with status code: \(code)")
+        Console.log(message: "Archive failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
         
-        application.interrupt()
+        self.dequeueAndExecuteNextTargetIfNeeded()
     }
-
+    
+    // MARK: Export callbacks
+    
     @objc func exportExecutorDidFinishWithSuccess() {
-        Console.log(message: "Export finished with success")
+        Console.log(message: "Export finished with success for target \(self.currentTarget)")
         
         self.executeUpload()
     }
     
     func exportExecutorDidFinishWithFailCode(_ code: Int) {
-        Console.log(message: "Export failed with status code: \(code)")
+        Console.log(message: "Export failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
         
-        application.interrupt()
+        self.dequeueAndExecuteNextTargetIfNeeded()
     }
-
+    
+    // MARK: Upload callbacks
+    
     @objc func uploadExecutorDidFinishWithSuccess() {
-        Console.log(message: "Upload finished with success")
+        Console.log(message: "Upload finished with success for target \(self.currentTarget)")
         
-        application.interrupt()
+        self.dequeueAndExecuteNextTargetIfNeeded()
     }
     
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
-        Console.log(message: "Upload failed with status code: \(code)")
+        Console.log(message: "Upload failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(UploadTool.Values.uploadLogPath)")
         
-        application.interrupt()
-    }
-    
-    func preBuildCommandExecutorDidFinishWithSuccess() {
-        Console.log(message: "Pre-build finished with success")
-        
-        self.executeArchive()
-    }
-    
-    func preBuildCommandExecutorDidFailWithErrorCode(_ code: Int) {
-        Console.log(message: "Pre-build failed with status code: \(code)")
-        
-        application.interrupt()
+        self.dequeueAndExecuteNextTargetIfNeeded()
     }
 }
