@@ -49,8 +49,8 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     func getIpaPath() -> String {
-        let scheme: DoubleDashComplexParameter? = self.findValue(for: InputParameter.scheme.name)
-        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: InputParameter.ipaPath.name)
+        let scheme: DoubleDashComplexParameter? = self.findValue(for: InputParameter.Project.scheme.name)
+        let ipaPathParameter: DoubleDashComplexParameter? = self.findValue(for: InputParameter.Output.ipaPath.name)
         return ipaPathParameter?.composition ?? baseTempDir + "/\(scheme?.composition ?? "app").ipa"
     }
     
@@ -66,11 +66,11 @@ class CannonDistribute: ExecutorProtocol {
     func executeArchive() {
         Console.log(message: "Starting archive at path: \(sourceCodeTempDir.path)")
         
-        let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: InputParameter.projectFile.name),
-                                                   target: self.findValue(for: InputParameter.target.name),
-                                                   sdk: self.findValue(for: InputParameter.sdk.name),
-                                                   scheme: self.findValue(for: InputParameter.scheme.name)!,
-                                                   configuration: self.findValue(for: InputParameter.configuration.name)!)
+        let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: InputParameter.Project.projectFile.name),
+                                                   target: self.findValue(for: InputParameter.Project.target.name),
+                                                   sdk: self.findValue(for: InputParameter.Project.sdk.name),
+                                                   scheme: self.findValue(for: InputParameter.Project.scheme.name)!,
+                                                   configuration: self.findValue(for: InputParameter.Project.configuration.name)!)
         archiveExecutor.delegate = self
         archiveExecutor.execute()
         self.currentExecutor = archiveExecutor
@@ -79,15 +79,15 @@ class CannonDistribute: ExecutorProtocol {
     func executeExport() {
         Console.log(message: "Starting export at path: \(baseTempDir)")
         
-        let sdk: DoubleDashComplexParameter? = self.findValue(for: InputParameter.sdk.name)
+        let sdk: DoubleDashComplexParameter? = self.findValue(for: InputParameter.Project.sdk.name)
         let tvosExport = (sdk?.composition ?? "").contains("appletvos")
-        let exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: InputParameter.archivePath.name),
-                                                 teamId: self.findValue(for: InputParameter.teamId.name)!,
-                                                 bundleIdentifier: self.findValue(for: InputParameter.bundleIdentifier.name)!,
-                                                 topShelfBundleIdentifier: self.findValue(for: InputParameter.topShelfBundleIdentifier.name),
-                                                 provisioningProfileName: self.findValue(for: InputParameter.provisioningProfile.name)!,
-                                                 topShelfProvisioningProfile: self.findValue(for: InputParameter.topShelfProvisioningProfile.name),
-                                                 exportMethod: self.findValue(for: InputParameter.exportMethod.name),
+        let exportExecutor = ExportExecutor.init(archivePath: self.findValue(for: InputParameter.Output.archivePath.name),
+                                                 teamId: self.findValue(for: InputParameter.Project.teamId.name)!,
+                                                 bundleIdentifier: self.findValue(for: InputParameter.Project.bundleIdentifier.name)!,
+                                                 topShelfBundleIdentifier: self.findValue(for: InputParameter.Project.topShelfBundleIdentifier.name),
+                                                 provisioningProfileName: self.findValue(for: InputParameter.Project.provisioningProfile.name)!,
+                                                 topShelfProvisioningProfile: self.findValue(for: InputParameter.Project.topShelfProvisioningProfile.name),
+                                                 exportMethod: self.findValue(for: InputParameter.Project.exportMethod.name),
                                                  tvosExport: tvosExport,
                                                  includeBitcode: tvosExport)
         exportExecutor.delegate = self
@@ -101,8 +101,8 @@ class CannonDistribute: ExecutorProtocol {
         self.queryAccountIfNeeded()
         
         let uploadExecutor = UploadExecutor.init(ipaPath: self.getIpaPath(),
-                                                 userName: self.findValue(for: InputParameter.username.name)!,
-                                                 password: self.findValue(for: InputParameter.password.name)!)
+                                                 userName: self.findValue(for: InputParameter.Identity.username.name)!,
+                                                 password: self.findValue(for: InputParameter.Identity.password.name)!)
         uploadExecutor.delegate = self
         uploadExecutor.execute()
         self.currentExecutor = uploadExecutor
@@ -113,12 +113,12 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     fileprivate func queryAccountIfNeeded() {
-        let userName: DoubleDashComplexParameter? = self.findValue(for: InputParameter.username.name)
-        let password: DoubleDashComplexParameter? = self.findValue(for: InputParameter.password.name)
+        let userName: DoubleDashComplexParameter? = self.findValue(for: InputParameter.Identity.username.name)
+        let password: DoubleDashComplexParameter? = self.findValue(for: InputParameter.Identity.password.name)
         if userName == nil {
             Console.readInput(message: "Enter your AppStore Connect account: ", readCallback: { (value) in
                 if let value = value {
-                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.username.name, composition: value, separator: self.separator))
+                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Identity.username.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account not informed, exiting...")
                     application.interrupt()
@@ -128,7 +128,7 @@ class CannonDistribute: ExecutorProtocol {
         if password == nil {
             Console.readInputSecure(message: "Enter your AppStore Connect account password: ", readCallback: { (value) in
                 if let value = value {
-                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.password.name, composition: value, separator: self.separator))
+                    Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Identity.password.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account password not informed, exiting...")
                     application.interrupt()

@@ -10,23 +10,23 @@ import Foundation
 
 class CannonParameter: InputParameter {
     fileprivate static let buildDependencies = [
-        InputParameter.scheme
+        InputParameter.Project.scheme
     ]
     fileprivate static let distributeDependencies = [
-        InputParameter.scheme,
-        InputParameter.provisioningProfile,
-        InputParameter.teamId,
-        InputParameter.bundleIdentifier
+        InputParameter.Project.scheme,
+        InputParameter.Project.provisioningProfile,
+        InputParameter.Project.teamId,
+        InputParameter.Project.bundleIdentifier
     ]
     fileprivate static let exportDependencies = [
-        InputParameter.scheme,
-        InputParameter.provisioningProfile,
-        InputParameter.teamId,
-        InputParameter.bundleIdentifier,
-        InputParameter.outputPath
+        InputParameter.Project.scheme,
+        InputParameter.Project.provisioningProfile,
+        InputParameter.Project.teamId,
+        InputParameter.Project.bundleIdentifier,
+        InputParameter.Output.outputPath
     ]
     fileprivate static let uploadDependencies = [
-        InputParameter.ipaPath
+        InputParameter.Output.ipaPath
     ]
     
     fileprivate(set) var executorType: ExecutorProtocol.Type!
