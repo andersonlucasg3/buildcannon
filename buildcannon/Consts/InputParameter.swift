@@ -10,6 +10,7 @@ import Foundation
 
 let baseTempDir = NSTemporaryDirectory() + UUID.init().uuidString
 let sourceCodeTempDir = URL(fileURLWithPath: baseTempDir).appendingPathComponent("sourcecode")
+let processWorkingDir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 
 class InputParameter {
     let name: String

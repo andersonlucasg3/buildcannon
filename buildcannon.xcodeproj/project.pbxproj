@@ -46,6 +46,7 @@
 		71E3F4472188DF37002B0731 /* ArchiveTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EA20D4314000552A3F /* ArchiveTool.swift */; };
 		71E3F44A2188DF9A002B0731 /* CannonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F4492188DF9A002B0731 /* CannonFile.swift */; };
 		71E3F44B2188DF9F002B0731 /* CannonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F4492188DF9A002B0731 /* CannonFile.swift */; };
+		71E3F44D2188E636002B0731 /* CannonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F44C2188E636002B0731 /* CannonList.swift */; };
 		71E4EB57218561170045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71E4EB58218561180045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71E4EB592185611E0045D4FE /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
@@ -108,6 +109,7 @@
 		71E3F43B2188D3D0002B0731 /* AppMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenu.swift; sourceTree = "<group>"; };
 		71E3F43D2188D8FA002B0731 /* DistributeTargetsProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributeTargetsProcessor.swift; sourceTree = "<group>"; };
 		71E3F4492188DF9A002B0731 /* CannonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonFile.swift; sourceTree = "<group>"; };
+		71E3F44C2188E636002B0731 /* CannonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonList.swift; sourceTree = "<group>"; };
 		71E4EB5D218750920045D4FE /* CannonUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonUpload.swift; sourceTree = "<group>"; };
 		71F0016120D5683200407CA1 /* Trap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap.swift; sourceTree = "<group>"; };
 		71F4C61C20EE997F00799F3B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				713BB4DD20D8B3EA0047079F /* CannonFileCreator.swift */,
 				714753962141AE0E00D72B7B /* CannonFileTargetCreator.swift */,
 				711BA00A20D990540063FCFB /* CannonFileLoader.swift */,
+				71E3F44C2188E636002B0731 /* CannonList.swift */,
 				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
 				7179C3EA212712EC00290ED2 /* CannonExport.swift */,
 				71E4EB5D218750920045D4FE /* CannonUpload.swift */,
@@ -461,6 +464,7 @@
 				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71E3F43C2188D3D1002B0731 /* AppMenu.swift in Sources */,
+				71E3F44D2188E636002B0731 /* CannonList.swift in Sources */,
 				71351ECE20D18C9200BE9B60 /* InputParameter.swift in Sources */,
 				71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */,
 				71351EC620D1892500BE9B60 /* ActionMenuOption.swift in Sources */,

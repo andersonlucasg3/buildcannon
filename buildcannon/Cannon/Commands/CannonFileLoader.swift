@@ -9,8 +9,8 @@
 import Foundation
 
 class CannonFileLoader {
-    func listFilesNames() -> [String]? {
-        let buildcannonPath = sourceCodeTempDir.appendingPathComponent("buildcannon")
+    func listFilesNames(wasSourceCopied: Bool = true) -> [String]? {
+        let buildcannonPath = (wasSourceCopied ? sourceCodeTempDir : processWorkingDir).appendingPathComponent("buildcannon")
         if let files = try? FileManager.default.contentsOfDirectory(atPath: buildcannonPath.path) {
             return files.map({ $0.replacingOccurrences(of: ".cannon", with: "") })
         }
