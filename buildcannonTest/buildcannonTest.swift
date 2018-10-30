@@ -20,7 +20,7 @@ class buildcannonTest: XCTestCase {
             "crazy",
             "crazy1=shit3"
         ]
-        let inputParams: Array<CommandParameter> = Array<CommandParameter>.from(arguments: args)
+        let inputParams = Array<CommandParameter>.from(arguments: args)
         
         let noDashParameter = inputParams[0] as! NoDashParameter
         let doubleDashComplexParameter = inputParams[1] as! DoubleDashComplexParameter
@@ -36,5 +36,23 @@ class buildcannonTest: XCTestCase {
         assert(singleDashParameter.parameter == "param4")
         assert(lastNoDashParameter.parameter == "crazy")
         assert(lastNoDashComplexParameter.parameter == "crazy1" && lastNoDashComplexParameter.composition == "shit3")
+    }
+    
+    func testDistributeTargetsProcessorAll() {
+        let parameters = ["buildcannon", "distribute", "--all"]
+        
+        let inputParams = Array<CommandParameter>.from(arguments: parameters)
+        let processor = DistributeTargetsProcessor.init(inputParams)
+        assert(processor.process() == nil)
+    }
+    
+    func testDistributeTargetsProcessorTargets() {
+        let parameters = ["buildcannon", "distribute", "--targets=CombatePlay,PremierePlay"]
+        
+        let inputParams = Array<CommandParameter>.from(arguments: parameters)
+        let processor = DistributeTargetsProcessor.init(inputParams)
+        let targets = processor.process() ?? []
+        assert(targets[0] == "CombatePlay")
+        assert(targets[1] == "PremierePlay")
     }
 }

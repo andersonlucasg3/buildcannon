@@ -10,23 +10,23 @@ import Foundation
 
 class CannonParameter: InputParameter {
     fileprivate static let buildDependencies = [
-        InputParameter.scheme
+        InputParameter.Project.scheme
     ]
     fileprivate static let distributeDependencies = [
-        InputParameter.scheme,
-        InputParameter.provisioningProfile,
-        InputParameter.teamId,
-        InputParameter.bundleIdentifier
+        InputParameter.Project.scheme,
+        InputParameter.Project.provisioningProfile,
+        InputParameter.Project.teamId,
+        InputParameter.Project.bundleIdentifier
     ]
     fileprivate static let exportDependencies = [
-        InputParameter.scheme,
-        InputParameter.provisioningProfile,
-        InputParameter.teamId,
-        InputParameter.bundleIdentifier,
-        InputParameter.outputPath
+        InputParameter.Project.scheme,
+        InputParameter.Project.provisioningProfile,
+        InputParameter.Project.teamId,
+        InputParameter.Project.bundleIdentifier,
+        InputParameter.Output.outputPath
     ]
     fileprivate static let uploadDependencies = [
-        InputParameter.ipaPath
+        InputParameter.Output.ipaPath
     ]
     
     fileprivate(set) var executorType: ExecutorProtocol.Type!
@@ -40,6 +40,7 @@ class CannonParameter: InputParameter {
         switch command.parameter {
         case self.create.name: return self.create
         case self.createTarget.name: return self.createTarget
+        case self.list.name: return self.list
         case self.build.name: return self.build
         case self.test.name: return self.test
         case self.distribute.name: return self.distribute
@@ -52,6 +53,7 @@ class CannonParameter: InputParameter {
     
     static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
     static let createTarget = CannonParameter.init(name: "create-target", type: NoDashParameter.self, dependency: nil, executor: CannonFileTargetCreator.self)
+    static let list = CannonParameter.init(name: "list", type: NoDashParameter.self, dependency: nil, executor: CannonList.self)
     static let build = InputParameter.init(name: "build", type: NoDashParameter.self, dependency: buildDependencies)
     static let test = InputParameter.init(name: "test", type: NoDashParameter.self, dependency: buildDependencies)
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
