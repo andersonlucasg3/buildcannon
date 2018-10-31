@@ -28,6 +28,5 @@ struct ArchiveTool {
         static let sdkConfig = "iphoneos"
         static let archivePath = baseTempDir + "/app.xcarchive"
         static let archiveLogPath = baseTempDir + "/archive.log"
-        static let useModernBuildSystemValue = "YES"
     }
 }
