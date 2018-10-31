@@ -34,11 +34,19 @@ class ArchiveExecutor: ExecutorProtocol {
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.configurationParam, composition: configuration.composition, separator: self.separator))
         self.commandExecutor.add(parameter: NoDashParameter.init(parameter: ArchiveTool.Parameters.archiveParam))
         self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.archivePathParam, composition: ArchiveTool.Values.archivePath, separator: self.separator))
-        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.useModernBuildSystem, composition: ArchiveTool.Values.useModernBuildSystemValue, separator: "=")) // separator must be `=`
+        
+        self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: ArchiveTool.Parameters.useModernBuildSystem,
+                                                                            composition: self.isUseLegacyBuildSystemParameterPresent() ? "NO" : "YES",
+                                                                            separator: "=")) // separator must be `=`
+        
         let xcpretty = !Application.isVerbose && Application.isXcprettyInstalled
         if xcpretty {
             self.commandExecutor.add(parameter: NoDashParameter.init(parameter: "| xcpretty && exit ${PIPESTATUS[0]}"))
         }
+    }
+    
+    fileprivate func isUseLegacyBuildSystemParameterPresent() -> Bool {
+        return Application.processParameters.contains(where: {$0.parameter == InputParameter.Project.useLegacyBuildSystem.name})
     }
     
     fileprivate func projectParam(for parameter: DoubleDashComplexParameter) -> String {
