@@ -29,6 +29,7 @@ class AppMenu {
             ActionMenuOption.init(command: "--\(InputParameter.Project.provisioningProfile.name)=\"[your provisioning profile name]\"", detail: "Provide a provisioning profile name to build.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.topShelfProvisioningProfile.name)=\"[your provisioning profile name for TopShelf]\"", detail: "Provide a provisioning profile name to build the TopShelf target.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.exportMethod.name)=\"[app-store | ad-hoc | development | enterprise]\"", detail: "If running 'buildcannon `distribute`|`export`' export method can be specified.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.Project.useLegacyBuildSystem.name)", detail: "Sets the build to use the Legacy Build System", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.verbose.name)", detail: "Logs all content into the console.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.help.name)", detail: "Shows this menu with public parameters.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {}),
