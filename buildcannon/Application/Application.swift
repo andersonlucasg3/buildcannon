@@ -58,9 +58,9 @@ class Application {
         dispatchMain()
     }
     
-    func interrupt() {
+    func interrupt(code: Int) {
         self.currentExecutor?.cancel()
-        exit(0)
+        exit(Int32(code))
     }
     
     fileprivate func startInitialProcess() {
