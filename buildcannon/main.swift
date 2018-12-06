@@ -9,8 +9,8 @@
 import Foundation
 
 let application = Application.init()
-Trap.handle(signal: .interrupt) { _ in
+Trap.handle(signal: .interrupt) { value in
     application.sourceCodeManager.deleteSourceCode()
-    application.interrupt()
+    application.interrupt(code: Int(value))
 }
 application.start()

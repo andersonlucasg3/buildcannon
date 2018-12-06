@@ -13,7 +13,7 @@ class CannonUpload: CannonExport {
         if self.validateRequiredParameters() {
             self.executeUpload()
         } else {
-            application.interrupt()
+            application.interrupt(code: -1)
         }
     }
     
