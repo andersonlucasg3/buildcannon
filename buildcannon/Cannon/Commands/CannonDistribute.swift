@@ -45,7 +45,7 @@ class CannonDistribute: ExecutorProtocol {
         if self.targetList?.count ?? 0 > 0 {
             self.executeNextTarget()
         } else {
-            application.interrupt()
+            application.interrupt(code: 0)
         }
     }
        
@@ -134,7 +134,7 @@ class CannonDistribute: ExecutorProtocol {
                     Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Identity.username.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account not informed, exiting...")
-                    application.interrupt()
+                    application.interrupt(code: -1)
                 }
             })
         }
@@ -144,7 +144,7 @@ class CannonDistribute: ExecutorProtocol {
                     Application.processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Identity.password.name, composition: value, separator: self.separator))
                 } else {
                     Console.log(message: "AppStore Connect account password not informed, exiting...")
-                    application.interrupt()
+                    application.interrupt(code: -1)
                 }
             })
         }
@@ -183,7 +183,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
     func preBuildCommandExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Pre-build failed with status code \(code) for target \(self.currentTarget)")
         
-        application.interrupt()
+        application.interrupt(code: code)
     }
     
     // MARK: Archive callbacks
