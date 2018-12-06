@@ -42,12 +42,12 @@ class Application {
             self.setupConfigurations {
                 guard !self.checker.checkHelp() else {
                     self.menu.draw()
-                    self.interrupt()
+                    self.interrupt(code: 0)
                     return
                 }
                 guard !self.checker.checkVersion() else {
                     Version.printVersion()
-                    self.interrupt()
+                    self.interrupt(code: 0)
                     return
                 }
                 
@@ -75,7 +75,7 @@ class Application {
             self.currentExecutor = executor
         } else {
             self.menu.draw()
-            self.interrupt()
+            self.interrupt(code: 0)
         }
     }
     
@@ -101,12 +101,12 @@ extension Application: ExecutorCompletionProtocol {
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         Console.log(message: "buildcannon finished with success")
         self.sourceCodeManager.removeCacheDir()
-        application.interrupt()
+        application.interrupt(code: 0)
     }
     
     func executor(_ executor: ExecutorProtocol, didFailWithErrorCode code: Int) {
         Console.log(message: "buildcannon failed with status code: \(code)")
         Console.log(message: "See logs at: \(baseTempDir)")
-        application.interrupt()
+        application.interrupt(code: code)
     }
 }

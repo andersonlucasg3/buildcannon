@@ -45,11 +45,11 @@ class SourceCodeManager {
                 #endif
                 try FileManager.default.copyItem(at: $0.from, to: $0.to)
             })
-        } catch let error {
+        } catch let error as NSError {
             Console.log(message: "Coudn't copy source contents, interrupting...")
             Console.log(message: "Error: \(error.localizedDescription)")
             self.deleteSourceCode()
-            application.interrupt()
+            application.interrupt(code: error.code)
         }
     }
     

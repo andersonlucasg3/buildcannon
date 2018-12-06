@@ -13,7 +13,7 @@ class CannonExport: CannonDistribute {
         if self.validateRequiredParameters() {
             super.executePreBuild(file: file)
         } else {
-            application.interrupt()
+            application.interrupt(code: -1)
         }
     }
     
