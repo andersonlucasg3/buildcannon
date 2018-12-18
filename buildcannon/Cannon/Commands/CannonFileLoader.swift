@@ -59,6 +59,7 @@ class CannonFileLoader {
             set(current: &cannonFile.team_id, default: file.team_id)
             set(current: &cannonFile.top_shelf_bundle_identifier, default: file.top_shelf_bundle_identifier)
             set(current: &cannonFile.top_shelf_provisioning_profile, default: file.top_shelf_provisioning_profile)
+            set(current: &cannonFile.export_method, default: file.export_method)
             return cannonFile
         }
         return nil
@@ -95,6 +96,9 @@ class CannonFileLoader {
         }
         if self.checkParameter(value: file.top_shelf_provisioning_profile, commandName: InputParameter.Project.topShelfProvisioningProfile.name, processParameters: processParameters), let top_shelf_provisioning_profile = file.top_shelf_provisioning_profile {
             processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile, separator: separator))
+        }
+        if self.checkParameter(value: file.export_method, commandName: InputParameter.Project.exportMethod.name, processParameters: processParameters), let export_method = file.export_method {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.exportMethod.name, composition: export_method, separator: separator))
         }
     }
     
