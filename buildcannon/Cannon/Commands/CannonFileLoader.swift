@@ -9,8 +9,8 @@
 import Foundation
 
 class CannonFileLoader {
-    func listFilesNames(wasSourceCopied: Bool = true) -> [String]? {
-        let buildcannonPath = (wasSourceCopied ? sourceCodeTempDir : processWorkingDir).appendingPathComponent("buildcannon")
+    func listFilesNames(wasSourceCodeCopied: Bool) -> [String]? {
+        let buildcannonPath = BuildcannonProcess.workingDir(wasSourceCopied: wasSourceCodeCopied).appendingPathComponent("buildcannon")
         if let files = try? FileManager.default.contentsOfDirectory(atPath: buildcannonPath.path) {
             return files.map({ $0.replacingOccurrences(of: ".cannon", with: "") })
         }
@@ -31,7 +31,7 @@ class CannonFileLoader {
     }
     
     fileprivate func loadFile(for name: String) -> CannonFile? {
-        let url = sourceCodeTempDir.appendingPathComponent("buildcannon")
+        let url = BuildcannonProcess.workingDir(wasSourceCopied: application.shouldCopyCode).appendingPathComponent("buildcannon")
         let finalPath = url.appendingPathComponent("\(name).cannon")
         if let jsonData = try? Data.init(contentsOf: finalPath) {
             let decoder = JSONDecoder.init()

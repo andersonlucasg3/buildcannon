@@ -32,6 +32,7 @@ class InputParameter {
         static let topShelfBundleIdentifier = InputParameter.init(name: "top-shelf-bundle-identifier", type: DoubleDashComplexParameter.self)
         static let exportMethod = InputParameter.init(name: "export-method", type: DoubleDashComplexParameter.self)
         static let useLegacyBuildSystem = InputParameter.init(name: "legacy-build", type: DoubleDashParameter.self)
+        static let noCopy = InputParameter.init(name: "no-copy", type: DoubleDashParameter.self)
         
         fileprivate init() { }
     }
