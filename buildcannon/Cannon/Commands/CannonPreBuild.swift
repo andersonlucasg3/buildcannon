@@ -45,7 +45,7 @@ class CannonPreBuild: ExecutorProtocol {
         self.preBuildCommandIndex += 1
         let executor = CommandExecutor.init(path: "", application: command,
                                             logFilePath: "\(baseTempDir)/preBuildCommand\(self.preBuildCommandIndex).log")
-        executor.executeOnDirectoryPath = sourceCodeTempDir.path
+        executor.executeOnDirectoryPath = BuildcannonProcess.workingDir(wasSourceCopied: application.shouldCopyCode).path
         executor.logExecution = Application.isVerbose
         executor.execute(tag: "command") { (result, output) in
             guard result == 0 else {

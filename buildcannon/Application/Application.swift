@@ -19,7 +19,9 @@ class Application {
     
     fileprivate lazy var checker = ParametersChecker.init(parameters: Application.processParameters)
     
-    let sourceCodeManager = SourceCodeManager.init()
+    fileprivate(set) lazy var sourceCodeManager = SourceCodeManager.init()
+    
+    let shouldCopyCode = !Application.processParameters.contains(where: {$0.parameter == InputParameter.Project.noCopy.name})
     
     init() {
         self.menu = AppMenu.createMenu()

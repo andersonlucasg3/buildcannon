@@ -25,8 +25,13 @@ class SourceCodeManager {
     }
     
     func copySourceCode() {
+        let copyCode = application.shouldCopyCode
+        guard copyCode else { return }
+        
+        let workingDir = BuildcannonProcess.workingDir(wasSourceCopied: copyCode)
+        
         do {
-            try FileManager.default.createDirectory(at: sourceCodeTempDir, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: workingDir, withIntermediateDirectories: true, attributes: nil)
             let contents = try FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath)
                 .filter({
                     #if !DEBUG
@@ -37,7 +42,7 @@ class SourceCodeManager {
                 })
                 .map({
                     (from: URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent($0),
-                     to: sourceCodeTempDir.appendingPathComponent($0))
+                     to: workingDir.appendingPathComponent($0))
                 })
             try contents.forEach({
                 #if DEBUG

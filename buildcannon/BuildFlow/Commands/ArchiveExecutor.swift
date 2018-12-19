@@ -22,7 +22,7 @@ class ArchiveExecutor: ExecutorProtocol {
         self.init()
         
         self.commandExecutor = CommandExecutor.init(path: ArchiveTool.toolPath, application: ArchiveTool.toolName, logFilePath: ArchiveTool.Values.archiveLogPath)
-        self.commandExecutor.executeOnDirectoryPath = sourceCodeTempDir.path
+        self.commandExecutor.executeOnDirectoryPath = BuildcannonProcess.workingDir(wasSourceCopied: application.shouldCopyCode).path
         if let project = project {
             self.commandExecutor.add(parameter: SingleDashComplexParameter.init(parameter: self.projectParam(for: project), composition: project.composition, separator: self.separator))
         }
