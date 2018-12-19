@@ -108,7 +108,7 @@ class CannonFileCreator: ExecutorProtocol {
             provisioningProfile = line ?? ""
         }
         self.getBundleIdentifier(with: target ?? "", completion: { bundle in
-            completion((projectFile, scheme, buildConfig, teamId, provisioningProfile, account, bundle, target ?? "default"))
+            completion((projectFile, scheme, buildConfig, nil, teamId, provisioningProfile, account, bundle, target ?? "default"))
         })
     }
     
