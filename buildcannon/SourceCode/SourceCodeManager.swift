@@ -59,8 +59,8 @@ class SourceCodeManager {
     }
     
     func deleteSourceCode() {
-        #if !DEBUG
-        try? FileManager.default.removeItem(at: sourceCodeTempDir)
-        #endif
+        let copyCode = application.shouldCopyCode
+        guard copyCode else { return }
+        try? FileManager.default.removeItem(at: BuildcannonProcess.workingDir(wasSourceCopied: copyCode))
     }
 }
