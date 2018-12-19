@@ -30,7 +30,7 @@ import Foundation
  */
 
 typealias ProjectInfo = (projectName: String, targets: [String], buildConfigs: [String], schemes: [String])
-typealias UserProjectInfo = (projectFile: String, scheme: String, buildConfig: String, teamId: String,
+typealias UserProjectInfo = (projectFile: String, scheme: String, buildConfig: String, exportMethod: String?, teamId: String,
     provisioningProfile: String, account: String?, bundleIdentifier: String, target: String)
 
 struct CannonFile: Codable {
@@ -38,6 +38,7 @@ struct CannonFile: Codable {
     var team_id: String?
     var bundle_identifier: String?
     var provisioning_profile: String?
+    var export_method: String?
     
     var project_file: String?
     var appstore_connect_account: String?
@@ -54,6 +55,7 @@ struct CannonFile: Codable {
                                    team_id: info.teamId,
                                    bundle_identifier: info.bundleIdentifier,
                                    provisioning_profile: info.provisioningProfile,
+                                   export_method: info.exportMethod,
                                    project_file: info.projectFile,
                                    appstore_connect_account: info.account,
                                    build_configuration: info.buildConfig,

@@ -23,7 +23,7 @@ class DistributeTargetsProcessor {
     }
     
     fileprivate func fetchAllTargets() -> [String]? {
-        return CannonFileLoader.init().listFilesNames()
+        return CannonFileLoader.init().listFilesNames(wasSourceCodeCopied: application.shouldCopyCode)
     }
     
     fileprivate func hasMinusAll() -> Bool {

@@ -14,7 +14,7 @@ class CannonList: ExecutorProtocol {
     required init() { }
     
     func execute() {
-        if let names = CannonFileLoader.init().listFilesNames(wasSourceCopied: false) {
+        if let names = CannonFileLoader.init().listFilesNames(wasSourceCodeCopied: false) {
             Console.log(message: "Available targets:")
             names.forEach({
                 Console.log(message: "  - \($0)")

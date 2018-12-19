@@ -9,8 +9,8 @@
 import Foundation
 
 class CannonFileLoader {
-    func listFilesNames(wasSourceCopied: Bool = true) -> [String]? {
-        let buildcannonPath = (wasSourceCopied ? sourceCodeTempDir : processWorkingDir).appendingPathComponent("buildcannon")
+    func listFilesNames(wasSourceCodeCopied: Bool) -> [String]? {
+        let buildcannonPath = BuildcannonProcess.workingDir(wasSourceCopied: wasSourceCodeCopied).appendingPathComponent("buildcannon")
         if let files = try? FileManager.default.contentsOfDirectory(atPath: buildcannonPath.path) {
             return files.map({ $0.replacingOccurrences(of: ".cannon", with: "") })
         }
@@ -31,7 +31,7 @@ class CannonFileLoader {
     }
     
     fileprivate func loadFile(for name: String) -> CannonFile? {
-        let url = sourceCodeTempDir.appendingPathComponent("buildcannon")
+        let url = BuildcannonProcess.workingDir(wasSourceCopied: application.shouldCopyCode).appendingPathComponent("buildcannon")
         let finalPath = url.appendingPathComponent("\(name).cannon")
         if let jsonData = try? Data.init(contentsOf: finalPath) {
             let decoder = JSONDecoder.init()
@@ -59,6 +59,7 @@ class CannonFileLoader {
             set(current: &cannonFile.team_id, default: file.team_id)
             set(current: &cannonFile.top_shelf_bundle_identifier, default: file.top_shelf_bundle_identifier)
             set(current: &cannonFile.top_shelf_provisioning_profile, default: file.top_shelf_provisioning_profile)
+            set(current: &cannonFile.export_method, default: file.export_method)
             return cannonFile
         }
         return nil
@@ -95,6 +96,9 @@ class CannonFileLoader {
         }
         if self.checkParameter(value: file.top_shelf_provisioning_profile, commandName: InputParameter.Project.topShelfProvisioningProfile.name, processParameters: processParameters), let top_shelf_provisioning_profile = file.top_shelf_provisioning_profile {
             processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.topShelfProvisioningProfile.name, composition: top_shelf_provisioning_profile, separator: separator))
+        }
+        if self.checkParameter(value: file.export_method, commandName: InputParameter.Project.exportMethod.name, processParameters: processParameters), let export_method = file.export_method {
+            processParameters.append(DoubleDashComplexParameter.init(parameter: InputParameter.Project.exportMethod.name, composition: export_method, separator: separator))
         }
     }
     

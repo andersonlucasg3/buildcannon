@@ -77,7 +77,7 @@ class CannonDistribute: ExecutorProtocol {
     }
     
     func executeArchive() {
-        Console.log(message: "Starting archive at path: \(sourceCodeTempDir.path)")
+        Console.log(message: "Starting archive at path: \(BuildcannonProcess.workingDir(wasSourceCopied: application.shouldCopyCode).path)")
         
         let archiveExecutor = ArchiveExecutor.init(project: self.findValue(for: InputParameter.Project.projectFile.name),
                                                    target: self.findValue(for: InputParameter.Project.target.name),
