@@ -38,27 +38,24 @@
 		71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E2800220D95C82009DAA97 /* CannonDistribute.swift */; };
 		71E3F43C2188D3D1002B0731 /* AppMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F43B2188D3D0002B0731 /* AppMenu.swift */; };
 		71E3F43E2188D8FA002B0731 /* DistributeTargetsProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F43D2188D8FA002B0731 /* DistributeTargetsProcessor.swift */; };
-		71E3F4402188DDA7002B0731 /* DistributeTargetsProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F43D2188D8FA002B0731 /* DistributeTargetsProcessor.swift */; };
-		71E3F4412188DE2F002B0731 /* CannonFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA00A20D990540063FCFB /* CannonFileLoader.swift */; };
-		71E3F4432188DE4E002B0731 /* InputParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECD20D18C9200BE9B60 /* InputParameter.swift */; };
-		71E3F4442188DE5F002B0731 /* ExecutorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2F020D4369600552A3F /* ExecutorProtocol.swift */; };
-		71E3F4452188DE6E002B0731 /* CommandExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ECF20D18CE300BE9B60 /* CommandExecutor.swift */; };
-		71E3F4462188DE7B002B0731 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C669C920D2BA8600F3BED9 /* Console.swift */; };
-		71E3F4472188DF37002B0731 /* ArchiveTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EA20D4314000552A3F /* ArchiveTool.swift */; };
 		71E3F44A2188DF9A002B0731 /* CannonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F4492188DF9A002B0731 /* CannonFile.swift */; };
-		71E3F44B2188DF9F002B0731 /* CannonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F4492188DF9A002B0731 /* CannonFile.swift */; };
 		71E3F44D2188E636002B0731 /* CannonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3F44C2188E636002B0731 /* CannonList.swift */; };
-		71E4EB57218561170045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
 		71E4EB58218561180045D4FE /* CommandParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A520D19B5A00030D7F /* CommandParameter.swift */; };
-		71E4EB592185611E0045D4FE /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
-		71E4EB5A218561220045D4FE /* DoubleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED220D18D2300BE9B60 /* DoubleDashParameter.swift */; };
-		71E4EB5B218561250045D4FE /* SingleDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71351ED420D18D7000BE9B60 /* SingleDashParameter.swift */; };
-		71E4EB5C2185612D0045D4FE /* Array+ParameterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A320D19A6300030D7F /* Array+ParameterCollection.swift */; };
 		71E4EB5E218750920045D4FE /* CannonUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E4EB5D218750920045D4FE /* CannonUpload.swift */; };
 		71F0016220D5683200407CA1 /* Trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0016120D5683200407CA1 /* Trap.swift */; };
 		71F4C61D20EE997F00799F3B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C61C20EE997F00799F3B /* Version.swift */; };
 		71F4C62120EE9C4B00799F3B /* CannonSelfUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		71AE0A3F2272675400EA485A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 71351EB020D188C800BE9B60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 71351EB720D188C800BE9B60;
+			remoteInfo = buildcannon;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		71351EB620D188C800BE9B60 /* CopyFiles */ = {
@@ -367,6 +364,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				71AE0A402272675400EA485A /* PBXTargetDependency */,
 			);
 			name = buildcannonTest;
 			productName = "buildcannon-test";
@@ -414,7 +412,7 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				Base,
 			);
 			mainGroup = 71351EAF20D188C800BE9B60;
 			productRefGroup = 71351EB920D188C800BE9B60 /* Products */;
@@ -442,20 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71E3F4472188DF37002B0731 /* ArchiveTool.swift in Sources */,
-				71E4EB5B218561250045D4FE /* SingleDashParameter.swift in Sources */,
-				71E4EB5A218561220045D4FE /* DoubleDashParameter.swift in Sources */,
-				71E3F4452188DE6E002B0731 /* CommandExecutor.swift in Sources */,
-				71E3F4442188DE5F002B0731 /* ExecutorProtocol.swift in Sources */,
-				71E3F4432188DE4E002B0731 /* InputParameter.swift in Sources */,
-				71E3F4402188DDA7002B0731 /* DistributeTargetsProcessor.swift in Sources */,
-				71E3F4462188DE7B002B0731 /* Console.swift in Sources */,
-				71E4EB592185611E0045D4FE /* NoDashParameter.swift in Sources */,
-				71E4EB5C2185612D0045D4FE /* Array+ParameterCollection.swift in Sources */,
-				71E3F4412188DE2F002B0731 /* CannonFileLoader.swift in Sources */,
 				710267D121854EB200D798AE /* buildcannonTest.swift in Sources */,
-				71E3F44B2188DF9F002B0731 /* CannonFile.swift in Sources */,
-				71E4EB57218561170045D4FE /* CommandParameter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +490,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		71AE0A402272675400EA485A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 71351EB720D188C800BE9B60 /* buildcannon */;
+			targetProxy = 71AE0A3F2272675400EA485A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		710267D321854EB200D798AE /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -517,12 +510,11 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.buildcannon-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -537,11 +529,10 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.buildcannon-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -596,7 +587,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -651,7 +642,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -670,12 +661,12 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.insanitech.buildcannon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -690,11 +681,11 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.insanitech.buildcannon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
