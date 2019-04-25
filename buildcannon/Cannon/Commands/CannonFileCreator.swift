@@ -162,8 +162,8 @@ class CannonFileCreator: ExecutorProtocol {
 }
 
 private func extract(from string: String, match: NSTextCheckingResult) -> String {
-    let start = String.UTF8Index.init(encodedOffset: match.range.location)
-    let end = String.UTF8Index.init(encodedOffset: match.range.location + match.range.length)
+    let start = string.index(string.startIndex, offsetBy: match.range.location)
+    let end = string.index(string.startIndex, offsetBy: match.range.location + match.range.length)
     return String.init(string[start..<end])
 }
 

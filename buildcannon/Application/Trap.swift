@@ -80,7 +80,7 @@ public extension Trap {
      
      - SeeAlso: [Advanced Signal Handling](http://www.gnu.org/software/libc/manual/html_node/Advanced-Signal-Handling.html#Advanced-Signal-Handling)
      */
-    public static func handle(signal: Signal, action: @escaping SignalHandler) {
+    static func handle(signal: Signal, action: @escaping SignalHandler) {
         typealias SignalAction = sigaction
         
         // Instead of using just `signal` we can use the more powerful `sigaction`
@@ -96,7 +96,7 @@ public extension Trap {
      - parameter signals: The multiple signal to handle.
      - parameter action:  Code to execute when any of the signals is fired.
      */
-    public static func handle(signals: [Signal], action: @escaping SignalHandler) {
+    static func handle(signals: [Signal], action: @escaping SignalHandler) {
         signals.forEach {
             handle(signal: $0, action: action)
         }
