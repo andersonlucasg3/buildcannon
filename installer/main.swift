@@ -30,7 +30,7 @@ func execute() {
     
     print("build starting at path: \(cannonPath.path)")
     
-    let terminationStatus = executeProcess("swift build -Xswiftc -static-stdlib -c release --product buildcannon", verbose, cannonPath.path)
+    let terminationStatus = executeProcess("swift build -Xswiftc -O -c release --product buildcannon", verbose, cannonPath.path)
     
     if terminationStatus == 0 {
         print("install complete")
