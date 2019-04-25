@@ -114,7 +114,7 @@ class CommandExecutor {
     }
     
     fileprivate func clear() {
-        NotificationCenter.default.removeObserver(self.dataAvailableObserver)
+        NotificationCenter.default.removeObserver(self.dataAvailableObserver!)
         self.process = nil
     }
     
