@@ -34,6 +34,10 @@ class InputParameter {
         static let useLegacyBuildSystem = InputParameter.init(name: "legacy-build", type: DoubleDashParameter.self)
         static let noCopy = InputParameter.init(name: "no-copy", type: DoubleDashParameter.self)
         
+        static let platform = InputParameter.init(name: "platform", type: DoubleDashComplexParameter.self)
+        static let device = InputParameter.init(name: "device", type: DoubleDashComplexParameter.self)
+        static let osVersion = InputParameter.init(name: "os-version", type: DoubleDashComplexParameter.self)
+        
         fileprivate init() { }
     }
     
