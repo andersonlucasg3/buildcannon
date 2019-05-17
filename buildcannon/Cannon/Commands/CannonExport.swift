@@ -10,24 +10,11 @@ import Foundation
 
 class CannonExport: CannonDistribute {
     override func executePreBuild(file: CannonFile) {
-        if self.validateRequiredParameters() {
+        if self.validateRequiredParameters(dependency: CannonParameter.export.dependency) {
             super.executePreBuild(file: file)
         } else {
             application.interrupt(code: -1)
         }
-    }
-    
-    fileprivate func validateRequiredParameters() -> Bool {
-        Console.log(message: "Parameters: \(Application.processParameters.map({$0.parameter}).joined(separator: ","))")
-        if let dependencies = CannonParameter.export.dependency {
-            for dep in dependencies {
-                if !Application.processParameters.contains(where: {$0.parameter.contains(dep.name)}) {
-                    Console.log(message: "Required parameter not informed: \(dep.name)")
-                    return false
-                }
-            }
-        }
-        return true
     }
     
     fileprivate func moveIpaToOutputPath() {
