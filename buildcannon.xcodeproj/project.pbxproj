@@ -28,6 +28,7 @@
 		71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A821B621854A2600FC5F91 /* SourceCodeManager.swift */; };
 		71B3CB47228F1E890018281A /* TestsExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B3CB46228F1E890018281A /* TestsExecutor.swift */; };
 		71B3CB49228F1F4E0018281A /* TestsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B3CB48228F1F4E0018281A /* TestsTool.swift */; };
+		71B3CB4B228F29A90018281A /* CannonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B3CB4A228F29A90018281A /* CannonTests.swift */; };
 		71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2E820D4305700552A3F /* ExportExecutor.swift */; };
 		71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EA20D4314000552A3F /* ArchiveTool.swift */; };
 		71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EC20D4314F00552A3F /* ExportTool.swift */; };
@@ -98,6 +99,7 @@
 		71A821B621854A2600FC5F91 /* SourceCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCodeManager.swift; sourceTree = "<group>"; };
 		71B3CB46228F1E890018281A /* TestsExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsExecutor.swift; sourceTree = "<group>"; };
 		71B3CB48228F1F4E0018281A /* TestsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsTool.swift; sourceTree = "<group>"; };
+		71B3CB4A228F29A90018281A /* CannonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonTests.swift; sourceTree = "<group>"; };
 		71C02E7820DB65BE00AA1628 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71C3C2E820D4305700552A3F /* ExportExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportExecutor.swift; sourceTree = "<group>"; };
 		71C3C2EA20D4314000552A3F /* ArchiveTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTool.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				71E2800220D95C82009DAA97 /* CannonDistribute.swift */,
 				7179C3EA212712EC00290ED2 /* CannonExport.swift */,
 				71E4EB5D218750920045D4FE /* CannonUpload.swift */,
+				71B3CB4A228F29A90018281A /* CannonTests.swift */,
 				71D0F51820D9AE9B001CBF8F /* CannonPreBuild.swift */,
 				71F4C62020EE9C4B00799F3B /* CannonSelfUpdate.swift */,
 			);
@@ -454,6 +457,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71B3CB4B228F29A90018281A /* CannonTests.swift in Sources */,
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
 				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
 				71B3CB49228F1F4E0018281A /* TestsTool.swift in Sources */,
