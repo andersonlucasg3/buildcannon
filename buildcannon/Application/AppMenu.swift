@@ -18,7 +18,7 @@ class AppMenu {
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA. Optionally you can provide a specific cannon file name, like ProjectName to use its configuration.", action: {}),
             ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "upload", detail: "Start the upload process with the provided IPA through the parameter --ipa-path=[/path/to/ipa].", action: {}),
-            ActionMenuOption.init(command: "test", detail: "Start testing the provided targets in the specified platform, device and system version", action: {}),
+            ActionMenuOption.init(command: "run-tests", detail: "Start testing the provided targets in the specified platform, device and system version", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.projectFile.name)=\"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.scheme.name)=\"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.configuration.name)=\"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
