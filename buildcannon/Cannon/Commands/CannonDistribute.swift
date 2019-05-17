@@ -8,9 +8,9 @@
 
 import Foundation
 
-class CannonDistribute: ExecutorProtocol {
-    fileprivate let separator = "="
-    fileprivate var currentExecutor: ExecutorProtocol!
+class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
+    let separator = "="
+    var currentExecutor: ExecutorProtocol!
     
     fileprivate(set) var targetList: [String]!
     var currentTarget: String { return self.targetList?.first ?? "default" }
@@ -25,6 +25,19 @@ class CannonDistribute: ExecutorProtocol {
         self.targetList = DistributeTargetsProcessor.init(Application.processParameters).process()
         
         self.executeNextTarget()
+    }
+    
+    func validateRequiredParameters(dependency: [InputParameter]?) -> Bool {
+        Console.log(message: "Parameters: \(Application.processParameters.map({$0.parameter}).joined(separator: ","))")
+        if let dependencies = dependency {
+            for dep in dependencies {
+                if !Application.processParameters.contains(where: {$0.parameter.contains(dep.name)}) {
+                    Console.log(message: "Required parameter not informed: \(dep.name)")
+                    return false
+                }
+            }
+        }
+        return true
     }
     
     fileprivate func executeNextTarget() {
@@ -149,9 +162,9 @@ class CannonDistribute: ExecutorProtocol {
             })
         }
     }
-}
 
-extension CannonDistribute: ExecutorCompletionProtocol {
+    // MARK: - ExecutorCompletionProtocol
+    
     func executorDidFinishWithSuccess(_ executor: ExecutorProtocol) {
         switch executor {
         case is ArchiveExecutor: self.archiveDidFinishWithSuccess()
@@ -172,7 +185,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         }
     }
     
-    // MARK: Pre build callbacks
+    // MARK: - Pre build callbacks
 
     func preBuildCommandExecutorDidFinishWithSuccess() {
         Console.log(message: "Pre-build finished with success for target \(self.currentTarget)")
@@ -186,7 +199,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         application.interrupt(code: code)
     }
     
-    // MARK: Archive callbacks
+    // MARK: - Archive callbacks
     
     func archiveDidFinishWithSuccess() {
         application.sourceCodeManager.deleteSourceCode()
@@ -205,7 +218,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         self.dequeueAndExecuteNextTargetIfNeeded()
     }
     
-    // MARK: Export callbacks
+    // MARK: - Export callbacks
     
     @objc func exportExecutorDidFinishWithSuccess() {
         Console.log(message: "Export finished with success for target \(self.currentTarget)")
@@ -220,7 +233,7 @@ extension CannonDistribute: ExecutorCompletionProtocol {
         self.dequeueAndExecuteNextTargetIfNeeded()
     }
     
-    // MARK: Upload callbacks
+    // MARK: - Upload callbacks
     
     @objc func uploadExecutorDidFinishWithSuccess() {
         Console.log(message: "Upload finished with success for target \(self.currentTarget)")
