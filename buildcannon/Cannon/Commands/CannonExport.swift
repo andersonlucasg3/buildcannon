@@ -35,6 +35,6 @@ class CannonExport: CannonDistribute {
         
         self.moveIpaToOutputPath()
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: 0)
     }
 }

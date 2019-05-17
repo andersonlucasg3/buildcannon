@@ -53,12 +53,12 @@ class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
         }
     }
     
-    func dequeueAndExecuteNextTargetIfNeeded() {
+    func dequeueAndExecuteNextTargetIfNeeded(exitCode: Int) {
         self.targetList?.removeFirst()
         if self.targetList?.count ?? 0 > 0 {
             self.executeNextTarget()
         } else {
-            application.interrupt(code: 0)
+            application.interrupt(code: exitCode)
         }
     }
        
@@ -215,7 +215,7 @@ class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
         Console.log(message: "Archive failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(ArchiveTool.Values.archiveLogPath)")
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: code)
     }
     
     // MARK: - Export callbacks
@@ -230,7 +230,7 @@ class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
         Console.log(message: "Export failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(ExportTool.Values.exportLogPath)")
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: code)
     }
     
     // MARK: - Upload callbacks
@@ -238,13 +238,13 @@ class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
     @objc func uploadExecutorDidFinishWithSuccess() {
         Console.log(message: "Upload finished with success for target \(self.currentTarget)")
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: 0)
     }
     
     func uploadExecutorDidFailWithErrorCode(_ code: Int) {
         Console.log(message: "Upload failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(UploadTool.Values.uploadLogPath)")
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: code)
     }
 }

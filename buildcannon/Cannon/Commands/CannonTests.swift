@@ -53,7 +53,7 @@ class CannonTests: CannonDistribute {
         
         Console.log(message: "Tests finished with success for target \(self.currentTarget)")
         
-        self.dequeueAndExecuteNextTargetIfNeeded()
+        self.dequeueAndExecuteNextTargetIfNeeded(exitCode: 0)
     }
     
     fileprivate func testsExecutorDidFailWithErrorCode(_ code: Int) {
@@ -64,6 +64,7 @@ class CannonTests: CannonDistribute {
         Console.log(message: "Tests failed with status code \(code) for target \(self.currentTarget)")
         Console.log(message: "See logs at: \(testLog)")
         
+        // if any test flow fails, we stop with error immediatelly.
         application.interrupt(code: code)
     }
 }
