@@ -11,13 +11,14 @@ import Foundation
 class AppMenu {
     class func createMenu() -> ActionMenu {
         let options = [
+            ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
             ActionMenuOption.init(command: "create", detail: "Creates the default.cannon file with basic configurations.", action: {}),
             ActionMenuOption.init(command: "create-target", detail: "Creates a 'target name'.cannon file that can be used to build that specific configuration.", action: {}),
             ActionMenuOption.init(command: "list", detail: "Lists the available targets.", action: {}),
             ActionMenuOption.init(command: "distribute", detail: "Start the archive, export, upload flow to distribute an IPA. Optionally you can provide a specific cannon file name, like ProjectName to use its configuration.", action: {}),
             ActionMenuOption.init(command: "export", detail: "Start the archive, and provides the exported IPA.", action: {}),
             ActionMenuOption.init(command: "upload", detail: "Start the upload process with the provided IPA through the parameter --ipa-path=[/path/to/ipa].", action: {}),
-            ActionMenuOption.init(command: "self-update", detail: "Start the self update of the buildcannon binary. Updates to the lastest version.", action: {}),
+            ActionMenuOption.init(command: "test", detail: "Start testing the provided targets in the specified platform, device and system version", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.projectFile.name)=\"[projName].[xcworkspace|xcodeproj]\"", detail: "Provide a proj.xcodeproj or a space.xcworkspace to build.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.scheme.name)=\"[scheme name]\"", detail: "Provide a scheme name to build.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.configuration.name)=\"[configuration name]\"", detail: "Provide a build configuration to build.", action: {}),
@@ -30,6 +31,9 @@ class AppMenu {
             ActionMenuOption.init(command: "--\(InputParameter.Project.topShelfProvisioningProfile.name)=\"[your provisioning profile name for TopShelf]\"", detail: "Provide a provisioning profile name to build the TopShelf target.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.exportMethod.name)=\"[app-store | ad-hoc | development | enterprise]\"", detail: "If running 'buildcannon `distribute`|`export`' export method can be specified.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Project.useLegacyBuildSystem.name)", detail: "Sets the build to use the Legacy Build System", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.Project.platform.name)", detail: "Informs the build which platform to build and run the tests.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.Project.device.name)", detail: "Informs the build in which device to run the tests.", action: {}),
+            ActionMenuOption.init(command: "--\(InputParameter.Project.osVersion.name)", detail: "Informs the build in which os version to run the tests.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.verbose.name)", detail: "Logs all content into the console.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.help.name)", detail: "Shows this menu with public parameters.", action: {}),
             ActionMenuOption.init(command: "--\(InputParameter.Application.version.name)", detail: "Prints the version of the installed buildcannon binary.", action: {}),
