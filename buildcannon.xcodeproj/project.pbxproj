@@ -26,6 +26,8 @@
 		71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */; };
 		71A1F1AA20D1BEAE00030D7F /* NoDashParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */; };
 		71A821B721854A2600FC5F91 /* SourceCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A821B621854A2600FC5F91 /* SourceCodeManager.swift */; };
+		71B3CB47228F1E890018281A /* TestsExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B3CB46228F1E890018281A /* TestsExecutor.swift */; };
+		71B3CB49228F1F4E0018281A /* TestsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B3CB48228F1F4E0018281A /* TestsTool.swift */; };
 		71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2E820D4305700552A3F /* ExportExecutor.swift */; };
 		71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EA20D4314000552A3F /* ArchiveTool.swift */; };
 		71C3C2ED20D4314F00552A3F /* ExportTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C3C2EC20D4314F00552A3F /* ExportTool.swift */; };
@@ -94,6 +96,8 @@
 		71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveExecutor.swift; sourceTree = "<group>"; };
 		71A1F1A920D1BEAE00030D7F /* NoDashParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDashParameter.swift; sourceTree = "<group>"; };
 		71A821B621854A2600FC5F91 /* SourceCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCodeManager.swift; sourceTree = "<group>"; };
+		71B3CB46228F1E890018281A /* TestsExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsExecutor.swift; sourceTree = "<group>"; };
+		71B3CB48228F1F4E0018281A /* TestsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsTool.swift; sourceTree = "<group>"; };
 		71C02E7820DB65BE00AA1628 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		71C3C2E820D4305700552A3F /* ExportExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportExecutor.swift; sourceTree = "<group>"; };
 		71C3C2EA20D4314000552A3F /* ArchiveTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTool.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 				71C3C2EA20D4314000552A3F /* ArchiveTool.swift */,
 				71C3C2EC20D4314F00552A3F /* ExportTool.swift */,
 				71C3C2EE20D4315C00552A3F /* UploadTool.swift */,
+				71B3CB48228F1F4E0018281A /* TestsTool.swift */,
 				711E073421C9C82900B0F449 /* BuildcannonProcess.swift */,
 			);
 			path = Consts;
@@ -304,6 +309,7 @@
 				71A1F1A720D1BDE300030D7F /* ArchiveExecutor.swift */,
 				71C3C2E820D4305700552A3F /* ExportExecutor.swift */,
 				71C3C2F220D44B0300552A3F /* UploadExecutor.swift */,
+				71B3CB46228F1E890018281A /* TestsExecutor.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -450,6 +456,7 @@
 			files = (
 				71A1F1A820D1BDE300030D7F /* ArchiveExecutor.swift in Sources */,
 				71F4C61D20EE997F00799F3B /* Version.swift in Sources */,
+				71B3CB49228F1F4E0018281A /* TestsTool.swift in Sources */,
 				71E2800320D95C82009DAA97 /* CannonDistribute.swift in Sources */,
 				71E3F43C2188D3D1002B0731 /* AppMenu.swift in Sources */,
 				71E3F44D2188E636002B0731 /* CannonList.swift in Sources */,
@@ -476,6 +483,7 @@
 				71C3C2E920D4305700552A3F /* ExportExecutor.swift in Sources */,
 				71351EBC20D188C800BE9B60 /* main.swift in Sources */,
 				71F4C62120EE9C4B00799F3B /* CannonSelfUpdate.swift in Sources */,
+				71B3CB47228F1E890018281A /* TestsExecutor.swift in Sources */,
 				71E3F44A2188DF9A002B0731 /* CannonFile.swift in Sources */,
 				71C3C2EB20D4314000552A3F /* ArchiveTool.swift in Sources */,
 				71C3C2EF20D4315C00552A3F /* UploadTool.swift in Sources */,
