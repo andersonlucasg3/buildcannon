@@ -3,10 +3,13 @@
 ## This is an automation build tool for iOS (for now).
 
 It currently supports the commands bellow:
+- [x] `buildcannon self-update`
+    - Starts a self updating process that will update the buildcannon binary.
+
 - [x] `buildcannon create`
     - Generates a project file at [project path]/buildcannon/default.cannon.
 
-- [ ] `buildcannon list`
+- [x] `buildcannon list`
     - List available targets to distribute or export.
 
 - [x] `buildcannon create-target`
@@ -28,12 +31,13 @@ It currently supports the commands bellow:
 - [x] `buildcannon upload --ipa-path="/path/to/ipa" [--username=a@b.c --password=******]`
     - Uploads the given IPA file to AppStore Connect.
 
-- [x] `buildcannon self-update`
-    - Starts a self updating process that will update the buildcannon binary.
+- [x] `buildcannon run-tests --scheme="MyScheme" --platform="iOS|tvOS|macOS" --device="iPhone Xs|Apple TV 4K" --os-version="12.2|11.3|10.14.5"`
+    - Run the test suits in the specified scheme, in the specified platform, in the specified device and version.
+    - If any test fails, it stops and fails immediatelly.
 
 ## **Install**
 
-I'm assuming that you already have `swift toolchain 4.x` installed. You MUST have the swift.org or the Xcode built-in installed.
+I'm assuming that you already have `swift toolchain 5.x` installed. You MUST have the swift.org or the Xcode built-in installed.
 I'm assuming that you already have Homebrew installed.
 
 Now that we are in the same page, let's begin.

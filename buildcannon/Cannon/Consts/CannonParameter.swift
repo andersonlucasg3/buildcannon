@@ -28,6 +28,12 @@ class CannonParameter: InputParameter {
     fileprivate static let uploadDependencies = [
         InputParameter.Output.ipaPath
     ]
+    fileprivate static let testsDependencies = [
+        InputParameter.Project.platform,
+        InputParameter.Project.osVersion,
+        InputParameter.Project.device,
+        InputParameter.Project.scheme
+    ]
     
     fileprivate(set) var executorType: ExecutorProtocol.Type!
     
@@ -47,9 +53,12 @@ class CannonParameter: InputParameter {
         case self.export.name: return self.export
         case self.upload.name: return self.upload
         case self.selfUpdate.name: return self.selfUpdate
+        case self.runTests.name: return self.runTests
         default: return nil
         }
     }
+    
+    static let selfUpdate = CannonParameter.init(name: "self-update", type: NoDashParameter.self, dependency: nil, executor: CannonSelfUpdate.self)
     
     static let create = CannonParameter.init(name: "create", type: NoDashParameter.self, dependency: nil, executor: CannonFileCreator.self)
     static let createTarget = CannonParameter.init(name: "create-target", type: NoDashParameter.self, dependency: nil, executor: CannonFileTargetCreator.self)
@@ -59,5 +68,5 @@ class CannonParameter: InputParameter {
     static let distribute = CannonParameter.init(name: "distribute", type: NoDashParameter.self, dependency: distributeDependencies, executor: CannonDistribute.self)
     static let export = CannonParameter.init(name: "export", type: NoDashParameter.self, dependency: exportDependencies, executor: CannonExport.self)
     static let upload = CannonParameter.init(name: "upload", type: NoDashParameter.self, dependency: uploadDependencies, executor: CannonUpload.self)
-    static let selfUpdate = CannonParameter.init(name: "self-update", type: NoDashParameter.self, dependency: nil, executor: CannonSelfUpdate.self)
+    static let runTests = CannonParameter.init(name: "run-tests", type: NoDashParameter.self, dependency: testsDependencies, executor: CannonTests.self)
 }
