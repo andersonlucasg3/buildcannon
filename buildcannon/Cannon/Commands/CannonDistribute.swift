@@ -53,12 +53,12 @@ class CannonDistribute: ExecutorProtocol, ExecutorCompletionProtocol {
         }
     }
     
-    func dequeueAndExecuteNextTargetIfNeeded() {
+    func dequeueAndExecuteNextTargetIfNeeded(exitCode: Int) {
         self.targetList?.removeFirst()
         if self.targetList?.count ?? 0 > 0 {
             self.executeNextTarget()
         } else {
-            application.interrupt(code: 0)
+            application.interrupt(code: exitCode)
         }
     }
        
