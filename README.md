@@ -37,14 +37,14 @@ It currently supports the commands bellow:
 
 ## **Install**
 
-I'm assuming that you already have `swift toolchain 5.x` installed. You MUST have the swift.org or the Xcode built-in installed.
+I'm assuming that you already have `swift toolchain 4.2` installed. You MUST have the swift.org or the Xcode built-in installed.
 I'm assuming that you already have Homebrew installed.
 
 Now that we are in the same page, let's begin.
 
 Just copy and paste the following command in the terminal:
 
-`sh -c "$(curl -s https://raw.githubusercontent.com/andersonlucasg3/buildcannon/1.2.4-swift4.2/installer/install.sh)"`
+`sh -c "$(curl -s https://raw.githubusercontent.com/andersonlucasg3/buildcannon/1.3.0-swift4.2/installer/install.sh)"`
 
 If the logs say that everything is ok, just start executing `buildcannon --help`, and be happy.
 
